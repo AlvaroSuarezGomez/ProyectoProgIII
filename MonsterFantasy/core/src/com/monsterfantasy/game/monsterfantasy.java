@@ -12,11 +12,13 @@ public class monsterfantasy extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	Camera cam = new OrthographicCamera();
+	Vector3 cam_pos = new Vector3(1000, 1000, 1000);
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("amogus.png");
+		cam.project(cam_pos);
 	}
 
 	@Override
