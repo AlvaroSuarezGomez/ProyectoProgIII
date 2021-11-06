@@ -4,7 +4,7 @@ public class Heroe extends Personaje {
 
 
 	/**
-	 * Dinero acumulado que tiene nuestro heroe.
+	 * Dinero acumulado que tiene nuestro heroe
 	 * 
 	 */
 	protected int dinero;
