@@ -1,4 +1,4 @@
-package com.monsterfantasy.game;
+package com.monsterfantasy.game.battle;
 
 public abstract class Objeto   {
 	
