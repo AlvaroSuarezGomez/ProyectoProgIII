@@ -1,5 +1,4 @@
-package com.monsterfantasy.game;
-
+package com.monsterfantasy.game.battle;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
