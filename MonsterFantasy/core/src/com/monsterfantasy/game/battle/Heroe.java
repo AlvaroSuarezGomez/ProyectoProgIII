@@ -1,6 +1,4 @@
-package com.monsterfantasy.game;
-
-
+package com.monsterfantasy.game.battle;
 
 public class Heroe extends Personaje {
 
