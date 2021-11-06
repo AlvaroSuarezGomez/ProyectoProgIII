@@ -1,6 +1,7 @@
 package com.monsterfantasy.game.overworld;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,6 +25,11 @@ public class Overworld extends Actor {
 		
 		
 	}
+	
+	public void draw(Batch batch, float parentAlpha) {
+		
+	}
+	
 	private TextureRegion getRegion(Texture texture, int row, int column) {
 		return new TextureRegion(texture, tamano_textura * (column - 1), tamano_textura * (row - 1), tamano_textura, tamano_textura);
 	}

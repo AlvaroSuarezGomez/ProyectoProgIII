@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.monsterfantasy.game.overworld.Overworld;
 
 public class Monsterfantasy extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -30,7 +31,6 @@ public class Monsterfantasy extends ApplicationAdapter {
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.begin();
 		cam.project(cam_pos);
-
 		batch.draw(img, x, 0, 100, 100);
 		batch.end();
 	}
