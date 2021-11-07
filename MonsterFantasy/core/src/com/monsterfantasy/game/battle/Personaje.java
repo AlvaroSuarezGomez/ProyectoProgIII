@@ -31,6 +31,17 @@ public abstract class Personaje {
 	 * 
 	 */
 	protected int espiritu;
+	
+	
+	
+	public int getEspiritu() {
+		return espiritu;
+	}
+
+	public void setEspiritu(int espiritu) {
+		this.espiritu = espiritu;
+	}
+
 	/**
 	 * Booleano que determina si se encuentra el luchador en posicion de defensa
 	 * 
@@ -66,12 +77,13 @@ public abstract class Personaje {
 	 * @param posicionguardia Booleano que determina si se encuentra el luchador en
 	 *                        posicion de defensa
 	 */
-	public Personaje(int pv, int pvmax, int ataque, int defensa, boolean posicionguardia) {
+	public Personaje(int pv, int pvmax, int ataque, int defensa, boolean posicionguardia, int espiritu) {
 		this.ataque = ataque;
 		this.pv = pv;
 		this.pvmax = pvmax;
 		this.defensa = defensa;
 		this.posicionguardia = false;
+		this.espiritu = espiritu;
 	}
 
 	/**
@@ -138,7 +150,7 @@ public abstract class Personaje {
 	public abstract void ataque(Personaje p);
 
 	/**
-	 * El luchador adopta la posicion de defensa para recibir la mitad de danyo
+	 * El luchador adopta la posicion de defensa para recibir la mitad de danyo 
 	 * 
 	 */
 	public abstract void guardia();

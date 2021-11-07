@@ -1,10 +1,27 @@
 package com.monsterfantasy.game.battle;
 
+import java.util.ArrayList;
+
 public class Heroe extends Personaje {
 
+	
+	
+	protected ArrayList<AtaqueEspecial> ataques;
+	
+	protected ArrayList<Pociones> pociones;
+	
+	protected ArrayList<Equipacion> equipacion;
+
+	public ArrayList<AtaqueEspecial> getAtaques() {
+		return ataques;
+	}
+
+	public void setAtaques(ArrayList<AtaqueEspecial> ataques) {
+		this.ataques = ataques;
+	}
 
 	/**
-	 * Dinero acumulado que tiene nuestro heroe
+	 * Dinero acumulado que tiene nuestro heroe.
 	 * 
 	 */
 	protected int dinero;
@@ -71,6 +88,22 @@ public class Heroe extends Personaje {
 	}
 
 	
+	
+	/**
+	 * Puntos de espiritu para realizar ataques especiales 
+	 */
+	protected int espiritu;
+	
+	
+	
+	
+	public int getEspiritu() {
+		return espiritu;
+	}
+
+	public void setEspiritu(int espiritu) {
+		this.espiritu = espiritu;
+	}
 
 	/**
 	 * Constructor
@@ -89,12 +122,15 @@ public class Heroe extends Personaje {
 	 *                        posicion de defensa
 	 */
 	public Heroe(int pv, int pvmax, int ataque, int defensa,  int dinero, int exp, int nv,
-			boolean posicionguardia) {
-		super(pv, pvmax, ataque, defensa, posicionguardia);
+			boolean posicionguardia, int espiritu) {
+		super(pv, pvmax, ataque, defensa, posicionguardia, espiritu);
 
 		this.dinero = dinero;
 		this.exp = exp;
 		this.nv = nv;
+		
+		this.pociones = new ArrayList<Pociones>();
+		this.ataques = new ArrayList<AtaqueEspecial>();
 
 	}
 
@@ -140,11 +176,12 @@ public class Heroe extends Personaje {
 	}
 
 	/**
-	 * El heroe adopta una posicion de guardia
+	 * El heroe adopta una posicion de guardia y se le suman dos puntos de espiritu
 	 *
 	 */
 	public void guardia() {
 		this.posicionguardia = true;
+		this.espiritu = this.espiritu + 2;
 
 	}
 
@@ -156,7 +193,59 @@ public class Heroe extends Personaje {
 		System.out.println("Has podido escapar");
 
 	}
+	
+	
+	
+	/**
+	 * @param p Personaje al que se ataca
+	 * @param at ataque especial que se realiza
+	 */
+	public void ataqueespecial(Personaje p, AtaqueEspecial at) {
+		Enemigo enemigo = (Enemigo) p;
+		int danyo;
+		if (enemigo.posicionguardia == false) {
+			danyo = this.ataque + at.getPotencia() - enemigo.defensa;
+			if (danyo <= 0) {
+				danyo = 1;
+				enemigo.setPv(enemigo.getPv() - danyo);
+			}
 
+			else {
+				enemigo.setPv(enemigo.getPv() - danyo);
+			}
+		} else {
+			danyo = this.ataque + at.getPotencia() - enemigo.defensa * 2;
+			if (danyo <= 0) {
+				danyo = 1;
+				enemigo.setPv(enemigo.getPv() - danyo);
+				enemigo.setPosicionguardia(false);
+			} else {
+				enemigo.setPv(enemigo.getPv() - danyo);
+			}
+
+		}
+
+	}
+
+	public ArrayList<Pociones> getPociones() {
+		return pociones;
+	}
+
+	public void setPociones(ArrayList<Pociones> pociones) {
+		this.pociones = pociones;
+	}
+
+	public ArrayList<Equipacion> getEquipacion() {
+		return equipacion;
+	}
+
+	public void setEquipacion(ArrayList<Equipacion> equipacion) {
+		this.equipacion = equipacion;
+	}
+	
+	
+
+	
 }
 
 
