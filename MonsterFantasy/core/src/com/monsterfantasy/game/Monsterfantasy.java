@@ -1,7 +1,7 @@
 package com.monsterfantasy.game;
 
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.ApplicationAdapter; 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
@@ -23,12 +23,15 @@ public class Monsterfantasy extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		batch.begin();
 	}
 	
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(1, 0, 0, 1);
+		Overworld overworld = new Overworld();
+		overworld.draw(batch, 1);
 		batch.begin();
 		cam.project(cam_pos);
 		batch.draw(img, x, 0, 100, 100);

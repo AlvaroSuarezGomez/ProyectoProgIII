@@ -9,6 +9,7 @@ public class Avatar {
 	Box2D collider;
 	
 	public Avatar() {
-		
+		int x = Overworld.getSpawnpointX();
+		int y = Overworld.getSpawnpointY();
 	}
 }

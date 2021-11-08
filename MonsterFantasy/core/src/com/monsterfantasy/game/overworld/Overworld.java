@@ -7,13 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Overworld extends Actor {
+	private static final int spawnPoint_x = 0;
+	private static final int spawnPoint_y = 0;
 	private static final int tamano_celda = 40;
 	private static final int ancho_mapa = 10000;
 	private static final int alto_mapa = 10000;
 	
 	private static final int tamano_textura = 16;
 	
-	private ControladorOverworld controlador;
 	
 	private Texture tileSet;
 	private Texture personaje;
@@ -21,8 +22,7 @@ public class Overworld extends Actor {
 	private TextureRegion arbol;
 	private TextureRegion hierba;
 	
-	public Overworld(ControladorOverworld controlador) {
-        this.controlador = controlador;
+	public Overworld() {
         
 		tileSet = new Texture("Overworld tileset.png");
 		suelo = getRegion(tileSet, 40, 50);
@@ -40,31 +40,13 @@ public class Overworld extends Actor {
 	}
 	
 	public void draw(Batch batch, float parentAlpha) {
-		for (int fila = 0; fila < controlador.getFilasOverworld(); fila++) {
-			for (int columna = 0; columna < controlador.getColumnasOverworld(); columna++) {
-				float x = columnaX(columna);
-				float y = filaY(fila);
+		for (int x = 0; x < ancho_mapa; x++) {
+			for (int y = 0; y < alto_mapa; y++) {
 				batch.draw(suelo, 
 						x, y, getOriginX(), getOriginY(), 
 						tamano_celda, tamano_celda, getScaleX(), getScaleY(), getRotation()
 						);
-				TextureRegion content = null;
-				switch (controlador.getTipoCelda(new Celda(fila, columna))) {
-				case Suelo:	content = suelo;
-							break;
-							
-				case Arbol: content = arbol;
-							break;
 				
-				case Hierba: content = hierba;
-							 break;
-				}
-				if (content != null) {
-					batch.draw(content, 
-						x, y, getOriginX(), getOriginY(), 
-						tamano_celda, tamano_celda, getScaleX(), getScaleY(), getRotation()
-					);
-			}
 		}
 		}
 	}
@@ -78,5 +60,13 @@ public class Overworld extends Actor {
 		suelo.getTexture().dispose();
 		arbol.getTexture().dispose();
 		hierba.getTexture().dispose();
+	}
+
+	public static int getSpawnpointY() {
+		return spawnPoint_y;
+	}
+
+	public static int getSpawnpointX() {
+		return spawnPoint_x;
 	}
 }
