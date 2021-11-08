@@ -25,41 +25,9 @@ public class Overworld extends Actor {
 	public Overworld() {
         
 		tileSet = new Texture("Overworld tileset.png");
-		setSuelo(getRegion(tileSet, 40, 50));
 		
 		setWidth(ancho_mapa);
 		setHeight(alto_mapa);
-	}
-	
-	private float columnaX(int columna) {
-		return columna * tamano_celda + getX();
-	}
-	
-	private float filaY(int fila) {
-		return alto_mapa - 1 - (tamano_celda * (fila + 1)) + getY();
-	}
-	
-	public void draw(Batch batch, float parentAlpha) {
-		for (int x = 0; x < ancho_mapa; x++) {
-			for (int y = 0; y < alto_mapa; y++) {
-				batch.draw(getSuelo(), 
-						x, y, getOriginX(), getOriginY(), 
-						tamano_celda, tamano_celda, getScaleX(), getScaleY(), getRotation()
-						);
-				
-		}
-		}
-	}
-	
-	
-	private TextureRegion getRegion(Texture texture, int row, int column) {
-		return new TextureRegion(texture, tamano_textura * (column - 1), tamano_textura * (row - 1), tamano_textura, tamano_textura);
-	}
-	
-	public void dispose() {		
-		getSuelo().getTexture().dispose();
-		arbol.getTexture().dispose();
-		hierba.getTexture().dispose();
 	}
 
 	public static int getSpawnpointY() {
