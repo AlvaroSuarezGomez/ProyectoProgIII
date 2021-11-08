@@ -25,6 +25,7 @@ public class TestAtaques {
 	
 	@Test
 	public void main() {
+		heroe.setEquipacion(equipacion);
 		equipacion.add(escudo);
 		pociones.add(pocion1);
 		heroe.ataque(enemigo);
@@ -35,5 +36,4 @@ public class TestAtaques {
 		escudo.desequipar(heroe);
 		pocion1.consumir(heroe);
 	}
-	
 }
