@@ -9,11 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class Overworld extends Actor {
 	private static final int spawnPoint_x = 0;
 	private static final int spawnPoint_y = 0;
-	private static final int tamano_celda = 40;
+	private static final int tamano_celda = 64;
 	private static final int ancho_mapa = 10000;
 	private static final int alto_mapa = 10000;
 	
-	private static final int tamano_textura = 16;
+	private static final int tamano_textura = 64;
 	
 	
 	private Texture tileSet;
@@ -25,7 +25,7 @@ public class Overworld extends Actor {
 	public Overworld() {
         
 		tileSet = new Texture("Overworld tileset.png");
-		suelo = getRegion(tileSet, 40, 50);
+		setSuelo(getRegion(tileSet, 40, 50));
 		
 		setWidth(ancho_mapa);
 		setHeight(alto_mapa);
@@ -42,7 +42,7 @@ public class Overworld extends Actor {
 	public void draw(Batch batch, float parentAlpha) {
 		for (int x = 0; x < ancho_mapa; x++) {
 			for (int y = 0; y < alto_mapa; y++) {
-				batch.draw(suelo, 
+				batch.draw(getSuelo(), 
 						x, y, getOriginX(), getOriginY(), 
 						tamano_celda, tamano_celda, getScaleX(), getScaleY(), getRotation()
 						);
@@ -57,7 +57,7 @@ public class Overworld extends Actor {
 	}
 	
 	public void dispose() {		
-		suelo.getTexture().dispose();
+		getSuelo().getTexture().dispose();
 		arbol.getTexture().dispose();
 		hierba.getTexture().dispose();
 	}
@@ -68,5 +68,13 @@ public class Overworld extends Actor {
 
 	public static int getSpawnpointX() {
 		return spawnPoint_x;
+	}
+
+	public TextureRegion getSuelo() {
+		return suelo;
+	}
+
+	public void setSuelo(TextureRegion suelo) {
+		this.suelo = suelo;
 	}
 }
