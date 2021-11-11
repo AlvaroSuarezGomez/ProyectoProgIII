@@ -18,16 +18,14 @@ import com.monsterfantasy.game.overworld.Overworld;
 
 public class Monsterfantasy extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
 	TextureRegion region;
 	Avatar player = new Avatar();
 	
 	@Override
 	public void create () {
-		img = new Texture("Nate.png");
-		region = new TextureRegion(img, 0, 0, 64, 64);
 		batch = new SpriteBatch();
 		batch.begin();
+		Controller.SetTexture(player);
 		batch.end();
 	}
 	
@@ -36,8 +34,8 @@ public class Monsterfantasy extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.begin();
-		Controller.Control(player);
-		batch.draw(region, player.getX(), player.getY(), 100, 100);
+		Controller.player = player;
+		batch.draw(player.getP_texture_region(), player.getX(), player.getY(), 100, 100);
 		batch.end();
 	}
 	
@@ -45,6 +43,5 @@ public class Monsterfantasy extends ApplicationAdapter {
 	public void dispose () {
 		Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
 		batch.dispose();
-		img.dispose();
 	}
 }
