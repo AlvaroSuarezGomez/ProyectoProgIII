@@ -17,29 +17,25 @@ public class Controller {
 	private static int offset;
 	public static Avatar player;
 	
-	@SuppressWarnings("unused")
 	public static void Control() {
-		abstract class MovTime implements Runnable {
-			MovTime movimiento = new MovTime() {
-
-			@Override
-			public void run() {
-				right = Gdx.input.isKeyJustPressed(Keys.D);
-				left = Gdx.input.isKeyJustPressed(Keys.A);
-				down = Gdx.input.isKeyJustPressed(Keys.S);
-				up = Gdx.input.isKeyJustPressed(Keys.W);
-				while (cont <= contlength) {
-					if (right) {
-						player.setX(player.getX() + offset);
-						cont++;
-						System.out.println("A");
-			}
-			}
-		}};
-			}
-		}
+	}
 	
+	abstract class MovTime implements Runnable {
+		
 
+		@Override
+		public void run() {
+			right = Gdx.input.isKeyJustPressed(Keys.D);
+			left = Gdx.input.isKeyJustPressed(Keys.A);
+			down = Gdx.input.isKeyJustPressed(Keys.S);
+			up = Gdx.input.isKeyJustPressed(Keys.W);
+			while (cont <= contlength) {
+				if (right) {
+					player.setX(player.getX() + offset);
+					cont++;
+		}
+		}
+	}};
 	
 	
 	public static void SetTexture(Avatar player) {
