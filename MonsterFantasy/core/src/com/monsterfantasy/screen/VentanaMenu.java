@@ -1,4 +1,4 @@
-package ventanas;
+package com.monsterfantasy.screen;
 
 import java.awt.Container;
 import java.awt.Dimension;
