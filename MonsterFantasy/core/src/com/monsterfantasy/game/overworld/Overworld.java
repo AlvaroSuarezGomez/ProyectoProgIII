@@ -16,18 +16,19 @@ public class Overworld extends Actor {
 	private static final int tamano_textura = 64;
 	
 	
-	private Texture tileSet;
-	private Texture personaje;
-	private TextureRegion suelo;
-	private TextureRegion arbol;
-	private TextureRegion hierba;
+	private static Texture tileSet;
+	private static Texture personaje;
+	private static TextureRegion suelo;
+	private static TextureRegion arbol;
+	private static TextureRegion hierba;
 	
 	public Overworld() {
         
-		tileSet = new Texture("Overworld tileset.png");
+		setTileSet(new Texture("Overworld tileset.png"));
+		setSuelo(new TextureRegion(getTileSet(), 0, 0, 64, 64));
 		
-		setWidth(ancho_mapa);
-		setHeight(alto_mapa);
+		setWidth(getAnchoMapa());
+		setHeight(getAltoMapa());
 	}
 
 	public static int getSpawnpointY() {
@@ -38,11 +39,27 @@ public class Overworld extends Actor {
 		return spawnPoint_x;
 	}
 
-	public TextureRegion getSuelo() {
+	public static int getAnchoMapa() {
+		return ancho_mapa;
+	}
+
+	public static int getAltoMapa() {
+		return alto_mapa;
+	}
+
+	public static TextureRegion getSuelo() {
 		return suelo;
 	}
 
-	public void setSuelo(TextureRegion suelo) {
-		this.suelo = suelo;
+	public static void setSuelo(TextureRegion suelo) {
+		Overworld.suelo = suelo;
+	}
+
+	public static Texture getTileSet() {
+		return tileSet;
+	}
+
+	public static void setTileSet(Texture tileSet) {
+		Overworld.tileSet = tileSet;
 	}
 }

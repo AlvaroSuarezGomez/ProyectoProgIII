@@ -35,6 +35,14 @@ public class Monsterfantasy extends ApplicationAdapter {
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.begin();
 		Controller.player = player;
+		Controller.Control();
+		Overworld.setTileSet(new Texture("Overworld tileset.png"));
+		Overworld.setSuelo(new TextureRegion(Overworld.getTileSet(), 16, 0, 16, 16));
+		for (int i=0; i<Overworld.getAnchoMapa(); i=i+64) {
+			for (int j=0; j<Overworld.getAnchoMapa(); j=j+64) {
+				batch.draw(Overworld.getSuelo(), i, j, 64, 64);
+			}
+		}
 		batch.draw(player.getP_texture_region(), player.getX(), player.getY(), 100, 100);
 		batch.end();
 	}

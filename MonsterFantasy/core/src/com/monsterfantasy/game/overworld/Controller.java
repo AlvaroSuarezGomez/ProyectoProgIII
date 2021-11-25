@@ -12,31 +12,84 @@ public class Controller {
 	private static boolean down;
 	private static float newX;
 	private static float newY;
-	private static int cont;
-	private static int contlength;
-	private static int offset;
+	private static int cont = 0;
+	private static int contlength = 64;
+	private static int offset = 1;
 	public static Avatar player;
 	
 	public static void Control() {
+		Thread mov = new Thread() {
+			@Override
+			public void run() {
+				if (Gdx.input.isKeyJustPressed(Keys.D)) right = true;
+				if (Gdx.input.isKeyJustPressed(Keys.A)) left = true;
+				if (Gdx.input.isKeyJustPressed(Keys.S)) down = true;
+				if (Gdx.input.isKeyJustPressed(Keys.W)) up = true;
+					if (right) {
+						right = false;
+						while (cont < contlength) {
+						player.setX(player.getX() + offset);
+						try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						System.out.println(player.getX());
+						cont++;
+					} if (Gdx.input.isKeyPressed(Keys.D)) {
+						right = true;
+					}
+					}
+					if (left) {
+						left = false;
+						while (cont < contlength) {
+						player.setX(player.getX() - offset);
+						try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						cont++;
+					} if (Gdx.input.isKeyPressed(Keys.D)) {
+						right = true;
+					}
+					}
+					if (up) {
+						up = false;
+						while (cont < contlength) {
+						player.setY(player.getY() + offset);
+						try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						cont++;
+					} if (Gdx.input.isKeyPressed(Keys.D)) {
+						up = true;
+					}
+					}
+					if (down) {
+						down = false;
+						while (cont < contlength) {
+						player.setY(player.getY() - offset);
+						try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						cont++;
+					}
+				} if (cont >= contlength) {
+					cont = 0;
+				}
+			}
+		};
+		mov.start();
 	}
-	
-	abstract class MovTime implements Runnable {
-		
-
-		@Override
-		public void run() {
-			right = Gdx.input.isKeyJustPressed(Keys.D);
-			left = Gdx.input.isKeyJustPressed(Keys.A);
-			down = Gdx.input.isKeyJustPressed(Keys.S);
-			up = Gdx.input.isKeyJustPressed(Keys.W);
-			while (cont <= contlength) {
-				if (right) {
-					player.setX(player.getX() + offset);
-					cont++;
-		}
-		}
-	}};
-	
 	
 	public static void SetTexture(Avatar player) {
 		player.setP_texture(new Texture("Nate.png"));
