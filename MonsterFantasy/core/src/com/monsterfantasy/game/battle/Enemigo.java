@@ -1,5 +1,7 @@
 package com.monsterfantasy.game.battle;
 
+import java.util.ArrayList;
+
 public class Enemigo extends Personaje {
 
 
@@ -8,6 +10,8 @@ public class Enemigo extends Personaje {
 	 * Puntos de espiritu para realizar ataques especiales 
 	 */
 	protected int espiritu; 
+	
+	protected ArrayList<AtaqueEspecial> ataques;
 	
 	
 	public int getEspiritu() {
@@ -72,6 +76,9 @@ public class Enemigo extends Personaje {
 		super(pv, pvmax, ataque, defensa, posicionguardia, espiritu);
 		this.exprecompensa = exprecompensa;
 		this.nombre = nombre;
+		
+		this.ataques = new ArrayList<AtaqueEspecial>();
+
 
 	}
 
