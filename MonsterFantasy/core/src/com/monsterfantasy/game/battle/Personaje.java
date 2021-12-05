@@ -155,11 +155,6 @@ public abstract class Personaje {
 	 */
 	public abstract void guardia();
 
-	public boolean equals(Personaje p) {
-		if (this.pvmax == p.pvmax) {
-			return true;
-		}
-		return false;
-	}
+	
 
 }

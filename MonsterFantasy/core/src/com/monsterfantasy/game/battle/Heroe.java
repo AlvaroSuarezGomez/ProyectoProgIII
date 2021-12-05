@@ -86,6 +86,9 @@ public class Heroe extends Personaje {
 	public void setDinero(int dinero) {
 		this.dinero = dinero;
 	}
+	
+	
+	
 
 	
 	
@@ -97,13 +100,6 @@ public class Heroe extends Personaje {
 	
 	
 	
-	public int getEspiritu() {
-		return espiritu;
-	}
-
-	public void setEspiritu(int espiritu) {
-		this.espiritu = espiritu;
-	}
 
 	/**
 	 * Constructor
@@ -131,18 +127,13 @@ public class Heroe extends Personaje {
 		
 		this.pociones = new ArrayList<Pociones>();
 		this.ataques = new ArrayList<AtaqueEspecial>();
+		this.equipacion = new ArrayList<Equipacion>();
+		this.espiritu = espiritu;
 
 	}
 
 	
 
-	/**
-	 * Usa una pocion para ayudar al heroe en combate
-	 * 
-	 */
-	public void usaobjeto() {
-
-	}
 
 	/**
 	 * El heroe realiza un ataque sobre el enemigo
@@ -185,14 +176,7 @@ public class Heroe extends Personaje {
 
 	}
 
-	/**
-	 * Huye del combate
-	 * 
-	 */
-	public void huir() {
-		System.out.println("Has podido escapar");
 
-	}
 	
 	
 	
