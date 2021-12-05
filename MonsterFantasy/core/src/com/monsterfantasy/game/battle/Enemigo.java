@@ -14,13 +14,7 @@ public class Enemigo extends Personaje {
 	protected ArrayList<AtaqueEspecial> ataques;
 	
 	
-	public int getEspiritu() {
-		return espiritu;
-	}
 
-	public void setEspiritu(int espiritu) {
-		this.espiritu = espiritu;
-	}
 
 	/**
 	 * Puntos de experiencia que obtiene el heroe al derrotar al enemigo
@@ -154,20 +148,9 @@ public class Enemigo extends Personaje {
 
 	}
 
-	@Override
-	public String toString() {
-		return this.nombre;
-	}
+	
 
-	@Override
-	public boolean equals(Personaje p) {
-		Enemigo e = (Enemigo) p;
-		if (this.pvmax == e.pvmax) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+
 
 }
 
