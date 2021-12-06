@@ -1,6 +1,11 @@
 package com.monsterfantasy.game.battle;
 
-public class Pociones extends Objeto implements Consumible{
+import java.io.Serializable;
+
+public class Pociones extends Objeto implements Consumible, Serializable{
+	
+	
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 *  Puntos de salud que recupera la pocion

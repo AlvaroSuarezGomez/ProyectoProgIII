@@ -1,9 +1,11 @@
 package com.monsterfantasy.game.battle;
 
-public abstract class Objeto   {
+import java.io.Serializable;
+
+public abstract class Objeto  implements Serializable {
 	
 
-
+	private static final long serialVersionUID = 1L;
 
 	/**Nombre del objeto
 	 * 

@@ -34,7 +34,7 @@ public class BaseDeDatos {
 				logger.log(Level.INFO, "Statement: "+ sent);
 				statement.executeUpdate(sent);
 				try {
-					Scanner scanner = new Scanner( BaseDatos.class.getResourceAsStream("enemigos.txt") );
+					Scanner scanner = new Scanner( BaseDeDatos.class.getResourceAsStream("enemigos.txt") );
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );
@@ -44,7 +44,7 @@ public class BaseDeDatos {
 						
 					}
 					scanner.close();
-					scanner = new Scanner( BaseDatos.class.getResourceAsStream("ataques.txt") );
+					scanner = new Scanner( BaseDeDatos.class.getResourceAsStream("ataques.txt") );
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );
@@ -53,7 +53,7 @@ public class BaseDeDatos {
 						statement.executeUpdate( sent );
 					}
 					scanner.close();
-					scanner = new Scanner( BaseDatos.class.getResourceAsStream("equipaciones.txt") );
+					scanner = new Scanner( BaseDeDatos.class.getResourceAsStream("equipaciones.txt") );
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );
@@ -62,7 +62,7 @@ public class BaseDeDatos {
 						statement.executeUpdate( sent );
 					}
 					scanner.close();
-					scanner = new Scanner( BaseDatos.class.getResourceAsStream("pociones.txt") );
+					scanner = new Scanner( BaseDeDatos.class.getResourceAsStream("pociones.txt") );
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );

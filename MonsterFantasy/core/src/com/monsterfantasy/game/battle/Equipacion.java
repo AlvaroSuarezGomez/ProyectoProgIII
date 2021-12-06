@@ -1,6 +1,10 @@
 package com.monsterfantasy.game.battle;
 
-public class Equipacion extends Objeto implements Equipable {
+import java.io.Serializable;
+
+public class Equipacion extends Objeto implements Equipable , Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	
 	/**

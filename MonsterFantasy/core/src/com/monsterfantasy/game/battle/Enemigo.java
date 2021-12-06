@@ -1,10 +1,11 @@
 package com.monsterfantasy.game.battle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Enemigo extends Personaje {
+public class Enemigo extends Personaje implements Serializable {
 
-
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Puntos de espiritu para realizar ataques especiales 

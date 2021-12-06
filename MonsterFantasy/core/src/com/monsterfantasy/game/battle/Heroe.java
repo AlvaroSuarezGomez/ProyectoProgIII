@@ -2,6 +2,8 @@ package com.monsterfantasy.game.battle;
 
 import java.util.ArrayList;
 
+
+
 public class Heroe extends Personaje {
 
 	
@@ -130,6 +132,22 @@ public class Heroe extends Personaje {
 		this.equipacion = new ArrayList<Equipacion>();
 		this.espiritu = espiritu;
 
+	}
+	
+	/**
+	 *  Constructor con datos por defecto del comienzo del juego
+	 */
+	public Heroe() {
+		super(300,300,100,60,false,4);
+		this.dinero = 0;
+		this.exp = 0;
+		this.nv = 1;
+		this.pociones = new ArrayList<Pociones>();
+		this.ataques = new ArrayList<AtaqueEspecial>();
+		this.equipacion = new ArrayList<Equipacion>();
+		this.espiritu = 4;
+		
+		
 	}
 
 	

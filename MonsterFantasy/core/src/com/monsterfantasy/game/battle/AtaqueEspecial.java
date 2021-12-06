@@ -1,8 +1,15 @@
 package com.monsterfantasy.game.battle;
 
-public class AtaqueEspecial {
+import java.io.Serializable;
+
+public class AtaqueEspecial implements Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *  Nombre del ataque 
 	 */

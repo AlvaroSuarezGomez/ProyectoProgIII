@@ -1,10 +1,11 @@
 package com.monsterfantasy.game.battle;
 
+import java.io.Serializable;
+
+public abstract class Personaje implements Serializable{
 
 
-public abstract class Personaje {
-
-
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Puntos de vida actuales
 	 * 
