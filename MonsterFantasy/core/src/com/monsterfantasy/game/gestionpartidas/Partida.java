@@ -4,6 +4,8 @@ package com.monsterfantasy.game.gestionpartidas;
 
 
 import java.io.Serializable;
+import java.util.logging.Logger;
+
 import com.monsterfantasy.game.battle.*;
 
 
@@ -21,6 +23,8 @@ public class Partida implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static Logger logger = Logger.getLogger(Partida.class.getName());
 
 
 	/** Main con pruebas de carga y guardado de una partida
@@ -139,10 +143,11 @@ public class Partida implements Serializable {
 		
 		if(Partidas.getMapapartidas().containsKey(nom)) {
 		this.heroe = Partidas.getMapapartidas().get(nom).getHeroe();
-		this.listaenemigos = Partidas.getMapapartidas().get(nom).getListaenemigos();
-		this.nombre = Partidas.getMapapartidas().get(nom).getNombre();}
+		this.nombre = Partidas.getMapapartidas().get(nom).getNombre();
+		
+		logger.info("Existe la partida " + nom);}
 		else {
-			System.out.println("No existe la partida");
+			logger.severe("No existe la partida " + nom);
 		}
 		
 		
@@ -154,10 +159,11 @@ public class Partida implements Serializable {
 	public void guardarpartida() {
 		if(Partidas.getMapapartidas().containsKey(this.nombre) == true) { //si existe una partida con ese nombre, se elimina la anterior y se actualiza
 			Partidas.getMapapartidas().remove(this.nombre);
+			logger.info("existe una partida con ese nombre, se elimina la anterior y se actualiza");
 			
 		}
 		Partidas.getMapapartidas().put(this.nombre, this);
-		
+		logger.info("Partida nueva guardada");
 		
 	}
 	
