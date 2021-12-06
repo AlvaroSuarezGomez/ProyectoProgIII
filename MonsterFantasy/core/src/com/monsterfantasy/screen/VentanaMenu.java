@@ -45,8 +45,8 @@ public class VentanaMenu extends JFrame {
 	
 	public static void main(String[] args) {
 		VentanaMenu menu = new VentanaMenu();
-		menu.setVisible(true);
-		menu.setSize(menu.anchura, menu.altura);
+	
+		
 		
 	}
 }
