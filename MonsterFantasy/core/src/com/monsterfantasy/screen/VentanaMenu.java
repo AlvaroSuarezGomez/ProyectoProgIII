@@ -1,46 +1,62 @@
 package com.monsterfantasy.screen;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 public class VentanaMenu extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2395888841778608798L;
+	private JPanel panellabel = new JPanel();
+	private JPanel botonera = new JPanel();
+	private JButton nuevapartida = new JButton("Nueva Partida");
+	private JButton cargarpartida = new JButton("Cargar Partida");
+	private JLabel label = new JLabel("Bienvenido a Monster Fantasy");
 	
-	public static final int altura=600;											///Dimensiones de la pantalla
-	public static final int anchura=800;
-	public static final int c=600;
-	public static final int d=300;
 	
-	public VentanaMenu() {	
-		this.setTitle("Menu");													///Titulo de la pantalla
-		this.setMinimumSize(new Dimension(altura, anchura));
-		this.setSize(new Dimension(altura, anchura));
-		this.setLocation(c,d);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		JPanel panel = new JPanel();
+	public VentanaMenu() {
 		
-		Container cp = this.getContentPane();										///Creamos un panel
-		cp.setLayout(new GridLayout(5,3));										///Dividimos el panel en cachos
-		JButton CrearPartida = new JButton("Crear partida");					///Creo el boton crear partida
-		JButton CargarPartida = new JButton("Cargar partida");					///Creo el boton Cargar partida
-		for (int i=0; i<=3; i++) {
-			if (i==0) {
-				cp.add(CrearPartida);											///Pongo el boton de crear partida arriba
-			} else if (i==2) {
-				cp.add(CargarPartida);											///Pongo el boton de cargar partida abajo
-			} else {
-				cp.add(new JLabel(""));
-			}
+		this.setTitle("Menu Principal");			
+		this.setSize(620,160);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		panellabel.add(label);
+		botonera.add(nuevapartida);
+		botonera.add(cargarpartida);
+		
+		this.add(panellabel, BorderLayout.CENTER);
+		this.add(botonera, BorderLayout.SOUTH);
+		
+		
+		
+		
+		
+		nuevapartida.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				
-		}	
-		this.setVisible(true);	
+				
+			}
+		});
+		
+		cargarpartida.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				VentanaTabla v = new VentanaTabla();
+				dispose();
+			}
+		});
+		
+		
+		this.setVisible(true);
+		
 	}
 	
 	public static void main(String[] args) {
