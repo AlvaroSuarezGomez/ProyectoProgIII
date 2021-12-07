@@ -28,16 +28,14 @@ public class Monsterfantasy extends Game {
 	private Heroe heroe;
 	private Partida partida;
 	private OverworldScene overworld;
-	
-	public Monsterfantasy() {
-		
-	}
+	private BattleScene battleScene;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		overworld = new OverworldScene(this);
-		
+		battleScene = new BattleScene(this);
+		this.setScreen(overworld);
 		batch.begin();
 		batch.end();
 		
@@ -45,7 +43,8 @@ public class Monsterfantasy extends Game {
 	
 
 	@Override
-	public void render () {		
+	public void render () {	
+		super.render();
 	}
 	
 	@Override
@@ -95,6 +94,16 @@ public class Monsterfantasy extends Game {
 
 	public void setOverworld(OverworldScene overworld) {
 		this.overworld = overworld;
+	}
+
+
+	public BattleScene getBattleScene() {
+		return battleScene;
+	}
+
+
+	public void setBattleScene(BattleScene battleScene) {
+		this.battleScene = battleScene;
 	}
 
 }

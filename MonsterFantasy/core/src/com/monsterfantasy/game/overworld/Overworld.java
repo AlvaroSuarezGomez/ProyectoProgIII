@@ -1,16 +1,20 @@
 package com.monsterfantasy.game.overworld;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.monsterfantasy.game.Monsterfantasy;
+import com.monsterfantasy.game.OverworldScene;
 
 public class Overworld extends Actor {
 	
+	private Monsterfantasy game;
 	private final int tamano_celda = 64;
 	private final int ancho_mapa = 1000 * 64;
-	private final int alto_mapa = 100 * 64;
+	private final int alto_mapa = 1000 * 64;
 	private final int spawnPoint_x = ancho_mapa/2;
 	private final int spawnPoint_y = alto_mapa/2;
 	private Celda[][] celdas = new Celda[getAnchoMapa()/64][getAltoMapa()/64];
@@ -67,7 +71,6 @@ public class Overworld extends Actor {
 				celdas[row][column] = new Celda(row, column, TipoCelda.Suelo);
 				float x = celdas[row][column].getX();
 				float y = celdas[row][column].getY();
-
 				batch.draw(suelo, 
 					x, y, getOriginX(), getOriginY(), 
 					tamano_celda, tamano_celda, getScaleX(), getScaleY(), getRotation()
@@ -86,8 +89,6 @@ public class Overworld extends Actor {
 
 					default: 		break;
 				}
-
-				if (content != null) {
 					batch.draw(content, 
 						x, y, getOriginX(), getOriginY(), 
 						tamano_celda, tamano_celda, getScaleX(), getScaleY(), getRotation()
@@ -95,7 +96,7 @@ public class Overworld extends Actor {
 				}
 			}
 		}
-}
+	
 	public void dispose() {
 		suelo.getTexture().dispose();
 		hierba.getTexture().dispose();
@@ -117,5 +118,13 @@ public class Overworld extends Actor {
 	
 	public int getColumnas() {
 		return getCeldas()[0].length;
+	}
+
+	public Monsterfantasy getGame() {
+		return game;
+	}
+
+	public void setGame(Monsterfantasy game) {
+		this.game = game;
 	}
 }

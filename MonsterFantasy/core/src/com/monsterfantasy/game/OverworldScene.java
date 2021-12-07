@@ -2,6 +2,7 @@ package com.monsterfantasy.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
@@ -30,7 +31,9 @@ public class OverworldScene extends BaseScene {
 	
 	public OverworldScene(Monsterfantasy game) {
 		super(game);
-		cam = new OrthographicCamera(getPlayer().getX(), getPlayer().getY());
+		this.game = game;
+		setCam(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		map.setGame(game);
 		map.setTileSet(new Texture("Overworld tileset.png"));
 		map.setSuelo(new TextureRegion(getMap().getTileSet(), 0, 0, 64, 64));
 		Controller.SetTexture(getPlayer());
@@ -42,11 +45,14 @@ public class OverworldScene extends BaseScene {
 	@Override
 	public void render(float dt) {
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-		batch.setProjectionMatrix(cam.combined);
+		batch.setProjectionMatrix(getCam().combined);
 		batch.begin();
+		if (Gdx.input.isKeyJustPressed(Keys.R)) {
+			game.setScreen(game.getBattleScene());
+		}
 		Controller.player = getPlayer();
-		cam.position.set(getPlayer().getX(), getPlayer().getY(), 0);
-		cam.update();
+		getCam().position.set(getPlayer().getX(), getPlayer().getY(), 0);
+		getCam().update();
 		Controller.Control();
 		getMap().setTileSet(new Texture("Overworld tileset.png"));
 		getMap().setSuelo(new TextureRegion(getMap().getTileSet(), 16, 0, 16, 16));
@@ -61,6 +67,7 @@ public class OverworldScene extends BaseScene {
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 		Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
 		map.dispose();
+		batch.dispose();
 		super.dispose();
 	}
 
@@ -102,5 +109,13 @@ public class OverworldScene extends BaseScene {
 
 	public void setGame(Monsterfantasy game) {
 		this.game = game;
+	}
+
+	public Camera getCam() {
+		return cam;
+	}
+
+	public void setCam(Camera cam) {
+		this.cam = cam;
 	}
 }
