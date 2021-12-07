@@ -65,9 +65,9 @@ public class VentanaMenu extends JFrame {
 				config.y = 150;
 				
 				Monsterfantasy game = new Monsterfantasy();
+				game.setPartida(p);
 				game.setHeroe(p.getHeroe());
-				new LwjglApplication(new Monsterfantasy(), config);
-				System.out.println(game.getHeroe());
+				new LwjglApplication(game, config);
 				
 			}
 		});

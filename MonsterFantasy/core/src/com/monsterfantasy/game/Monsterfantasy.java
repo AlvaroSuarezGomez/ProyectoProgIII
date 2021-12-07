@@ -15,6 +15,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.monsterfantasy.game.battle.Heroe;
 import com.monsterfantasy.game.battle.Personaje;
+import com.monsterfantasy.game.gestionpartidas.Partida;
+import com.monsterfantasy.game.gestionpartidas.Partidas;
 import com.monsterfantasy.game.overworld.Avatar;
 import com.monsterfantasy.game.overworld.Celda;
 import com.monsterfantasy.game.overworld.Controller;
@@ -26,6 +28,7 @@ public class Monsterfantasy extends ApplicationAdapter {
 	private Heroe heroe;
 	Overworld map = new Overworld();
 	private Avatar player = new Avatar(map.getSpawnpointX(), map.getSpawnpointY(), getHeroe());
+	private Partida partida;
 	Camera cam;
 	
 	
@@ -44,8 +47,7 @@ public class Monsterfantasy extends ApplicationAdapter {
 	
 
 	@Override
-	public void render () {
-		
+	public void render () {		
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 		Controller.player = getPlayer();
@@ -61,6 +63,8 @@ public class Monsterfantasy extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
+		partida.guardarpartida();
+		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 		Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
 		map.dispose();
 		batch.dispose();
@@ -84,6 +88,16 @@ public class Monsterfantasy extends ApplicationAdapter {
 
 	public void setHeroe(Heroe heroe) {
 		this.heroe = heroe;
+	}
+
+
+	public Partida getPartida() {
+		return partida;
+	}
+
+
+	public void setPartida(Partida partida) {
+		this.partida = partida;
 	}
 
 }
