@@ -7,59 +7,120 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Overworld extends Actor {
-	private static final int spawnPoint_x = 0;
-	private static final int spawnPoint_y = 0;
-	private static final int tamano_celda = 64;
-	private static final int ancho_mapa = 10000;
-	private static final int alto_mapa = 10000;
+	
+	private final int tamano_celda = 64;
+	private final int ancho_mapa = 1000 * 64;
+	private final int alto_mapa = 100 * 64;
+	private final int spawnPoint_x = ancho_mapa/2;
+	private final int spawnPoint_y = alto_mapa/2;
+	private Celda[][] celdas = new Celda[getAnchoMapa()/64][getAltoMapa()/64];
 	
 	private static final int tamano_textura = 64;
 	
 	
-	private static Texture tileSet;
-	private static Texture personaje;
-	private static TextureRegion suelo;
-	private static TextureRegion arbol;
-	private static TextureRegion hierba;
+	private Texture tileSet;
+	private TextureRegion suelo;
+	private TextureRegion arbol;
+	private TextureRegion hierba;
 	
-	public Overworld() {
-        
-		setTileSet(new Texture("Overworld tileset.png"));
-		setSuelo(new TextureRegion(getTileSet(), 0, 0, 64, 64));
-		
+	public Overworld() {	
 		setWidth(getAnchoMapa());
 		setHeight(getAltoMapa());
 	}
 
-	public static int getSpawnpointY() {
+	public int getSpawnpointY() {
 		return spawnPoint_y;
 	}
 
-	public static int getSpawnpointX() {
+	public int getSpawnpointX() {
 		return spawnPoint_x;
 	}
 
-	public static int getAnchoMapa() {
+	public int getAnchoMapa() {
 		return ancho_mapa;
 	}
 
-	public static int getAltoMapa() {
+	public int getAltoMapa() {
 		return alto_mapa;
 	}
 
-	public static TextureRegion getSuelo() {
+	public TextureRegion getSuelo() {
 		return suelo;
 	}
 
-	public static void setSuelo(TextureRegion suelo) {
-		Overworld.suelo = suelo;
+	public void setSuelo(TextureRegion suelo) {
+		this.suelo = suelo;
 	}
 
-	public static Texture getTileSet() {
+	public Texture getTileSet() {
 		return tileSet;
 	}
 
-	public static void setTileSet(Texture tileSet) {
-		Overworld.tileSet = tileSet;
+	public void setTileSet(Texture tileSet) {
+		this.tileSet = tileSet;
+	}
+	
+	@Override
+    public void draw(Batch batch, float parentAlpha) {
+		// aqui vamos a dibujar en pantalla cada baldosa
+		// desde la esquina superior izquierda
+		for (int row = 0; row < getFilas(); row++) {
+			for (int column = 0; column < getColumnas(); column++) {
+				// posición actual de dibujado
+				// tenemos en cuenta que el eje y está invertido
+				// además, la esquina de dibujado de la imagen es la inferior izquierda
+				celdas[row][column] = new Celda(row, column, TipoCelda.Suelo);
+				float x = celdas[row][column].getX();
+				float y = celdas[row][column].getY();
+
+				batch.draw(suelo, 
+					x, y, getOriginX(), getOriginY(), 
+					tamano_celda, tamano_celda, getScaleX(), getScaleY(), getRotation()
+				);
+
+				TextureRegion content = null;			
+				switch (celdas[row][column].getTipo()) {
+					case Suelo:	content = suelo;
+									break;
+
+					case Arbol:		content = arbol;
+									break;
+
+					case Hierba:		content = hierba;
+									break;
+
+					default: 		break;
+				}
+
+				if (content != null) {
+					batch.draw(content, 
+						x, y, getOriginX(), getOriginY(), 
+						tamano_celda, tamano_celda, getScaleX(), getScaleY(), getRotation()
+					);
+				}
+			}
+		}
+}
+	public void dispose() {
+		suelo.getTexture().dispose();
+		hierba.getTexture().dispose();
+		arbol.getTexture().dispose();
+		tileSet.dispose();
+	}
+	
+	public Celda[][] getCeldas() {
+		return celdas;
+	}
+
+	public void setCeldas(Celda[][] celdas) {
+		this.celdas = celdas;
+	}
+	
+	public int getFilas() {
+		return getCeldas().length;
+	}
+	
+	public int getColumnas() {
+		return getCeldas()[0].length;
 	}
 }

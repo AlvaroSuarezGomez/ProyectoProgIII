@@ -1,4 +1,4 @@
-package com.monsterfantasy.screen;
+package com.monsterfantasy.game.desktop;
 
 import java.awt.BorderLayout;
 import java.awt.Font;

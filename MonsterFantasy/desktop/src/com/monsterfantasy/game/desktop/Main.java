@@ -1,6 +1,5 @@
-package Main;
+package com.monsterfantasy.game.desktop;
 import com.monsterfantasy.*;
-import com.monsterfantasy.screen.VentanaMenu;
 
 public class Main {
 
