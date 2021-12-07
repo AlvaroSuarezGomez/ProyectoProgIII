@@ -9,6 +9,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import com.monsterfantasy.game.battle.Heroe;
+import com.monsterfantasy.game.gestionpartidas.Partida;
+import com.monsterfantasy.game.gestionpartidas.Partidas;
+
+
+
 public class VentanaMenu extends JFrame {
 
 	private JPanel panellabel = new JPanel();
@@ -16,6 +22,7 @@ public class VentanaMenu extends JFrame {
 	private JButton nuevapartida = new JButton("Nueva Partida");
 	private JButton cargarpartida = new JButton("Cargar Partida");
 	private JLabel label = new JLabel("Bienvenido a Monster Fantasy");
+	private static VentanaMenu ventana;
 	
 	
 	public VentanaMenu() {
@@ -32,7 +39,7 @@ public class VentanaMenu extends JFrame {
 		this.add(botonera, BorderLayout.SOUTH);
 		
 		
-		
+		Partidas.setMapapartidas(Partidas.cargafichero("guardado")); 
 		
 		
 		nuevapartida.addActionListener(new ActionListener() {
@@ -40,6 +47,10 @@ public class VentanaMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				String resp = JOptionPane.showInputDialog( ventana, "Nombre del jugador:", "" );
+				Partida p = new Partida(resp, new Heroe());
+				p.partidanueva();
+				Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 				
 			}
 		});

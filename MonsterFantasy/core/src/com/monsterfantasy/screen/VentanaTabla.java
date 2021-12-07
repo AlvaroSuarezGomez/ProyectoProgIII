@@ -2,8 +2,11 @@ package com.monsterfantasy.screen;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.monsterfantasy.game.battle.BaseDeDatos;
 import com.monsterfantasy.game.gestionpartidas.Partidas;
 
 
@@ -31,6 +35,8 @@ public class VentanaTabla extends JFrame {
 	private JButton botonborrar;
 	private JPanel paneltabla;
 	private JPanel panelbotones;
+	
+	private static Logger logger = Logger.getLogger(BaseDeDatos.class.getName());
 	
 	public VentanaTabla() {
 		
@@ -67,6 +73,25 @@ public class VentanaTabla extends JFrame {
 		
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		
+		
+		
+		botonborrar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				int fila = tDatos.getSelectedRow();
+				String nombre = (String) tDatos.getValueAt(fila, 0);
+				Partidas.getMapapartidas().remove(nombre);
+				logger.info("Partida eliminada del jugador: " + nombre );
+				
+				Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
+				verPartidas();
+				
+			}
+		});
 		
 		this.setVisible(true);
 	}

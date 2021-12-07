@@ -132,6 +132,7 @@ public class Partida implements Serializable {
 	 */
 	public void partidanueva() {
 		Partidas.getMapapartidas().put(this.nombre, this);
+		logger.info("Partida creada del jugador: " + this.nombre);
 		
 	}
 	
