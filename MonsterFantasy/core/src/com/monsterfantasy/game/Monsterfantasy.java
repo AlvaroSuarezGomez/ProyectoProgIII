@@ -1,7 +1,8 @@
 package com.monsterfantasy.game;
 
 
-import com.badlogic.gdx.ApplicationAdapter; 
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
@@ -22,25 +23,22 @@ import com.monsterfantasy.game.overworld.Celda;
 import com.monsterfantasy.game.overworld.Controller;
 import com.monsterfantasy.game.overworld.Overworld;
 
-public class Monsterfantasy extends ApplicationAdapter {
-	SpriteBatch batch;
-	TextureRegion region;
+public class Monsterfantasy extends Game {
+	private SpriteBatch batch;
 	private Heroe heroe;
-	Overworld map = new Overworld();
-	private Avatar player = new Avatar(map.getSpawnpointX(), map.getSpawnpointY(), getHeroe());
 	private Partida partida;
-	Camera cam;
+	private OverworldScene overworld;
 	
+	public Monsterfantasy() {
+		
+	}
 	
 	@Override
 	public void create () {
-		int vpWidth = Gdx.graphics.getWidth(), vpHeight = Gdx.graphics.getHeight();
-		cam = new OrthographicCamera(vpWidth, vpHeight);
 		batch = new SpriteBatch();
+		overworld = new OverworldScene(this);
+		
 		batch.begin();
-		map.setTileSet(new Texture("Overworld tileset.png"));
-		map.setSuelo(new TextureRegion(map.getTileSet(), 0, 0, 64, 64));
-		Controller.SetTexture(getPlayer());
 		batch.end();
 		
 	}
@@ -48,38 +46,17 @@ public class Monsterfantasy extends ApplicationAdapter {
 
 	@Override
 	public void render () {		
-		batch.setProjectionMatrix(cam.combined);
-		batch.begin();
-		Controller.player = getPlayer();
-		cam.position.set(getPlayer().getX(), getPlayer().getY(), 0);
-		cam.update();
-		Controller.Control();
-		map.setTileSet(new Texture("Overworld tileset.png"));
-		map.setSuelo(new TextureRegion(map.getTileSet(), 16, 0, 16, 16));
-		map.draw(batch, 0);
-		batch.draw(getPlayer().getP_texture_region(), getPlayer().getX(), getPlayer().getY());
-		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
+		super.dispose();
+		this.batch = batch;
 		partida.guardarpartida();
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 		Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
-		map.dispose();
-		batch.dispose();
+		getBatch().dispose();
 	}
-
-
-	public Avatar getPlayer() {
-		return player;
-	}
-
-
-	public void setPlayer(Avatar player) {
-		this.player = player;
-	}
-
 
 	public Heroe getHeroe() {
 		return heroe;
@@ -98,6 +75,26 @@ public class Monsterfantasy extends ApplicationAdapter {
 
 	public void setPartida(Partida partida) {
 		this.partida = partida;
+	}
+
+
+	SpriteBatch getBatch() {
+		return batch;
+	}
+
+
+	public void setBatch(SpriteBatch batch) {
+		this.batch = batch;
+	}
+
+
+	public OverworldScene getOverworld() {
+		return overworld;
+	}
+
+
+	public void setOverworld(OverworldScene overworld) {
+		this.overworld = overworld;
 	}
 
 }

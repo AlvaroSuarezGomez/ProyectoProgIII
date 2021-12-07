@@ -62,13 +62,8 @@ public class Overworld extends Actor {
 	
 	@Override
     public void draw(Batch batch, float parentAlpha) {
-		// aqui vamos a dibujar en pantalla cada baldosa
-		// desde la esquina superior izquierda
 		for (int row = 0; row < getFilas(); row++) {
 			for (int column = 0; column < getColumnas(); column++) {
-				// posición actual de dibujado
-				// tenemos en cuenta que el eje y está invertido
-				// además, la esquina de dibujado de la imagen es la inferior izquierda
 				celdas[row][column] = new Celda(row, column, TipoCelda.Suelo);
 				float x = celdas[row][column].getX();
 				float y = celdas[row][column].getY();

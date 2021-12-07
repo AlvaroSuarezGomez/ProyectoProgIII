@@ -12,6 +12,7 @@ import javax.swing.*;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.monsterfantasy.game.Monsterfantasy;
+import com.monsterfantasy.game.OverworldScene;
 import com.monsterfantasy.game.battle.Heroe;
 import com.monsterfantasy.game.gestionpartidas.Partida;
 import com.monsterfantasy.game.gestionpartidas.Partidas;
@@ -58,6 +59,7 @@ public class VentanaMenu extends JFrame {
 				config.resizable = false;
 				config.width = 800;
 				config.height = 600;
+				config.foregroundFPS = 60;
 				
 				config.vSyncEnabled = true;
 				
@@ -65,10 +67,12 @@ public class VentanaMenu extends JFrame {
 				config.y = 150;
 				
 				Monsterfantasy game = new Monsterfantasy();
+				
 				game.setPartida(p);
 				game.setHeroe(p.getHeroe());
-				new LwjglApplication(game, config);
+				game.setScreen(game.getOverworld());
 				
+				LwjglApplication monsterfantasy = new LwjglApplication(game, config);
 			}
 		});
 		
