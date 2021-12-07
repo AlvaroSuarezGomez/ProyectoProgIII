@@ -1,0 +1,3 @@
+salud	15	10
+salud2	30	25
+salud3	45	40

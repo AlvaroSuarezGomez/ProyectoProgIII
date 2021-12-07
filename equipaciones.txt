@@ -1,0 +1,3 @@
+Espada	10	20
+Pechera	5	15
+Botas	2	10
