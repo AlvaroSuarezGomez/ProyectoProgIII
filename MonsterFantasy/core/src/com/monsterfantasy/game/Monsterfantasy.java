@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.monsterfantasy.game.battle.BaseDeDatos;
 import com.monsterfantasy.game.battle.Heroe;
 import com.monsterfantasy.game.battle.Personaje;
 import com.monsterfantasy.game.gestionpartidas.Partida;
@@ -39,6 +40,7 @@ public class Monsterfantasy extends Game {
 	
 	@Override
 	public void create () {
+		BaseDeDatos.abrirConexion("BaseDatos", true);	
 		setCam(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		batch = new SpriteBatch();
 		
