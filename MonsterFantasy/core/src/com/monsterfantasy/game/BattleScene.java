@@ -99,7 +99,6 @@ public class BattleScene extends ScreenAdapter {
 		hp.draw(batch, String.valueOf(heroe.getPv()) + "/" + String.valueOf(heroe.getPvmax()), 525f, 172.5f);
 		hp_container.draw(batch, 490, 184, playerHP_width, 10);
 		hp_container.draw(batch, 185, 456, enemyHP_width, 10);
-		System.out.println(playerHP_width);
 		
 		if (Gdx.input.isKeyPressed(Keys.Z)) {
 			heroe.ataque(enemigo);
