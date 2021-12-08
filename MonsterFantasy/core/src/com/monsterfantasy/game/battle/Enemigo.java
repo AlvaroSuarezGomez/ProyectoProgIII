@@ -1,4 +1,6 @@
-int intpackage com.monsterfantasy.game.battle;
+package com.monsterfantasy.game.battle;
+
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
