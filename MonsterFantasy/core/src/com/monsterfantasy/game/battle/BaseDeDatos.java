@@ -7,15 +7,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
 
-import com.sun.jdi.connect.spi.Connection;
+
+
 public class BaseDeDatos {
 	private static Connection conexion;
 	private static Logger logger = Logger.getLogger(BaseDeDatos.class.getName());
 	
-	public static boolean abrirConexion(String nombreBD,boolean reiniciaBD) {
+	public static void abrirConexion(String nombreBD,boolean reiniciaBD) {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			conexion = DriverManager.getConnection("jdbc:sqlite" + nombreBD);
+			conexion = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
 			if(reiniciaBD) {
 				Statement statement = conexion.createStatement();
 				String sent = "DROP TABLE IF EXIST enemigos";
@@ -80,8 +81,12 @@ public class BaseDeDatos {
 			
 		}catch(Exception e){
 			logger.log(Level.SEVERE,"Exception",e);
-			return false;
+		
 		}
+	}
+	
+	public static void main(String[] args) {
+		abrirConexion("BaseDatos" , true);
 	}
 	
 	
