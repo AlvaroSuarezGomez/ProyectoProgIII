@@ -17,7 +17,12 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.monsterfantasy.game.Monsterfantasy;
 import com.monsterfantasy.game.battle.BaseDeDatos;
+import com.monsterfantasy.game.battle.Heroe;
+import com.monsterfantasy.game.gestionpartidas.Partida;
 import com.monsterfantasy.game.gestionpartidas.Partidas;
 
 
@@ -74,7 +79,34 @@ public class VentanaTabla extends JFrame {
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
+		botoncargar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = tDatos.getSelectedRow();
+				String nombre = (String) tDatos.getValueAt(fila, 0);
+				Partida p = new Partida(nombre, new Heroe());
+				p.partidanueva();
+				Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
+				LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+				config.resizable = false;
+				config.width = 800;
+				config.height = 600;
+				config.foregroundFPS = 60;
+				
+				
+				
+				config.vSyncEnabled = true;
+				
+				config.x = 480;
+				config.y = 150;
+				
+				Monsterfantasy game = new Monsterfantasy();
 		
+				game.setPartida(p);
+				game.setHeroe(p.getHeroe());
+			
+				new LwjglApplication(game, config);
+			}
+		});
 		
 		
 		botonborrar.addActionListener(new ActionListener() {

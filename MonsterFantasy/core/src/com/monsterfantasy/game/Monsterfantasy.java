@@ -5,6 +5,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -29,32 +30,35 @@ public class Monsterfantasy extends Game {
 	private Partida partida;
 	private OverworldScene overworld;
 	private BattleScene battleScene;
+	private Screen currentScreen;
+	
+	public Monsterfantasy() {
+		
+	}
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		overworld = new OverworldScene(this);
-		battleScene = new BattleScene(this);
-		this.setScreen(overworld);
-		batch.begin();
-		batch.end();
-		
+		this.setScreen(new OverworldScene(this));
+		this.setScreen(new BattleScene(this));
 	}
 	
-
+	
 	@Override
-	public void render () {	
+	public void render () {		
 		super.render();
+		if (Gdx.input.isKeyJustPressed(Keys.R)) {
+			this.setScreen(new BattleScene(this));
+		}
 	}
 	
 	@Override
 	public void dispose () {
-		super.dispose();
-		this.batch = batch;
 		partida.guardarpartida();
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 		Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
-		getBatch().dispose();
+		super.dispose();
+		this.batch = batch;
 	}
 
 	public Heroe getHeroe() {
@@ -104,6 +108,16 @@ public class Monsterfantasy extends Game {
 
 	public void setBattleScene(BattleScene battleScene) {
 		this.battleScene = battleScene;
+	}
+
+
+	public Screen getCurrentScreen() {
+		return currentScreen;
+	}
+
+
+	public void setCurrentScreen(Screen currentScreen) {
+		this.currentScreen = currentScreen;
 	}
 
 }

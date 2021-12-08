@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.monsterfantasy.game.Monsterfantasy;
@@ -27,7 +28,6 @@ public class VentanaMenu extends JFrame {
 	private JButton cargarpartida = new JButton("Cargar Partida");
 	private JLabel label = new JLabel("Bienvenido a Monster Fantasy");
 	private static VentanaMenu ventana;
-	
 	
 	public VentanaMenu() {
 		
@@ -61,17 +61,19 @@ public class VentanaMenu extends JFrame {
 				config.height = 600;
 				config.foregroundFPS = 60;
 				
+				
+				
 				config.vSyncEnabled = true;
 				
 				config.x = 480;
 				config.y = 150;
 				
 				Monsterfantasy game = new Monsterfantasy();
-				
+		
 				game.setPartida(p);
 				game.setHeroe(p.getHeroe());
-				
-				LwjglApplication monsterfantasy = new LwjglApplication(game, config);
+			
+				new LwjglApplication(game, config);
 			}
 		});
 		

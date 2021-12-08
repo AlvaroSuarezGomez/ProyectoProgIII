@@ -1,8 +1,9 @@
 package com.monsterfantasy.game;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 
-public abstract class BaseScene implements Screen {
+public abstract class BaseScene extends ScreenAdapter {
 
 	protected Monsterfantasy game;
 	

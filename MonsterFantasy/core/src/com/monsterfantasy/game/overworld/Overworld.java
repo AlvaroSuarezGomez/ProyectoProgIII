@@ -99,8 +99,8 @@ public class Overworld extends Actor {
 	
 	public void dispose() {
 		suelo.getTexture().dispose();
-		hierba.getTexture().dispose();
-		arbol.getTexture().dispose();
+		//hierba.getTexture().dispose();
+		//arbol.getTexture().dispose();
 		tileSet.dispose();
 	}
 	

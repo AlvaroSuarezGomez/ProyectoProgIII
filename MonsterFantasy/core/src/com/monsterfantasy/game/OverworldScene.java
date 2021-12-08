@@ -1,6 +1,5 @@
 package com.monsterfantasy.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
@@ -40,6 +39,7 @@ public class OverworldScene extends BaseScene {
 		batch = game.getBatch();
 		partida = game.getPartida();
 		heroe = game.getHeroe();
+		
 	}
 	
 	@Override
@@ -47,9 +47,6 @@ public class OverworldScene extends BaseScene {
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(getCam().combined);
 		batch.begin();
-		if (Gdx.input.isKeyJustPressed(Keys.R)) {
-			game.setScreen(game.getBattleScene());
-		}
 		Controller.player = getPlayer();
 		getCam().position.set(getPlayer().getX(), getPlayer().getY(), 0);
 		getCam().update();
@@ -65,10 +62,10 @@ public class OverworldScene extends BaseScene {
 	public void dispose() {
 		partida.guardarpartida();
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
-		Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
+		//Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
 		map.dispose();
-		batch.dispose();
-		super.dispose();
+		//batch.dispose();
+		//super.dispose();
 	}
 
 	public Heroe getHeroe() {
@@ -103,7 +100,7 @@ public class OverworldScene extends BaseScene {
 		this.map = map;
 	}
 
-	public Game getGame() {
+	public Monsterfantasy getGame() {
 		return game;
 	}
 
