@@ -170,7 +170,8 @@ public class BaseDeDatos {
 	
 	public static void main(String[] args) {
 		abrirConexion("BaseDatos.db", true);
-		
+		System.out.println(getEquipaciones().get(0).getNombre());
+		System.out.println(getEnemigos().get(0).getNombre());
 		
 	}
 	
