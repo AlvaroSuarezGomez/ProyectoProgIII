@@ -16,22 +16,22 @@ public class BaseDeDatos {
 			conexion = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
 			if(reiniciaBD) {
 				Statement statement = conexion.createStatement();
-				String sent = "DROP TABLE IF EXIST enemigos;";
+				String sent = "DROP TABLE IF EXISTS enemigos;";
 				statement.executeUpdate(sent);
 				sent="CREATE TABLE enemigos (pv int, pvmax int, ataque int, defensa int, posicionguardia boolean, exprecompensa int, nombre varchar(100) PRIMARY KEY, espiritu int);";
 				logger.log(Level.INFO, "Statement: "+ sent);
 				statement.executeUpdate(sent);
-				sent = "DROP TABLE IF EXIST ataques;";
+				sent = "DROP TABLE IF EXISTS ataques;";
 				statement.executeUpdate(sent);
 				sent="CREATE TABLE ataques(nombres String INTEGER PRIMARY KEY , espiritus int, potencia int); ";
 				logger.log(Level.INFO, "Statement: "+ sent);
 				statement.executeUpdate(sent);
-				sent = "DROP TABLE IF EXIST equipacion;";
+				sent = "DROP TABLE IF EXISTS equipacion;";
 				statement.executeUpdate(sent);
 				sent="CREATE TABLE equipacion(nombres String INTEGER PRIMARY KEY , puntosDeDefensa int, precio int); ";
 				logger.log(Level.INFO, "Statement: "+ sent);
 				statement.executeUpdate(sent);
-				sent = "DROP TABLE IF EXIST pociones;";
+				sent = "DROP TABLE IF EXISTS pociones;";
 				statement.executeUpdate(sent);
 				sent="CREATE TABLE pociones(nombres String INTEGER PRIMARY KEY , precio int, puntosSalud int); ";
 				logger.log(Level.INFO, "Statement: "+ sent);
@@ -41,7 +41,7 @@ public class BaseDeDatos {
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );
-						sent = "insert into enemigo (pv, pvmax, defensa, posicionguardia,exorecompensa,nombre,espiritu) values (" + datos[0] + ",'" + datos[1] + "'," + datos[2] + ","+datos[3] + "," + datos[4] +","+ datos[5] +","+ datos[6]+" );";
+						sent = "insert into enemigos (pv, pvmax, defensa, posicionguardia,exprecompensa,nombre,espiritu) values (" + datos[0] + "," + datos[1] + "," + datos[2] + ","+datos[3] + "," + datos[4] +",'"+ datos[5] +"',"+ datos[6]+" );";
 						logger.log( Level.INFO, "Statement: " + sent );
 						statement.executeUpdate( sent );
 						
@@ -51,7 +51,7 @@ public class BaseDeDatos {
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );
-						sent = "insert into ataques (nombre, potencia, espiritus) values (" + datos[0] + "," + datos[1] + ",'" + datos[2] + ");";
+						sent = "insert into ataques (nombres, potencia, espiritus) values ('" + datos[0] + "'," + datos[1] + "," + datos[2] + ");";
 						logger.log( Level.INFO, "Statement: " + sent );
 						statement.executeUpdate( sent );
 					}
@@ -60,7 +60,7 @@ public class BaseDeDatos {
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );
-						sent = "insert into quipacion (nombre,puntosDeDefensa,precio) values (" + datos[0] + "," + datos[1] + ",'" + datos[2] + ");";
+						sent = "insert into equipacion (nombres,puntosDeDefensa,precio) values ('" + datos[0] + "'," + datos[1] + "," + datos[2] + ");";
 						logger.log( Level.INFO, "Statement: " + sent );
 						statement.executeUpdate( sent );
 					}
@@ -69,7 +69,7 @@ public class BaseDeDatos {
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );
-						sent = "insert into equipacion (nombre,precio,puntosSalud) values (" + datos[0] + "," + datos[1] + ",'" + datos[2] + ");";
+						sent = "insert into pociones (nombres,precio,puntosSalud) values ('" + datos[0] + "'," + datos[1] + "," + datos[2] + ");";
 						logger.log( Level.INFO, "Statement: " + sent );
 						statement.executeUpdate( sent );
 					}
@@ -117,9 +117,9 @@ public class BaseDeDatos {
 			logger.log( Level.INFO, "Statement: " + sent );
 			ResultSet rs = statement.executeQuery( sent );
 			while( rs.next() ) { 
-				String nombre = rs.getString("nombre");
+				String nombre = rs.getString("nombres");
 				int potencia = rs.getInt("potencia");
-				int espiritu = rs.getInt("espiritu");
+				int espiritu = rs.getInt("espiritus");
 				listaAtaques.add( new AtaqueEspecial(nombre,potencia,espiritu) );
 			}
 			return listaAtaques;
@@ -136,8 +136,8 @@ public class BaseDeDatos {
 			logger.log( Level.INFO, "Statement: " + sent );
 			ResultSet rs = statement.executeQuery( sent );
 			while( rs.next() ) { 
-				int puntosdefensa = rs.getInt("puntosDeDefensas");
-				String nombre = rs.getString("nombre");
+				int puntosdefensa = rs.getInt("puntosDeDefensa");
+				String nombre = rs.getString("nombres");
 				int precio = rs.getInt("precio");
 				listaEquipacion.add( new Equipacion(puntosdefensa,nombre,precio) );
 			}
@@ -155,7 +155,7 @@ public class BaseDeDatos {
 			logger.log( Level.INFO, "Statement: " + sent );
 			ResultSet rs = statement.executeQuery( sent );
 			while( rs.next() ) { 
-				String nombre = rs.getString("nombre");
+				String nombre = rs.getString("nombres");
 				int precio = rs.getInt("precio");
 				int puntossalud = rs.getInt("puntossalud");
 				listaPociones.add( new Pociones(nombre,precio,puntossalud) );
@@ -169,7 +169,9 @@ public class BaseDeDatos {
 	
 	
 	public static void main(String[] args) {
-		abrirConexion("BaseDatos", true);
+		abrirConexion("BaseDatos.db", true);
+		
+		
 	}
 	
 	
