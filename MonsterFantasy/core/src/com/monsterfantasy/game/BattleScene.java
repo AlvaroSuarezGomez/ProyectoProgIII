@@ -101,11 +101,20 @@ public class BattleScene extends ScreenAdapter {
 		hp_container.draw(batch, 185, 456, enemyHP_width, 10);
 		System.out.println(playerHP_width);
 		
-		if (Gdx.input.isKeyPressed(Keys.G)) {
-			heroe.setPv(heroe.getPv()-1);
+		if (Gdx.input.isKeyPressed(Keys.Z)) {
+			heroe.ataque(enemigo);
+			enemigo.ataque(heroe); 
+			}
+		
+		if (enemigo.getPv() <= 0) {
+			heroe.setExp(heroe.getExp() + enemigo.getExprecompensa());
+			game.getScreen().dispose();
+			game.setScreen(new OverworldScene(game));
 		}
-		if (Gdx.input.isKeyPressed(Keys.E)) {
-			enemigo.setPv(enemigo.getPv()-1);
+		
+		if (heroe.getPv() <= 0) {
+			heroe.setPv(heroe.getPvmax());
+			game.setScreen(new OverworldScene(game));
 		}
 		
 		batch.end();
