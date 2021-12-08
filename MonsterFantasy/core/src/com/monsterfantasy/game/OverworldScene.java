@@ -3,6 +3,7 @@ package com.monsterfantasy.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,10 +19,9 @@ import com.monsterfantasy.game.overworld.Avatar;
 import com.monsterfantasy.game.overworld.Controller;
 import com.monsterfantasy.game.overworld.Overworld;
 
-public class OverworldScene extends BaseScene {
+public class OverworldScene extends ScreenAdapter {
 	private SpriteBatch batch;
 	private Monsterfantasy game;
-	private Camera cam;
 	private TextureRegion region;
 	private Heroe heroe;
 	private Overworld map = new Overworld();
@@ -29,9 +29,9 @@ public class OverworldScene extends BaseScene {
 	private Partida partida;
 	
 	public OverworldScene(Monsterfantasy game) {
-		super(game);
+		super();
 		this.game = game;
-		setCam(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		game.setCam(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		map.setGame(game);
 		map.setTileSet(new Texture("Overworld tileset.png"));
 		map.setSuelo(new TextureRegion(getMap().getTileSet(), 0, 0, 64, 64));
@@ -39,17 +39,16 @@ public class OverworldScene extends BaseScene {
 		batch = game.getBatch();
 		partida = game.getPartida();
 		heroe = game.getHeroe();
-		
 	}
 	
 	@Override
 	public void render(float dt) {
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-		batch.setProjectionMatrix(getCam().combined);
+		game.getCam().position.set(getPlayer().getX(), getPlayer().getY(), 0);
+		batch.setProjectionMatrix(game.getCam().combined);
 		batch.begin();
 		Controller.player = getPlayer();
-		getCam().position.set(getPlayer().getX(), getPlayer().getY(), 0);
-		getCam().update();
+		game.getCam().update();
 		Controller.Control();
 		getMap().setTileSet(new Texture("Overworld tileset.png"));
 		getMap().setSuelo(new TextureRegion(getMap().getTileSet(), 16, 0, 16, 16));
@@ -62,10 +61,8 @@ public class OverworldScene extends BaseScene {
 	public void dispose() {
 		partida.guardarpartida();
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
-		//Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
 		map.dispose();
-		//batch.dispose();
-		//super.dispose();
+		super.dispose();
 	}
 
 	public Heroe getHeroe() {
@@ -106,13 +103,5 @@ public class OverworldScene extends BaseScene {
 
 	public void setGame(Monsterfantasy game) {
 		this.game = game;
-	}
-
-	public Camera getCam() {
-		return cam;
-	}
-
-	public void setCam(Camera cam) {
-		this.cam = cam;
 	}
 }

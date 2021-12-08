@@ -27,6 +27,7 @@ import com.monsterfantasy.game.overworld.Overworld;
 public class Monsterfantasy extends Game {
 	private SpriteBatch batch;
 	private Heroe heroe;
+	private Camera cam;
 	private Partida partida;
 	private OverworldScene overworld;
 	private BattleScene battleScene;
@@ -38,9 +39,12 @@ public class Monsterfantasy extends Game {
 	
 	@Override
 	public void create () {
+		setCam(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		batch = new SpriteBatch();
-		this.setScreen(new OverworldScene(this));
-		this.setScreen(new BattleScene(this));
+		
+		overworld = new OverworldScene(this);
+		battleScene = new BattleScene(this);
+		this.screen = overworld;
 	}
 	
 	
@@ -48,7 +52,12 @@ public class Monsterfantasy extends Game {
 	public void render () {		
 		super.render();
 		if (Gdx.input.isKeyJustPressed(Keys.R)) {
+			this.screen.dispose();
 			this.setScreen(new BattleScene(this));
+		}
+		if (Gdx.input.isKeyJustPressed(Keys.O)) {
+			this.screen.dispose();
+			this.setScreen(new OverworldScene(this));
 		}
 	}
 	
@@ -118,6 +127,14 @@ public class Monsterfantasy extends Game {
 
 	public void setCurrentScreen(Screen currentScreen) {
 		this.currentScreen = currentScreen;
+	}
+	
+	public Camera getCam() {
+		return cam;
+	}
+
+	public void setCam(Camera cam) {
+		this.cam = cam;
 	}
 
 }

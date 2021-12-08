@@ -34,12 +34,12 @@ public abstract class BaseScene extends ScreenAdapter {
 
 	@Override
 	public void hide() {
-
+		super.hide();
 	}
 
 	@Override
 	public void dispose() {
-
+		super.dispose();
 	}
 
 }

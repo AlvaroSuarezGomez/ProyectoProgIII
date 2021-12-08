@@ -92,8 +92,6 @@ public class VentanaTabla extends JFrame {
 				config.height = 600;
 				config.foregroundFPS = 60;
 				
-				
-				
 				config.vSyncEnabled = true;
 				
 				config.x = 480;
