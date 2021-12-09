@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.monsterfantasy.game.battle.BaseDeDatos;
 import com.monsterfantasy.game.battle.Enemigo;
 import com.monsterfantasy.game.battle.Heroe;
@@ -73,7 +74,11 @@ public class BattleScene extends ScreenAdapter {
 				enemigo = e;
 			}
 		}
-		enemy_text = new Texture(Gdx.files.internal("enemigos/" + enemigo.getNombre() + ".png"));
+		try {
+			enemy_text = new Texture(Gdx.files.internal("enemigos/" + enemigo.getNombre() + ".png"));
+		} catch (GdxRuntimeException e) {
+			enemy_text = new Texture(Gdx.files.internal("enemigos/MissingNo.png"));
+		}
 		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
 		song.setLooping(true);
 	}
