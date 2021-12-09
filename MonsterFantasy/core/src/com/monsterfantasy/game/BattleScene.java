@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,6 +31,7 @@ import com.monsterfantasy.game.gestionpartidas.Partidas;
 import com.monsterfantasy.game.overworld.Avatar;
 import com.monsterfantasy.game.overworld.Controller;
 import com.monsterfantasy.game.overworld.Overworld;
+import com.monsterfantasy.game.utilities.GifDecoder;
 
 public class BattleScene extends ScreenAdapter {
 	private SpriteBatch batch;
@@ -53,6 +55,9 @@ public class BattleScene extends ScreenAdapter {
 	private float enemyHP_width;
 	private boolean canAttack = true;
 	private int playerHP;
+	private int enemyHP;
+	private Animation<TextureRegion> rickRolled;
+	float elapsed;
 	
 	public BattleScene(Monsterfantasy game) {
 		super();
@@ -73,26 +78,40 @@ public class BattleScene extends ScreenAdapter {
 		life = new Texture("HP.png");
 		hp_container = new NinePatch(life,0,0,0,0);
 		playerHP = heroe.getPv();
+		rickRolled = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("enemigos/RickRoll.gif").read());
+
+		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
+		song.setLooping(true);
+		
+		
 		
 		for (Enemigo e : enemigos) {
-			if (e.getNombre().equals("WarGreymon")) {
+			if (e.getNombre().equals("RickRoll")) {
 				enemigo = e;
-			}
+				song.stop();
+				song = Gdx.audio.newMusic(Gdx.files.internal("You have been rickrolled.mp3"));
 		}
+		}
+		
+		
 		try {
+			if (enemigo.getNombre() != "RickRoll") {
 			enemy_text = new Texture(Gdx.files.internal("enemigos/" + enemigo.getNombre() + ".png"));
+			}
 		} catch (GdxRuntimeException e) {
 			enemy_text = new Texture(Gdx.files.internal("enemigos/MissingNo.png"));
 		}
-		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
-		song.setLooping(true);
+		
+		enemyHP = enemigo.getPv();
+		
 	}
 	
 	@Override
 	public void render(float dt) {
+		elapsed += Gdx.graphics.getDeltaTime();
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		song.play();
-		enemyHP_width = (160f*enemigo.getPv())/enemigo.getPvmax();
+		enemyHP_width = (160f*enemyHP)/enemigo.getPvmax();
 		playerHP_width = (160f*playerHP)/heroe.getPvmax();
 		batch.setProjectionMatrix(game.getCam().combined);
 		batch.begin();
@@ -102,35 +121,34 @@ public class BattleScene extends ScreenAdapter {
 		batch.draw(hero_bar, 386, 128, 416, 160);
 		batch.draw(enemy_bar, 0, 400, 416, 160);
 		batch.draw(hero_region, 140, 124, 192, 257);
-		batch.draw(enemy_text, 450, 300);
+		if (enemigo.getNombre().equals("RickRoll"))  {
+			batch.draw(rickRolled.getKeyFrame(elapsed), 450, 300);
+		}
+		else {
+			batch.draw(enemy_text, 450, 300);
+		}
 		name.draw(batch, game.getPartida().getNombre(), 600, 250);
 		name.draw(batch, "Lvl. " + String.valueOf(game.getHeroe().getNv()), 700, 200);
 		name.draw(batch, enemigo.getNombre(), 75, 525);
-		hp.draw(batch, String.valueOf(heroe.getPv()) + "/" + String.valueOf(heroe.getPvmax()), 525f, 172.5f);
+		hp.draw(batch, String.valueOf(playerHP) + "/" + String.valueOf(heroe.getPvmax()), 525f, 172.5f);
 		hp_container.draw(batch, 490, 184, playerHP_width, 10);
 		hp_container.draw(batch, 185, 456, enemyHP_width, 10);
 		
 		if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
 			canAttack = false;
 			heroe.ataque(enemigo);
-			Timer.schedule(new Task() {
-				public void run() {
-					canAttack = true;
-					enemigo.ataque(heroe); 
-					playerHP = bajarVida(heroe.getPv(), playerHP);
-					System.out.println(heroe.getPv());
-					System.out.println(playerHP);
-				}
-			}, 1f);
-		}
+			bajarVidaEnemigo();
+			enemigo.ataque(heroe); 
+			bajarVidaJugador();
+			}
 		
-		if (enemigo.getPv() <= 0) {
+		if (enemyHP <= 0) {
 			heroe.setExp(heroe.getExp() + enemigo.getExprecompensa());
 			game.getScreen().dispose();
 			game.setScreen(new OverworldScene(game));
 		}
 		
-		if (heroe.getPv() <= 0) {
+		if (playerHP <= 0) {
 			heroe.setPv(heroe.getPvmax());
 			game.setScreen(new OverworldScene(game));
 		}
@@ -138,14 +156,47 @@ public class BattleScene extends ScreenAdapter {
 		batch.end();
 	}
 	
-	public int bajarVida(int vidaObjetivo, int vida) {
-		if (vida == vidaObjetivo) return vida;
-		
-		if (vida > vidaObjetivo) {
-			vida = bajarVida(vidaObjetivo, vida - 1);
-		}
-		return vida;
+	public void bajarVidaJugador() {
+			Thread barra = new Thread() {
+			    public void run() {
+			    	for (playerHP = playerHP; playerHP > heroe.getPv();) {
+			    	try {
+						Thread.sleep(10);
+						playerHP--;
+					}
+			    	catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+					
+					} canAttack = true;  
+			    	Thread.currentThread().interrupt(); 
+			    }
+			}; 
+			barra.start();		
 	}
+	
+	public void bajarVidaEnemigo() {
+		Thread barra = new Thread() {
+		    public void run() {
+		    	for (enemyHP = enemyHP; enemyHP > enemigo.getPv();) {
+		    	try {
+					Thread.sleep(10);
+					System.out.println(enemigo.getPv());
+					System.out.println(enemyHP);
+					enemyHP--;
+				}
+		    	catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				
+				}
+		    	Thread.currentThread().interrupt(); 
+		    }
+		}; 
+		barra.start();		
+}
 	
 
 	@Override
