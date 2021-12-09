@@ -2,6 +2,7 @@ package com.monsterfantasy.game;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.FileHandler;
 
 import com.badlogic.gdx.Audio;
@@ -83,14 +84,13 @@ public class BattleScene extends ScreenAdapter {
 		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
 		song.setLooping(true);
 		
+		Random r = new Random();
+		int id = r.nextInt((enemigos.size()-1) + 1);
+		enemigo = enemigos.get(id);
 		
-		
-		for (Enemigo e : enemigos) {
-			if (e.getNombre().equals("RickRoll")) {
-				enemigo = e;
+			if (enemigo.getNombre().equals("RickRoll")) {
 				song.stop();
 				song = Gdx.audio.newMusic(Gdx.files.internal("You have been rickrolled.mp3"));
-		}
 		}
 		
 		
@@ -207,9 +207,11 @@ public class BattleScene extends ScreenAdapter {
 		background.dispose();
 		hero_text.dispose();
 		hero_bar.dispose();
+		enemy_text.dispose();
 		enemy_bar.dispose();
 		name.dispose();
 		hp.dispose();
+		life.dispose();	
 		super.dispose();
 	}
 
