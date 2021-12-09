@@ -20,6 +20,8 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.monsterfantasy.game.battle.BaseDeDatos;
 import com.monsterfantasy.game.battle.Enemigo;
 import com.monsterfantasy.game.battle.Heroe;
@@ -49,6 +51,8 @@ public class BattleScene extends ScreenAdapter {
 	NinePatch hp_container; 
 	private float playerHP_width;
 	private float enemyHP_width;
+	private boolean canAttack = true;
+	private int playerHP;
 	
 	public BattleScene(Monsterfantasy game) {
 		super();
@@ -68,6 +72,7 @@ public class BattleScene extends ScreenAdapter {
 		hp.getData().setScale(0.7f, 0.7f);
 		life = new Texture("HP.png");
 		hp_container = new NinePatch(life,0,0,0,0);
+		playerHP = heroe.getPv();
 		
 		for (Enemigo e : enemigos) {
 			if (e.getNombre().equals("WarGreymon")) {
@@ -88,7 +93,7 @@ public class BattleScene extends ScreenAdapter {
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		song.play();
 		enemyHP_width = (160f*enemigo.getPv())/enemigo.getPvmax();
-		playerHP_width = (160f*heroe.getPv())/heroe.getPvmax();
+		playerHP_width = (160f*playerHP)/heroe.getPvmax();
 		batch.setProjectionMatrix(game.getCam().combined);
 		batch.begin();
 		game.getCam().position.set(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
@@ -105,10 +110,19 @@ public class BattleScene extends ScreenAdapter {
 		hp_container.draw(batch, 490, 184, playerHP_width, 10);
 		hp_container.draw(batch, 185, 456, enemyHP_width, 10);
 		
-		if (Gdx.input.isKeyPressed(Keys.Z)) {
+		if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
+			canAttack = false;
 			heroe.ataque(enemigo);
-			enemigo.ataque(heroe); 
-			}
+			Timer.schedule(new Task() {
+				public void run() {
+					canAttack = true;
+					enemigo.ataque(heroe); 
+					playerHP = bajarVida(heroe.getPv(), playerHP);
+					System.out.println(heroe.getPv());
+					System.out.println(playerHP);
+				}
+			}, 1f);
+		}
 		
 		if (enemigo.getPv() <= 0) {
 			heroe.setExp(heroe.getExp() + enemigo.getExprecompensa());
@@ -123,6 +137,16 @@ public class BattleScene extends ScreenAdapter {
 		
 		batch.end();
 	}
+	
+	public int bajarVida(int vidaObjetivo, int vida) {
+		if (vida == vidaObjetivo) return vida;
+		
+		if (vida > vidaObjetivo) {
+			vida = bajarVida(vidaObjetivo, vida - 1);
+		}
+		return vida;
+	}
+	
 
 	@Override
 	public void dispose() {
@@ -152,5 +176,21 @@ public class BattleScene extends ScreenAdapter {
 
 	public void setGame(Monsterfantasy game) {
 		this.game = game;
+	}
+
+	public boolean isCanAttack() {
+		return canAttack;
+	}
+
+	public void setCanAttack(boolean canAttack) {
+		this.canAttack = canAttack;
+	}
+
+	public int getPlayerHP() {
+		return playerHP;
+	}
+
+	public void setPlayerHP(int playerHP) {
+		this.playerHP = playerHP;
 	}
 }

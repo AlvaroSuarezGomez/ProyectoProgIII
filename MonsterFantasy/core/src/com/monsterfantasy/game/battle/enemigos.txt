@@ -1,4 +1,4 @@
-15	20	5	true	20	Zarpitas	1
-10	15	2	false	25	Cromi	3
-5	10	1	true	5	Mii	2
-100	100	100	false	100	WarGreymon	4
+15	20	5	5	true	20	Zarpitas	1
+10	15	2	2	false	25	Cromi	3
+5	10	1	1	true	5	Mii	2
+100	100	100	100	false	100	WarGreymon	4

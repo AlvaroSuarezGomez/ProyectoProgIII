@@ -41,7 +41,7 @@ public class BaseDeDatos {
 					while (scanner.hasNextLine()) {
 						String linea = scanner.nextLine();
 						String[] datos = linea.split( "\t" );
-						sent = "insert into enemigos (pv, pvmax, defensa, posicionguardia,exprecompensa,nombre,espiritu) values (" + datos[0] + "," + datos[1] + "," + datos[2] + ","+datos[3] + "," + datos[4] +",'"+ datos[5] +"',"+ datos[6]+" );";
+						sent = "insert into enemigos (pv, pvmax, ataque, defensa, posicionguardia, exprecompensa, nombre, espiritu) values (" + datos[0] + "," + datos[1] + "," + datos[2] + ","+datos[3] + "," + datos[4] +","+ datos[5] +",'"+ datos[6]+ "'," + datos[7] +" );";
 						logger.log( Level.INFO, "Statement: " + sent );
 						statement.executeUpdate( sent );
 						
