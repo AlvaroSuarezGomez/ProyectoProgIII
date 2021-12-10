@@ -150,6 +150,7 @@ public class BattleScene extends ScreenAdapter {
 		
 		if (playerHP <= 0) {
 			heroe.setPv(heroe.getPvmax());
+			game.getScreen().dispose();
 			game.setScreen(new OverworldScene(game));
 		}
 		

@@ -13,8 +13,8 @@ public class Overworld extends Actor {
 	
 	private Monsterfantasy game;
 	private final int tamano_celda = 64;
-	private final int ancho_mapa = 1000 * 64;
-	private final int alto_mapa = 1000 * 64;
+	private final int ancho_mapa = 100 * 64;
+	private final int alto_mapa = 100 * 64;
 	private final int spawnPoint_x = ancho_mapa/2;
 	private final int spawnPoint_y = alto_mapa/2;
 	private Celda[][] celdas = new Celda[getAnchoMapa()/64][getAltoMapa()/64];
