@@ -18,7 +18,7 @@ public class BaseDeDatosTest {
 	@Test
 	public void testGetEnemigos() {
 		assertEquals("Zarpitas", BaseDeDatos.getEnemigos().get(0).getNombre());  //El nombre del primer enemigo se ha obtenido correctamente
-		assertEquals(3, BaseDeDatos.getEnemigos().size());
+		assertEquals(5, BaseDeDatos.getEnemigos().size());
 		
 	}
 

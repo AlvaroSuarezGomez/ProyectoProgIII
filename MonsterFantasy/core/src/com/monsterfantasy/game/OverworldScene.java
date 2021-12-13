@@ -16,8 +16,10 @@ import com.monsterfantasy.game.battle.Heroe;
 import com.monsterfantasy.game.gestionpartidas.Partida;
 import com.monsterfantasy.game.gestionpartidas.Partidas;
 import com.monsterfantasy.game.overworld.Avatar;
+import com.monsterfantasy.game.overworld.Celda;
 import com.monsterfantasy.game.overworld.Controller;
 import com.monsterfantasy.game.overworld.Overworld;
+import com.monsterfantasy.game.overworld.TipoCelda;
 
 public class OverworldScene extends ScreenAdapter {
 	private SpriteBatch batch;
@@ -35,6 +37,7 @@ public class OverworldScene extends ScreenAdapter {
 		map.setGame(game);
 		map.setTileSet(new Texture("Overworld tileset.png"));
 		map.setSuelo(new TextureRegion(getMap().getTileSet(), 0, 0, 64, 64));
+		map.setArbol(new TextureRegion(getMap().getTileSet(), 704, 0, 64, 64));
 		Controller.SetTexture(getPlayer());
 		batch = game.getBatch();
 		partida = game.getPartida();

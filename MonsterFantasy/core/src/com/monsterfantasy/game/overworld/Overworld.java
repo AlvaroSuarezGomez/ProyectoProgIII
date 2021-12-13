@@ -55,6 +55,14 @@ public class Overworld extends Actor {
 	public void setSuelo(TextureRegion suelo) {
 		this.suelo = suelo;
 	}
+	
+	public TextureRegion getArbol() {
+		return arbol;
+	}
+
+	public void setArbol(TextureRegion arbol) {
+		this.arbol = arbol;
+	}
 
 	public Texture getTileSet() {
 		return tileSet;
@@ -100,7 +108,7 @@ public class Overworld extends Actor {
 	public void dispose() {
 		suelo.getTexture().dispose();
 		//hierba.getTexture().dispose();
-		//arbol.getTexture().dispose();
+		arbol.getTexture().dispose();
 		tileSet.dispose();
 	}
 	
