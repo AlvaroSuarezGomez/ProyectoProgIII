@@ -1,6 +1,8 @@
 package com.monsterfantasy.game.overworld;
 
-import com.badlogic.gdx.Gdx;
+import java.io.Serializable;
+
+import com.badlogic.gdx.Gdx; 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,7 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.monsterfantasy.game.Monsterfantasy;
 import com.monsterfantasy.game.OverworldScene;
 
-public class Overworld extends Actor {
+public class Overworld extends Actor implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 261615780511554392L;
 	
 	private Monsterfantasy game;
 	private final int tamano_celda = 64;
