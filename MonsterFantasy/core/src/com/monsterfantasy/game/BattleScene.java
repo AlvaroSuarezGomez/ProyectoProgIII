@@ -35,6 +35,7 @@ import com.monsterfantasy.game.overworld.Overworld;
 import com.monsterfantasy.game.utilities.GifDecoder;
 
 public class BattleScene extends ScreenAdapter {
+	private comandos selectedCommand;
 	private SpriteBatch batch;
 	private Monsterfantasy game;
 	private Texture background;
@@ -44,6 +45,12 @@ public class BattleScene extends ScreenAdapter {
 	private Texture hero_bar;
 	private Texture enemy_bar;
 	private Texture life;
+	private Texture attackButton;
+	private Texture specialAttackButton;
+	private Texture guardButton;
+	private Texture objectButton;
+	private Texture selectorButton;
+	private BitmapFont combatText;
 	private BitmapFont name;
 	private BitmapFont hp;
 	private Heroe heroe;
@@ -69,6 +76,11 @@ public class BattleScene extends ScreenAdapter {
 		hero_bar = new Texture("HeroBar.png");
 		hero_region = new TextureRegion(hero_text, 175, 234);
 		enemy_bar = new Texture("EnemyBar.png");
+		attackButton = new Texture("AttackButton.png");
+		specialAttackButton = new Texture("SpecialAttackButton.png");
+		guardButton = new Texture("GuardButton.png");
+		objectButton = new Texture("ObjectButton.png");
+		selectorButton = new Texture("Selector.png");
 		batch = game.getBatch();
 		partida = game.getPartida();
 		heroe = game.getHeroe();
@@ -76,11 +88,14 @@ public class BattleScene extends ScreenAdapter {
 		name.getData().setScale(1.5f, 1.5f);
 		hp = new BitmapFont(Gdx.files.internal("pokemon-dp-pro.fnt"), Gdx.files.internal("pokemon-dp-pro.png"), false);
 		hp.getData().setScale(0.7f, 0.7f);
+		combatText = new BitmapFont(Gdx.files.internal("pokemon-dp-pro.fnt"), Gdx.files.internal("pokemon-dp-pro.png"), false);
+		combatText.getData().setScale(1.5f, 1.5f);
 		life = new Texture("HP.png");
 		hp_container = new NinePatch(life,0,0,0,0);
 		playerHP = heroe.getPv();
 		rickRolled = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("enemigos/RickRoll.gif").read());
-
+		selectedCommand = comandos.Ataque;
+		
 		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
 		song.setLooping(true);
 		
@@ -121,6 +136,11 @@ public class BattleScene extends ScreenAdapter {
 		batch.draw(hero_bar, 386, 128, 416, 160);
 		batch.draw(enemy_bar, 0, 400, 416, 160);
 		batch.draw(hero_region, 140, 124, 192, 257);
+		batch.draw(attackButton, 450, 65, 156, 44);
+		batch.draw(guardButton, 610, 65, 156, 44);
+		batch.draw(objectButton, 450, 15, 156, 44);
+		batch.draw(specialAttackButton, 610, 15, 156, 44);
+		combatText.draw(batch, "Selecciona un comando:", 20, 80);
 		if (enemigo.getNombre().equals("RickRoll"))  {
 			batch.draw(rickRolled.getKeyFrame(elapsed), 450, 300);
 		}
@@ -133,6 +153,8 @@ public class BattleScene extends ScreenAdapter {
 		hp.draw(batch, String.valueOf(playerHP) + "/" + String.valueOf(heroe.getPvmax()), 525f, 172.5f);
 		hp_container.draw(batch, 490, 184, playerHP_width, 10);
 		hp_container.draw(batch, 185, 456, enemyHP_width, 10);
+		
+		seleccionarComando();
 		
 		if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
 			canAttack = false;
@@ -198,6 +220,28 @@ public class BattleScene extends ScreenAdapter {
 		}; 
 		barra.start();		
 }
+	
+	public enum comandos {
+		Ataque,
+		AtaqueEspecial,
+		Guardia,
+		Objeto
+	}
+	
+	public void seleccionarComando() {
+		if (selectedCommand == comandos.Ataque) {
+			batch.draw(selectorButton, 450, 65, 156, 44);
+			if (Gdx.input.isButtonJustPressed(Keys.D)) {
+				selectedCommand = comandos.Guardia;
+			}
+		} else if (selectedCommand == comandos.AtaqueEspecial) {
+			batch.draw(selectorButton, 610, 15, 156, 44);
+		} else if (selectedCommand == comandos.Guardia) {
+			batch.draw(selectorButton, 610, 65, 156, 44);
+		} else if (selectedCommand == comandos.Objeto) {
+			batch.draw(selectorButton, 450, 15, 156, 44);
+		}
+	}
 	
 
 	@Override
