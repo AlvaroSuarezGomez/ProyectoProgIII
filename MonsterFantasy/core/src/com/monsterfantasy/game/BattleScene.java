@@ -151,18 +151,13 @@ public class BattleScene extends ScreenAdapter {
 		name.draw(batch, "Lvl. " + String.valueOf(game.getHeroe().getNv()), 700, 200);
 		name.draw(batch, enemigo.getNombre(), 75, 525);
 		hp.draw(batch, String.valueOf(playerHP) + "/" + String.valueOf(heroe.getPvmax()), 525f, 172.5f);
+		hp.draw(batch, "PE: " + String.valueOf(heroe.getEspiritu()), 525f, 150f);
 		hp_container.draw(batch, 490, 184, playerHP_width, 10);
 		hp_container.draw(batch, 185, 456, enemyHP_width, 10);
 		
 		seleccionarComando();
 		
-		if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
-			canAttack = false;
-			heroe.ataque(enemigo);
-			bajarVidaEnemigo();
-			enemigo.ataque(heroe); 
-			bajarVidaJugador();
-			}
+		
 		
 		if (enemyHP <= 0) {
 			heroe.setExp(heroe.getExp() + enemigo.getExprecompensa());
@@ -231,18 +226,49 @@ public class BattleScene extends ScreenAdapter {
 	public void seleccionarComando() {
 		if (selectedCommand == comandos.Ataque) {
 			batch.draw(selectorButton, 450, 65, 156, 44);
-			if (Gdx.input.isButtonJustPressed(Keys.D)) {
-				selectedCommand = comandos.Guardia;
+			if (Gdx.input.isKeyJustPressed(Keys.D)) selectedCommand = comandos.Guardia;
+			else if (Gdx.input.isKeyJustPressed(Keys.S)) selectedCommand = comandos.Objeto;
+			
+			else if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
+				canAttack = false;
+				heroe.ataque(enemigo);
+				bajarVidaEnemigo();
+				enemigo.ataque(heroe); 
+				bajarVidaJugador();
+				}
 			}
-		} else if (selectedCommand == comandos.AtaqueEspecial) {
-			batch.draw(selectorButton, 610, 15, 156, 44);
-		} else if (selectedCommand == comandos.Guardia) {
+		
+		
+		else if (selectedCommand == comandos.Guardia) {
 			batch.draw(selectorButton, 610, 65, 156, 44);
-		} else if (selectedCommand == comandos.Objeto) {
+			if (Gdx.input.isKeyJustPressed(Keys.A)) selectedCommand = comandos.Ataque;
+			else if (Gdx.input.isKeyJustPressed(Keys.S)) selectedCommand = comandos.AtaqueEspecial;
+			
+			else if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
+				canAttack = false;
+				heroe.guardia();
+				enemigo.ataque(heroe); 
+				bajarVidaJugador();
+				}
+			}
+		
+		else if (selectedCommand == comandos.Objeto) {
 			batch.draw(selectorButton, 450, 15, 156, 44);
+			if (Gdx.input.isKeyJustPressed(Keys.D)) selectedCommand = comandos.AtaqueEspecial;
+			else if (Gdx.input.isKeyJustPressed(Keys.W)) selectedCommand = comandos.Ataque;
+			
+			
 		}
+		
+		else if (selectedCommand == comandos.AtaqueEspecial) {
+			batch.draw(selectorButton, 610, 15, 156, 44);
+			if (Gdx.input.isKeyJustPressed(Keys.A)) selectedCommand = comandos.Objeto;
+			else if (Gdx.input.isKeyJustPressed(Keys.W)) selectedCommand = comandos.Guardia;	
+			
+			
+		}
+		
 	}
-	
 
 	@Override
 	public void dispose() {

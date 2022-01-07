@@ -190,7 +190,7 @@ public class Heroe extends Personaje {
 	 */
 	public void guardia() {
 		this.posicionguardia = true;
-		this.espiritu = this.espiritu + 2;
+		this.setEspiritu(this.getEspiritu()+2);
 
 	}
 
