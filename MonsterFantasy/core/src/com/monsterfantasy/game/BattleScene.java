@@ -219,12 +219,14 @@ public class BattleScene extends ScreenAdapter {
 		
 		//Finalizar combate
 		if (enemyHP <= 0) {
+			enemyHP = 0;
 			heroe.setExp(heroe.getExp() + enemigo.getExprecompensa());
 			game.getScreen().dispose();
 			game.setScreen(new OverworldScene(game));
 		}
 		
 		if (playerHP <= 0) {
+			playerHP = 0;
 			heroe.setPv(heroe.getPvmax());
 			game.getScreen().dispose();
 			game.setScreen(new OverworldScene(game));
