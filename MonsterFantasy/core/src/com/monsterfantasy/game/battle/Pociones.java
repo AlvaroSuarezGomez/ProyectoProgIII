@@ -10,11 +10,11 @@ public class Pociones extends Objeto implements Consumible, Serializable{
 	/**
 	 *  Puntos de salud que recupera la pocion
 	 */
-	protected int puntossalud;
+	private int puntossalud;
 
 	public Pociones(String nombre, int precio, int puntossalud) {
 		super(nombre, precio);
-		this.puntossalud = puntossalud;
+		this.setPuntossalud(puntossalud);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -22,15 +22,23 @@ public class Pociones extends Objeto implements Consumible, Serializable{
 	public void consumir(Heroe h) {
 		// TODO Auto-generated method stub
 		
-		if(this.puntossalud + h.getPv() > h.getPvmax()) {
+		if(this.getPuntossalud() + h.getPv() > h.getPvmax()) {
 			h.setPv(h.getPvmax());
 			h.getPociones().remove(this); 
 		}
 		
 		else {
-			h.setPv(this.puntossalud + h.getPv());
+			h.setPv(this.getPuntossalud() + h.getPv());
 			h.getPociones().remove(this);
 		}
+	}
+
+	public int getPuntossalud() {
+		return puntossalud;
+	}
+
+	public void setPuntossalud(int puntossalud) {
+		this.puntossalud = puntossalud;
 	}
 	
 	

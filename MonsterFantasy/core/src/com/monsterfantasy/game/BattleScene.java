@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.monsterfantasy.game.battle.AtaqueEspecial;
 import com.monsterfantasy.game.battle.BaseDeDatos;
 import com.monsterfantasy.game.battle.Enemigo;
 import com.monsterfantasy.game.battle.Heroe;
@@ -34,8 +35,13 @@ import com.monsterfantasy.game.overworld.Controller;
 import com.monsterfantasy.game.overworld.Overworld;
 import com.monsterfantasy.game.utilities.GifDecoder;
 
+import Test.BaseDeDatosTest;
+
 public class BattleScene extends ScreenAdapter {
+	private int selectedSpecialAttack = 0;
+	private int selectedItem = 0;
 	private comandos selectedCommand;
+	private interfaz UI;
 	private SpriteBatch batch;
 	private Monsterfantasy game;
 	private Texture background;
@@ -94,7 +100,11 @@ public class BattleScene extends ScreenAdapter {
 		hp_container = new NinePatch(life,0,0,0,0);
 		playerHP = heroe.getPv();
 		rickRolled = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("enemigos/RickRoll.gif").read());
+		UI = interfaz.SeleccionComando;
 		selectedCommand = comandos.Ataque;
+		
+		//PROVISIONAL, QUITAR EN ENTREGA FINAL
+		heroe.getPociones().add(BaseDeDatos.getPociones().get(0));
 		
 		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
 		song.setLooping(true);
@@ -126,6 +136,8 @@ public class BattleScene extends ScreenAdapter {
 		elapsed += Gdx.graphics.getDeltaTime();
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		song.play();
+		
+		//Dibujado elementos de interfaz
 		enemyHP_width = (160f*enemyHP)/enemigo.getPvmax();
 		playerHP_width = (160f*playerHP)/heroe.getPvmax();
 		batch.setProjectionMatrix(game.getCam().combined);
@@ -136,11 +148,7 @@ public class BattleScene extends ScreenAdapter {
 		batch.draw(hero_bar, 386, 128, 416, 160);
 		batch.draw(enemy_bar, 0, 400, 416, 160);
 		batch.draw(hero_region, 140, 124, 192, 257);
-		batch.draw(attackButton, 450, 65, 156, 44);
-		batch.draw(guardButton, 610, 65, 156, 44);
-		batch.draw(objectButton, 450, 15, 156, 44);
-		batch.draw(specialAttackButton, 610, 15, 156, 44);
-		combatText.draw(batch, "Selecciona un comando:", 20, 80);
+		
 		if (enemigo.getNombre().equals("RickRoll"))  {
 			batch.draw(rickRolled.getKeyFrame(elapsed), 450, 300);
 		}
@@ -150,15 +158,77 @@ public class BattleScene extends ScreenAdapter {
 		name.draw(batch, game.getPartida().getNombre(), 600, 250);
 		name.draw(batch, "Lvl. " + String.valueOf(game.getHeroe().getNv()), 700, 200);
 		name.draw(batch, enemigo.getNombre(), 75, 525);
-		hp.draw(batch, String.valueOf(playerHP) + "/" + String.valueOf(heroe.getPvmax()), 525f, 172.5f);
-		hp.draw(batch, "PE: " + String.valueOf(heroe.getEspiritu()), 525f, 150f);
+		hp.draw(batch, String.valueOf(playerHP) + "/" + String.valueOf(heroe.getPvmax()), 500f, 172.5f);
+		hp.draw(batch, "PE: " + String.valueOf(heroe.getEspiritu()), 600f, 172.5f);
 		hp_container.draw(batch, 490, 184, playerHP_width, 10);
 		hp_container.draw(batch, 185, 456, enemyHP_width, 10);
 		
+		//Menú de combate
+		if (UI == interfaz.SeleccionComando) { 
+		batch.draw(attackButton, 450, 65, 156, 44);
+		batch.draw(guardButton, 610, 65, 156, 44);
+		batch.draw(objectButton, 450, 15, 156, 44);
+		batch.draw(specialAttackButton, 610, 15, 156, 44);
+		combatText.draw(batch, "Selecciona un comando:", 20, 80);
 		seleccionarComando();
+		}
+		
+		else if (UI == interfaz.SeleccionAtaqueEspecial) {
+			combatText.draw(batch, heroe.getAtaques().get(selectedSpecialAttack).getNombre(), 100, 80);
+			combatText.draw(batch, "Requiere " + String.valueOf(heroe.getAtaques().get(selectedSpecialAttack).getEspiritu()) + " PE", 500, 80);
+			
+			if ((Gdx.input.isKeyJustPressed(Keys.D)) && selectedSpecialAttack < heroe.getAtaques().size()-1) {
+				selectedSpecialAttack += 1;
+			}
+			
+			else if ((Gdx.input.isKeyJustPressed(Keys.A)) && selectedSpecialAttack > 0) {
+				selectedSpecialAttack -= 1;
+			}
+			
+			else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getEspiritu() >= heroe.getAtaques().get(selectedSpecialAttack).getEspiritu())) {
+				canAttack = false;
+				heroe.setEspiritu(heroe.getEspiritu()-heroe.getAtaques().get(selectedSpecialAttack).getEspiritu());
+				heroe.ataqueespecial(enemigo, heroe.getAtaques().get(selectedSpecialAttack));
+				bajarVidaEnemigo();
+				enemigo.ataque(heroe); 
+				bajarVidaJugador();
+				UI = interfaz.SeleccionComando;
+			}
+			
+			else if (Gdx.input.isKeyJustPressed(Keys.X)) {
+				UI = interfaz.SeleccionComando;
+			}
+			
+		}
+		
+		else if (UI == interfaz.SeleccionObjeto) {
+			combatText.draw(batch, heroe.getPociones().get(selectedItem).getNombre(), 100, 80);
+			combatText.draw(batch, "Recupera " + String.valueOf(heroe.getPociones().get(selectedItem).getPuntossalud()) + " PV", 500, 80);
+			
+			if ((Gdx.input.isKeyJustPressed(Keys.D)) && selectedItem < heroe.getPociones().size()-1) {
+				selectedItem += 1;
+			}
+			
+			else if ((Gdx.input.isKeyJustPressed(Keys.A)) && selectedItem > 0) {
+				selectedItem -= 1;
+			}
+			
+			else if ((Gdx.input.isKeyJustPressed(Keys.Z))) {
+				canAttack = false;
+				heroe.getPociones().get(selectedItem).consumir(heroe);
+				subirVidaJugador();
+				enemigo.ataque(heroe); 
+				bajarVidaJugador();
+				UI = interfaz.SeleccionComando;
+			}
+			
+			else if (Gdx.input.isKeyJustPressed(Keys.X)) {
+				UI = interfaz.SeleccionComando;
+			}
+		}
 		
 		
-		
+		//Finalizar combate
 		if (enemyHP <= 0) {
 			heroe.setExp(heroe.getExp() + enemigo.getExprecompensa());
 			game.getScreen().dispose();
@@ -194,6 +264,26 @@ public class BattleScene extends ScreenAdapter {
 			barra.start();		
 	}
 	
+	public void subirVidaJugador() {
+		Thread barra = new Thread() {
+		    public void run() {
+		    	for (playerHP = playerHP; playerHP < heroe.getPv();) {
+		    	try {
+					Thread.sleep(10);
+					playerHP++;
+				}
+		    	catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				
+				} canAttack = true;  
+		    	Thread.currentThread().interrupt(); 
+		    }
+		}; 
+		barra.start();		
+}
+	
 	public void bajarVidaEnemigo() {
 		Thread barra = new Thread() {
 		    public void run() {
@@ -216,6 +306,15 @@ public class BattleScene extends ScreenAdapter {
 		barra.start();		
 }
 	
+	
+	
+	public enum interfaz {
+		SeleccionComando,
+		SeleccionAtaqueEspecial,
+		SeleccionObjeto,
+		Texto
+	}
+	
 	public enum comandos {
 		Ataque,
 		AtaqueEspecial,
@@ -231,6 +330,7 @@ public class BattleScene extends ScreenAdapter {
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
 				canAttack = false;
+				heroe.setEspiritu(heroe.getEspiritu() + 1);
 				heroe.ataque(enemigo);
 				bajarVidaEnemigo();
 				enemigo.ataque(heroe); 
@@ -257,7 +357,9 @@ public class BattleScene extends ScreenAdapter {
 			if (Gdx.input.isKeyJustPressed(Keys.D)) selectedCommand = comandos.AtaqueEspecial;
 			else if (Gdx.input.isKeyJustPressed(Keys.W)) selectedCommand = comandos.Ataque;
 			
-			
+			else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && heroe.getPociones().size() > 0) {
+				UI = interfaz.SeleccionObjeto;
+			}
 		}
 		
 		else if (selectedCommand == comandos.AtaqueEspecial) {
@@ -265,6 +367,9 @@ public class BattleScene extends ScreenAdapter {
 			if (Gdx.input.isKeyJustPressed(Keys.A)) selectedCommand = comandos.Objeto;
 			else if (Gdx.input.isKeyJustPressed(Keys.W)) selectedCommand = comandos.Guardia;	
 			
+			else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && heroe.getAtaques().size() > 0) {
+				UI = interfaz.SeleccionAtaqueEspecial;
+			}
 			
 		}
 		

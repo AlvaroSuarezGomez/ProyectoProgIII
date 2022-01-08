@@ -47,6 +47,8 @@ public class Monsterfantasy extends Game {
 		overworld = new OverworldScene(this);
 		battleScene = new BattleScene(this);
 		this.screen = overworld;
+		
+		heroe.setAtaques(BaseDeDatos.getAtaques());
 	}
 	
 	
