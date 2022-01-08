@@ -185,14 +185,8 @@ public class BattleScene extends ScreenAdapter {
 				selectedSpecialAttack -= 1;
 			}
 			
-			else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getEspiritu() >= heroe.getAtaques().get(selectedSpecialAttack).getEspiritu())) {
-				canAttack = false;
-				heroe.setEspiritu(heroe.getEspiritu()-heroe.getAtaques().get(selectedSpecialAttack).getEspiritu());
-				heroe.ataqueespecial(enemigo, heroe.getAtaques().get(selectedSpecialAttack));
-				bajarVidaEnemigo();
-				enemigo.ataque(heroe); 
-				bajarVidaJugador();
-				UI = interfaz.SeleccionComando;
+			else if (canAttack && (Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getEspiritu() >= heroe.getAtaques().get(selectedSpecialAttack).getEspiritu())) {
+				usarAtaqueEspecial();
 			}
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.X)) {
@@ -214,15 +208,10 @@ public class BattleScene extends ScreenAdapter {
 			}
 			
 			else if ((Gdx.input.isKeyJustPressed(Keys.Z))) {
-				canAttack = false;
-				heroe.getPociones().get(selectedItem).consumir(heroe);
-				subirVidaJugador();
-				enemigo.ataque(heroe); 
-				bajarVidaJugador();
-				UI = interfaz.SeleccionComando;
+				usarObjeto();		
 			}
 			
-			else if (Gdx.input.isKeyJustPressed(Keys.X)) {
+			else if (canAttack && (Gdx.input.isKeyJustPressed(Keys.X))) {
 				UI = interfaz.SeleccionComando;
 			}
 		}
@@ -329,12 +318,7 @@ public class BattleScene extends ScreenAdapter {
 			else if (Gdx.input.isKeyJustPressed(Keys.S)) selectedCommand = comandos.Objeto;
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
-				canAttack = false;
-				heroe.setEspiritu(heroe.getEspiritu() + 1);
-				heroe.ataque(enemigo);
-				bajarVidaEnemigo();
-				enemigo.ataque(heroe); 
-				bajarVidaJugador();
+				atacar();
 				}
 			}
 		
@@ -345,10 +329,7 @@ public class BattleScene extends ScreenAdapter {
 			else if (Gdx.input.isKeyJustPressed(Keys.S)) selectedCommand = comandos.AtaqueEspecial;
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
-				canAttack = false;
-				heroe.guardia();
-				enemigo.ataque(heroe); 
-				bajarVidaJugador();
+				guardia();
 				}
 			}
 		
@@ -369,10 +350,101 @@ public class BattleScene extends ScreenAdapter {
 			
 			else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && heroe.getAtaques().size() > 0) {
 				UI = interfaz.SeleccionAtaqueEspecial;
-			}
-			
+			}	
 		}
-		
+	}
+	
+	public void atacar() {
+		Thread ataque = new Thread() {
+		    public void run() {
+		    	try {
+		    		canAttack = false;
+		    		heroe.setEspiritu(heroe.getEspiritu() + 1);
+					heroe.ataque(enemigo);
+					bajarVidaEnemigo();
+					Thread.sleep(1000);
+					enemigo.ataque(heroe); 
+					bajarVidaJugador();
+					Thread.sleep(1000);
+					UI = interfaz.SeleccionComando;
+				}
+		    	catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+		    	Thread.currentThread().interrupt(); 
+		    }
+		}; 
+		ataque.start();		
+	}
+	
+	public void guardia() {
+		Thread guardia = new Thread() {
+		    public void run() {
+		    	try {
+		    		canAttack = false;
+		    		heroe.guardia();
+					Thread.sleep(1000);
+					enemigo.ataque(heroe); 
+					bajarVidaJugador();
+					Thread.sleep(1000);
+					UI = interfaz.SeleccionComando;
+				}
+		    	catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+		    	Thread.currentThread().interrupt(); 
+		    }
+		}; 
+		guardia.start();	
+	}
+	
+	public void usarObjeto() {
+		Thread objeto = new Thread() {
+		    public void run() {
+		    	try {
+		    		canAttack = false;
+					heroe.getPociones().get(selectedItem).consumir(heroe);
+					subirVidaJugador();
+					Thread.sleep(1000);
+					enemigo.ataque(heroe); 
+					bajarVidaJugador();
+					Thread.sleep(1000);
+					UI = interfaz.SeleccionComando;
+				}
+		    	catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+		    	Thread.currentThread().interrupt(); 
+		    }
+		}; 
+		objeto.start();			
+	}
+	
+	public void usarAtaqueEspecial() {
+		Thread ataqueEspecial = new Thread() {
+		    public void run() {
+		    	try {
+		    		canAttack = false;
+		    		heroe.setEspiritu(heroe.getEspiritu()-heroe.getAtaques().get(selectedSpecialAttack).getEspiritu());
+		    		heroe.ataqueespecial(enemigo, heroe.getAtaques().get(selectedSpecialAttack));
+		    		bajarVidaEnemigo();
+					Thread.sleep(1000);
+					enemigo.ataque(heroe); 
+					bajarVidaJugador();
+					Thread.sleep(1000);
+					UI = interfaz.SeleccionComando;
+				}
+		    	catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+		    	Thread.currentThread().interrupt(); 
+		    }
+		}; 
+		ataqueEspecial.start();			
 	}
 
 	@Override
