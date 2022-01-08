@@ -207,11 +207,11 @@ public class BattleScene extends ScreenAdapter {
 				selectedItem -= 1;
 			}
 			
-			else if ((Gdx.input.isKeyJustPressed(Keys.Z))) {
+			else if (canAttack && (Gdx.input.isKeyJustPressed(Keys.Z))) {
 				usarObjeto();		
 			}
 			
-			else if (canAttack && (Gdx.input.isKeyJustPressed(Keys.X))) {
+			else if ((Gdx.input.isKeyJustPressed(Keys.X))) {
 				UI = interfaz.SeleccionComando;
 			}
 		}
