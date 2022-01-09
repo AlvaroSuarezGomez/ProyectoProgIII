@@ -228,6 +228,16 @@ public class Heroe extends Personaje {
 		}
 
 	}
+	
+	public void subirNivel() {
+		if (this.exp >= 100) {
+			this.exp -= 100;
+			this.nv += 1;
+			this.pvmax += 10;
+			this.ataque += 10;
+			this.defensa += 3;
+		}
+	}
 
 	public ArrayList<Pociones> getPociones() {
 		return pociones;

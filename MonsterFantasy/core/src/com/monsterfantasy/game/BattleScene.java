@@ -58,6 +58,7 @@ public class BattleScene extends ScreenAdapter {
 	private Texture guardButton;
 	private Texture objectButton;
 	private Texture selectorButton;
+	private String text = "";
 	private BitmapFont combatText;
 	private BitmapFont name;
 	private BitmapFont hp;
@@ -110,11 +111,10 @@ public class BattleScene extends ScreenAdapter {
 		UI = interfaz.SeleccionComando;
 		selectedCommand = comandos.Ataque;
 		
-		//PROVISIONAL, QUITAR EN ENTREGA FINAL
-		
 		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
 		song.setLooping(true);
 		
+		//Randomizador de enemigos
 		Random r = new Random();
 		int id = r.nextInt((enemigos.size()-1) + 1);
 		enemigo = enemigos.get(id);
@@ -124,7 +124,7 @@ public class BattleScene extends ScreenAdapter {
 				song = Gdx.audio.newMusic(Gdx.files.internal("You have been rickrolled.mp3"));
 		}
 		
-		
+		//Selector de texturas para enemigos
 		try {
 			if (enemigo.getNombre() != "RickRoll") {
 			enemy_text = new Texture(Gdx.files.internal("enemigos/" + enemigo.getNombre() + ".png"));
@@ -133,6 +133,7 @@ public class BattleScene extends ScreenAdapter {
 			enemy_text = new Texture(Gdx.files.internal("enemigos/MissingNo.png"));
 		}
 		
+		//Ajustar barra de vida de enemigo
 		enemyHP = enemigo.getPv();
 		
 	}
@@ -195,15 +196,13 @@ public class BattleScene extends ScreenAdapter {
 				explosionTrigger = true;
 				sound = Gdx.audio.newSound(Gdx.files.internal("Explosion.wav"));
 				sound.play();
+				UI = interfaz.Texto;
 				usarAtaqueEspecial();
 			}
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.X)) {
 				UI = interfaz.SeleccionComando;
 			}
-			
-			
-			
 		}
 		
 		else if (UI == interfaz.SeleccionObjeto) {
@@ -219,12 +218,17 @@ public class BattleScene extends ScreenAdapter {
 			}
 			
 			else if (canAttack && (Gdx.input.isKeyJustPressed(Keys.Z))) {
+				UI = interfaz.Texto;
 				usarObjeto();		
 			}
 			
 			else if ((Gdx.input.isKeyJustPressed(Keys.X))) {
 				UI = interfaz.SeleccionComando;
 			}
+		}
+		
+		else if (UI == interfaz.Texto) {
+			combatText.draw(batch, text, 100, 80);
 		}
 		
 		//Animaciones
@@ -240,6 +244,7 @@ public class BattleScene extends ScreenAdapter {
 		if (enemyHP <= 0) {
 			enemyHP = 0;
 			heroe.setExp(heroe.getExp() + enemigo.getExprecompensa());
+			heroe.subirNivel();
 			game.getScreen().dispose();
 			game.setScreen(new OverworldScene(game));
 		}
@@ -254,6 +259,9 @@ public class BattleScene extends ScreenAdapter {
 		batch.end();
 	}
 	
+	/**
+	 * Método para mover la barra de vida del jugador cuando este reciba daños
+	 */
 	public void bajarVidaJugador() {
 			Thread barra = new Thread() {
 			    public void run() {
@@ -274,6 +282,9 @@ public class BattleScene extends ScreenAdapter {
 			barra.start();		
 	}
 	
+	/**
+	 * Método para mover la barra de vida del jugador cuando este jugador recupere PV
+	 */
 	public void subirVidaJugador() {
 		Thread barra = new Thread() {
 		    public void run() {
@@ -293,7 +304,9 @@ public class BattleScene extends ScreenAdapter {
 		}; 
 		barra.start();		
 }
-	
+	/**
+	 * Método para mover la barra de vida del enemigo cuando este reciba daños
+	 */
 	public void bajarVidaEnemigo() {
 		Thread barra = new Thread() {
 		    public void run() {
@@ -332,6 +345,9 @@ public class BattleScene extends ScreenAdapter {
 		Objeto
 	}
 	
+	/**
+	 * Método para seleccionar comando en el menú principal del combate
+	 */
 	public void seleccionarComando() {
 		if (selectedCommand == comandos.Ataque) {
 			batch.draw(selectorButton, 450, 65, 156, 44);
@@ -339,6 +355,7 @@ public class BattleScene extends ScreenAdapter {
 			else if (Gdx.input.isKeyJustPressed(Keys.S)) selectedCommand = comandos.Objeto;
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
+				UI = interfaz.Texto;
 				atacar();
 				}
 			}
@@ -350,6 +367,7 @@ public class BattleScene extends ScreenAdapter {
 			else if (Gdx.input.isKeyJustPressed(Keys.S)) selectedCommand = comandos.AtaqueEspecial;
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.Z) && (canAttack == true)) {
+				UI = interfaz.Texto;
 				guardia();
 				}
 			}
@@ -381,9 +399,11 @@ public class BattleScene extends ScreenAdapter {
 		    	try {
 		    		canAttack = false;
 		    		heroe.setEspiritu(heroe.getEspiritu() + 1);
+		    		text = game.getPartida().getNombre() + " ha atacado " + enemigo.getNombre();
 					heroe.ataque(enemigo);
 					bajarVidaEnemigo();
 					Thread.sleep(1000);
+					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
 					enemigo.ataque(heroe); 
 					bajarVidaJugador();
 					Thread.sleep(1000);
@@ -404,8 +424,10 @@ public class BattleScene extends ScreenAdapter {
 		    public void run() {
 		    	try {
 		    		canAttack = false;
+		    		text = game.getPartida().getNombre() + " ha usado la guardia";
 		    		heroe.guardia();
 					Thread.sleep(1000);
+					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
 					enemigo.ataque(heroe); 
 					bajarVidaJugador();
 					Thread.sleep(1000);
@@ -426,9 +448,11 @@ public class BattleScene extends ScreenAdapter {
 		    public void run() {
 		    	try {
 		    		canAttack = false;
+		    		text = game.getPartida().getNombre() + " ha usado " + heroe.getPociones().get(selectedItem).getNombre();
 					heroe.getPociones().get(selectedItem).consumir(heroe);
 					subirVidaJugador();
 					Thread.sleep(1000);
+					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
 					enemigo.ataque(heroe); 
 					bajarVidaJugador();
 					Thread.sleep(1000);
@@ -449,10 +473,12 @@ public class BattleScene extends ScreenAdapter {
 		    public void run() {
 		    	try {
 		    		canAttack = false;
+		    		text = game.getPartida().getNombre() + " ha usado " + heroe.getAtaques().get(selectedSpecialAttack).getNombre();
 		    		heroe.setEspiritu(heroe.getEspiritu()-heroe.getAtaques().get(selectedSpecialAttack).getEspiritu());
 		    		heroe.ataqueespecial(enemigo, heroe.getAtaques().get(selectedSpecialAttack));
 		    		bajarVidaEnemigo();
 					Thread.sleep(1000);
+					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
 					enemigo.ataque(heroe); 
 					bajarVidaJugador();
 					Thread.sleep(1000);

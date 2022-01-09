@@ -63,6 +63,10 @@ public class Monsterfantasy extends Game {
 			this.screen.dispose();
 			this.setScreen(new OverworldScene(this));
 		}
+		if (Gdx.input.isKeyJustPressed(Keys.T)) {
+			this.screen.dispose();
+			this.setScreen(new ShopScene(this));
+		}
 	}
 	
 	@Override

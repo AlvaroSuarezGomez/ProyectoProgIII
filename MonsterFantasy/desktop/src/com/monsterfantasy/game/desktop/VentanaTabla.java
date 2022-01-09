@@ -83,8 +83,13 @@ public class VentanaTabla extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int fila = tDatos.getSelectedRow();
 				String nombre = (String) tDatos.getValueAt(fila, 0);
-				Partida p = new Partida(nombre, new Heroe());
-				p.partidanueva();
+				Partida partida = null;
+				for (Partida p : Partidas.getMapapartidas().values()) {
+					if (p.getNombre() == nombre) {
+						partida = p;
+					}
+				}
+				partida.cargarpartida(nombre);
 				Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 				LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 				config.resizable = false;
@@ -99,8 +104,8 @@ public class VentanaTabla extends JFrame {
 				
 				Monsterfantasy game = new Monsterfantasy();
 		
-				game.setPartida(p);
-				game.setHeroe(p.getHeroe());
+				game.setPartida(partida);
+				game.setHeroe(partida.getHeroe());
 			
 				new LwjglApplication(game, config);
 			}
