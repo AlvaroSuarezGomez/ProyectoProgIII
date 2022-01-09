@@ -3,10 +3,14 @@ package com.monsterfantasy.game.desktop;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import com.badlogic.gdx.Game;
@@ -26,21 +30,32 @@ public class VentanaMenu extends JFrame {
 	private JPanel botonera = new JPanel();
 	private JButton nuevapartida = new JButton("Nueva Partida");
 	private JButton cargarpartida = new JButton("Cargar Partida");
-	private JLabel label = new JLabel("Bienvenido a Monster Fantasy");
+	private JLabel label = new JLabel();
 	private static VentanaMenu ventana;
 	
 	public VentanaMenu() {
 		
 		this.setTitle("Menu Principal");			
-		this.setSize(620,160);
+		this.setSize(1280,720);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		panellabel.add(label);
+		Image img;
+        try {
+            img = ImageIO.read(getClass().getResource("pokemon-party.jpg"));
+            label.setIcon(new ImageIcon(img));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+		
+		panellabel.add(label,BorderLayout.CENTER);
 		botonera.add(nuevapartida);
 		botonera.add(cargarpartida);
 		
 		this.add(panellabel, BorderLayout.CENTER);
 		this.add(botonera, BorderLayout.SOUTH);
+		
+		
 		
 		
 		Partidas.setMapapartidas(Partidas.cargafichero("guardado")); 
