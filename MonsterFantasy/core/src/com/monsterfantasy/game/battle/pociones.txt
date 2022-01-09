@@ -1,3 +1,4 @@
-salud	15	100
-salud2	30	250
-salud3	45	400
+Pocion	15	100
+Superpocion	30	250
+Hiperpocion	45	400
+Maxpocion	100	10000

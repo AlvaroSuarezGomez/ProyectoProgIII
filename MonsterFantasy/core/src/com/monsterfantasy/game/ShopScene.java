@@ -92,8 +92,8 @@ public class ShopScene extends ScreenAdapter{
 		} else if (menuMode == menu.Comprar) {
 			shopFont.draw(batch, "Dinero: " + heroe.getDinero() + "G", 600, 50);
 			shopFont.draw(batch, "Precio: " + String.valueOf(pociones.get(selectedItem).getPrecio()) + "G", 600, 250);
-			shopFont.draw(batch, pociones.get(selectedItem).getNombre(), 50, 50);
-			shopFont.draw(batch, "Recupera " + String.valueOf(pociones.get(selectedItem).getPuntossalud()) + " PV", 200, 50);
+			shopFont.draw(batch, pociones.get(selectedItem).getNombre(), 25, 50);
+			shopFont.draw(batch, "Recupera " + String.valueOf(pociones.get(selectedItem).getPuntossalud()) + " PV", 250, 50);
 			escribirTexto(Gdx.graphics.getDeltaTime());
 			if (Gdx.input.isKeyJustPressed(Keys.X)) {
 				index = 0;
@@ -104,7 +104,8 @@ public class ShopScene extends ScreenAdapter{
 				selectedItem -= 1;
 			} else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getDinero() >= pociones.get(selectedItem).getPrecio())) {	
 				heroe.getPociones().add(pociones.get(selectedItem));
-				heroe.setDinero(heroe.getDinero() - heroe.getPociones().get(selectedItem).getPrecio());
+				heroe.setDinero(heroe.getDinero() - pociones.get(selectedItem).getPrecio());
+				System.out.println(heroe.getDinero());
 			}
 			
 		} else if (menuMode == menu.Hablar) {
