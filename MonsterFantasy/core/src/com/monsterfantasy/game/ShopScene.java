@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.monsterfantasy.game.battle.Heroe;
 import com.monsterfantasy.game.gestionpartidas.Partida;
 import com.monsterfantasy.game.gestionpartidas.Partidas;
@@ -25,10 +27,12 @@ public class ShopScene extends ScreenAdapter{
 	private Heroe heroe;
 	private Partida partida;
 	private Music music;
-	private String text = "";
+	private static String text = "";
 	private menu menuMode = menu.Principal;
 	private seleccion selectedOption = seleccion.Comprar;
 	private BitmapFont shopFont;
+	private static float elapsedTime = 0;
+	private static boolean activateTimer = false;
 	
 	public ShopScene(Monsterfantasy game) {
 		super();
@@ -56,7 +60,7 @@ public class ShopScene extends ScreenAdapter{
 	
 		
 		if (menuMode == menu.Principal) {
-			text = "Bienvenido a la tienda del \nGigante Noble";
+			escribirTexto("Bienvenido a la tienda del \nGigante Noble", "", 0);
 			shopFont.draw(batch, "COMPRAR", 600, 250);
 			shopFont.draw(batch, "HABLAR", 600, 150);
 			shopFont.draw(batch, "SALIR", 600, 50);
@@ -139,6 +143,23 @@ public class ShopScene extends ScreenAdapter{
 		}
 	}
 	
+	public static void escribirTexto(String texto, String inicial, int indice) {
+			if (inicial != texto) {
+				activateTimer = false;
+				elapsedTime = 0;
+				indice += 1;
+				inicial = texto.substring(0, indice-1);
+				text = inicial;
+				System.out.println(inicial);
+				activateTimer = true;
+				if (activateTimer) {
+					elapsedTime += Gdx.graphics.getDeltaTime();
+				}
+				if (elapsedTime >= 0.1f) {
+					escribirTexto(texto, inicial, indice);
+						}
+					}
+				}
 	
 	
 		
