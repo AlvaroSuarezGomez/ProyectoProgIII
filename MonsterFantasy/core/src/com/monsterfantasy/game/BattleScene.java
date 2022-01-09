@@ -11,6 +11,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -61,6 +63,7 @@ public class BattleScene extends ScreenAdapter {
 	private BitmapFont hp;
 	private Heroe heroe;
 	private Music song;
+	private Sound sound;
 	private Enemigo enemigo;
 	private Partida partida;
 	private ArrayList<Enemigo> enemigos;
@@ -70,8 +73,11 @@ public class BattleScene extends ScreenAdapter {
 	private boolean canAttack = true;
 	private int playerHP;
 	private int enemyHP;
+	private Animation<TextureRegion> explosion;
 	private Animation<TextureRegion> rickRolled;
 	float elapsed;
+	boolean explosionTrigger = false;
+	float elapsedExplosion;
 	
 	public BattleScene(Monsterfantasy game) {
 		super();
@@ -100,11 +106,11 @@ public class BattleScene extends ScreenAdapter {
 		hp_container = new NinePatch(life,0,0,0,0);
 		playerHP = heroe.getPv();
 		rickRolled = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("enemigos/RickRoll.gif").read());
+		explosion = GifDecoder.loadGIFAnimation(Animation.PlayMode.NORMAL, Gdx.files.internal("Explosion.gif").read());
 		UI = interfaz.SeleccionComando;
 		selectedCommand = comandos.Ataque;
 		
 		//PROVISIONAL, QUITAR EN ENTREGA FINAL
-		heroe.getPociones().add(BaseDeDatos.getPociones().get(0));
 		
 		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
 		song.setLooping(true);
@@ -186,12 +192,17 @@ public class BattleScene extends ScreenAdapter {
 			}
 			
 			else if (canAttack && (Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getEspiritu() >= heroe.getAtaques().get(selectedSpecialAttack).getEspiritu())) {
+				explosionTrigger = true;
+				sound = Gdx.audio.newSound(Gdx.files.internal("Explosion.wav"));
+				sound.play();
 				usarAtaqueEspecial();
 			}
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.X)) {
 				UI = interfaz.SeleccionComando;
 			}
+			
+			
 			
 		}
 		
@@ -215,6 +226,14 @@ public class BattleScene extends ScreenAdapter {
 				UI = interfaz.SeleccionComando;
 			}
 		}
+		
+		//Animaciones
+		if (explosionTrigger) {
+			elapsedExplosion += Gdx.graphics.getDeltaTime();
+			batch.draw(explosion.getKeyFrame(elapsedExplosion), 450, 300, 195, 294);
+		} else { 
+			elapsedExplosion = 0; 
+			}
 		
 		
 		//Finalizar combate
@@ -437,6 +456,7 @@ public class BattleScene extends ScreenAdapter {
 					enemigo.ataque(heroe); 
 					bajarVidaJugador();
 					Thread.sleep(1000);
+					explosionTrigger = false;
 					UI = interfaz.SeleccionComando;
 				}
 		    	catch (InterruptedException e) {
