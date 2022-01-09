@@ -27,12 +27,12 @@ public class ShopScene extends ScreenAdapter{
 	private Heroe heroe;
 	private Partida partida;
 	private Music music;
-	private static String text = "";
+	private String text = "";
 	private menu menuMode = menu.Principal;
 	private seleccion selectedOption = seleccion.Comprar;
 	private BitmapFont shopFont;
-	private static float elapsedTime = 0;
-	private static boolean activateTimer = false;
+	private float elapsedTime = 0;
+	private String objectiveText = "";
 	
 	public ShopScene(Monsterfantasy game) {
 		super();
@@ -60,7 +60,7 @@ public class ShopScene extends ScreenAdapter{
 	
 		
 		if (menuMode == menu.Principal) {
-			escribirTexto("Bienvenido a la tienda del \nGigante Noble", "", 0);
+			escribirTexto("Bienvenido a la tienda del \nGigante Noble", "", 0, Gdx.graphics.getDeltaTime());
 			shopFont.draw(batch, "COMPRAR", 600, 250);
 			shopFont.draw(batch, "HABLAR", 600, 150);
 			shopFont.draw(batch, "SALIR", 600, 50);
@@ -143,24 +143,15 @@ public class ShopScene extends ScreenAdapter{
 		}
 	}
 	
-	public static void escribirTexto(String texto, String inicial, int indice) {
-			if (inicial != texto) {
-				activateTimer = false;
-				elapsedTime = 0;
-				indice += 1;
-				inicial = texto.substring(0, indice-1);
-				text = inicial;
-				System.out.println(inicial);
-				activateTimer = true;
-				if (activateTimer) {
-					elapsedTime += Gdx.graphics.getDeltaTime();
-				}
-				if (elapsedTime >= 0.1f) {
-					escribirTexto(texto, inicial, indice);
-						}
-					}
-				}
-	
-	
+	public void escribirTexto(String texto, String inicial, int indice, float delta) {
+		objectiveText = texto;
+			elapsedTime += delta;
+			if (elapsedTime >= 0.1f) {
+					inicial = inicial + objectiveText.charAt(indice);
+					indice += 1;
+					text = inicial;
+					elapsedTime = 0;
+			}
+	}
 		
 }
