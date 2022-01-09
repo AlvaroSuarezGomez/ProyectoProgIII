@@ -36,12 +36,12 @@ public class VentanaMenu extends JFrame {
 	public VentanaMenu() {
 		
 		this.setTitle("Menu Principal");			
-		this.setSize(1280,720);
+		this.setSize(960,720);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		Image img;
         try {
-            img = ImageIO.read(getClass().getResource("pokemon-party.jpg"));
+            img = ImageIO.read(getClass().getResource("MonsterFantasy.jpg"));
             label.setIcon(new ImageIcon(img));
         } catch (IOException e) {
             // TODO Auto-generated catch block
