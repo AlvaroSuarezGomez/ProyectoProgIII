@@ -244,6 +244,7 @@ public class BattleScene extends ScreenAdapter {
 		if (enemyHP <= 0) {
 			enemyHP = 0;
 			heroe.setExp(heroe.getExp() + enemigo.getExprecompensa());
+			heroe.setDinero(heroe.getDinero() + (int) (Math.random() * (50 - 25) + (enemigo.getExprecompensa()/10)));
 			heroe.subirNivel();
 			game.getScreen().dispose();
 			game.setScreen(new OverworldScene(game));

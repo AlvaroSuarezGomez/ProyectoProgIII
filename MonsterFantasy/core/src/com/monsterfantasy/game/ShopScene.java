@@ -1,5 +1,9 @@
 package com.monsterfantasy.game;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
@@ -12,7 +16,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.monsterfantasy.game.battle.BaseDeDatos;
+import com.monsterfantasy.game.battle.Consumible;
 import com.monsterfantasy.game.battle.Heroe;
+import com.monsterfantasy.game.battle.Pociones;
 import com.monsterfantasy.game.gestionpartidas.Partida;
 import com.monsterfantasy.game.gestionpartidas.Partidas;
 import com.monsterfantasy.game.overworld.Avatar;
@@ -31,8 +38,18 @@ public class ShopScene extends ScreenAdapter{
 	private menu menuMode = menu.Principal;
 	private seleccion selectedOption = seleccion.Comprar;
 	private BitmapFont shopFont;
+	
 	private float elapsedTime = 0;
 	private String objectiveText = "";
+	private String initialText = "";
+	private int index;
+	float letterDelay = 0.05f;
+	
+	ArrayList<String> phrases = new ArrayList<>();
+	private int phrase_id;
+	
+	ArrayList<Pociones> pociones = new ArrayList<Pociones>();
+	private int selectedItem = 0;
 	
 	public ShopScene(Monsterfantasy game) {
 		super();
@@ -45,6 +62,12 @@ public class ShopScene extends ScreenAdapter{
 		music = Gdx.audio.newMusic(Gdx.files.internal("hip_shop.ogg"));
 		music.setLooping(true);
 		shopFont = new BitmapFont(Gdx.files.internal("shop.fnt"), Gdx.files.internal("shop.png"), false);
+		pociones = BaseDeDatos.getPociones();
+		phrases = new ArrayList<>(Arrays.asList("Buf, ayer me comi \nunas croquetas de muerte.", 
+				"Una vez cree un deporte \njunto a Gerard Pique \ny lo peto. \nQue bonitos eran \nlos torneos de globos.", 
+				"Cuando todavia ni \nexistia TikTok yo narraba \nlos torneos del LoL. \nBuenos tiempos aquellos.",
+				"Si ves por ahi \na Messi o al Kun saludalos \nde mi parte."));
+		
 	}
 	
 	@Override
@@ -60,19 +83,35 @@ public class ShopScene extends ScreenAdapter{
 	
 		
 		if (menuMode == menu.Principal) {
-			escribirTexto("Bienvenido a la tienda del \nGigante Noble", "", 0, Gdx.graphics.getDeltaTime());
+			objectiveText = "Bienvenido a la tienda del \nGigante Noble";
+			escribirTexto(Gdx.graphics.getDeltaTime());
 			shopFont.draw(batch, "COMPRAR", 600, 250);
 			shopFont.draw(batch, "HABLAR", 600, 150);
 			shopFont.draw(batch, "SALIR", 600, 50);
 			seleccionMenu();
 		} else if (menuMode == menu.Comprar) {
-			text = "Claro, dime que quieres \ncomprar";
+			shopFont.draw(batch, "Dinero: " + heroe.getDinero() + "G", 600, 50);
+			shopFont.draw(batch, "Precio: " + String.valueOf(pociones.get(selectedItem).getPrecio()) + "G", 600, 250);
+			shopFont.draw(batch, pociones.get(selectedItem).getNombre(), 50, 50);
+			shopFont.draw(batch, "Recupera " + String.valueOf(pociones.get(selectedItem).getPuntossalud()) + " PV", 200, 50);
+			escribirTexto(Gdx.graphics.getDeltaTime());
 			if (Gdx.input.isKeyJustPressed(Keys.X)) {
+				index = 0;
 				menuMode = menu.Principal;
+			} else if ((Gdx.input.isKeyJustPressed(Keys.D)) && (selectedItem < (pociones.size()-1))) {
+				selectedItem += 1;
+			} else if ((Gdx.input.isKeyJustPressed(Keys.A)) && (selectedItem > 0)) {
+				selectedItem -= 1;
+			} else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getDinero() >= pociones.get(selectedItem).getPrecio())) {	
+				heroe.getPociones().add(pociones.get(selectedItem));
+				heroe.setDinero(heroe.getDinero() - heroe.getPociones().get(selectedItem).getPrecio());
 			}
+			
 		} else if (menuMode == menu.Hablar) {
-			text = "Buf, ayer me comi \nunas croquetas de muerte";
+			objectiveText = phrases.get(phrase_id);
+			escribirTexto(Gdx.graphics.getDeltaTime());
 			if (Gdx.input.isKeyJustPressed(Keys.Z)) {
+				index = 0;
 				menuMode = menu.Principal;
 			}
 		}
@@ -111,6 +150,8 @@ public class ShopScene extends ScreenAdapter{
 				selectedOption = seleccion.Hablar;
 			}
 			else if (Gdx.input.isKeyJustPressed(Keys.Z)) {
+				index = 0;
+				objectiveText = "Claro, dime que quieres \ncomprar";
 				menuMode = menu.Comprar;
 			}
 		}
@@ -125,6 +166,8 @@ public class ShopScene extends ScreenAdapter{
 			}
 			
 			else if (Gdx.input.isKeyJustPressed(Keys.Z)) {
+				index = 0;
+				randomizadorFrases();
 				menuMode = menu.Hablar;
 			}
 		}
@@ -141,17 +184,23 @@ public class ShopScene extends ScreenAdapter{
 				game.setScreen(new OverworldScene(game));
 			}
 		}
-	}
+	}	
 	
-	public void escribirTexto(String texto, String inicial, int indice, float delta) {
-		objectiveText = texto;
-			elapsedTime += delta;
-			if (elapsedTime >= 0.1f) {
-					inicial = inicial + objectiveText.charAt(indice);
-					indice += 1;
-					text = inicial;
-					elapsedTime = 0;
+	public void escribirTexto(float delta) {
+		  elapsedTime += delta;
+		  if (elapsedTime >= letterDelay) {
+		  	if (objectiveText != initialText) {
+				  initialText = objectiveText.substring(0, index);
+				  index++;
+				  elapsedTime -= letterDelay;    
+				  System.out.println(objectiveText == initialText);
+			  }
+			    text = initialText;
 			}
 	}
-		
+	
+	public void randomizadorFrases() {
+		Random random = new Random();
+		phrase_id = random.nextInt((phrases.size()-1) + 1);
+	}
 }
