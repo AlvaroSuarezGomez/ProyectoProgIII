@@ -18,7 +18,9 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.monsterfantasy.game.battle.BaseDeDatos;
 import com.monsterfantasy.game.battle.Consumible;
+import com.monsterfantasy.game.battle.Equipacion;
 import com.monsterfantasy.game.battle.Heroe;
+import com.monsterfantasy.game.battle.Objeto;
 import com.monsterfantasy.game.battle.Pociones;
 import com.monsterfantasy.game.gestionpartidas.Partida;
 import com.monsterfantasy.game.gestionpartidas.Partidas;
@@ -48,7 +50,7 @@ public class ShopScene extends ScreenAdapter{
 	ArrayList<String> phrases = new ArrayList<>();
 	private int phrase_id;
 	
-	ArrayList<Pociones> pociones = new ArrayList<Pociones>();
+	ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private int selectedItem = 0;
 	
 	public ShopScene(Monsterfantasy game) {
@@ -62,7 +64,14 @@ public class ShopScene extends ScreenAdapter{
 		music = Gdx.audio.newMusic(Gdx.files.internal("hip_shop.ogg"));
 		music.setLooping(true);
 		shopFont = new BitmapFont(Gdx.files.internal("shop.fnt"), Gdx.files.internal("shop.png"), false);
-		pociones = BaseDeDatos.getPociones();
+		for (Objeto o : BaseDeDatos.getPociones()) {
+			objetos.add(o);
+		}
+		for (Objeto o : BaseDeDatos.getEquipaciones()) {
+			objetos.add(o);
+		}
+		
+		
 		phrases = new ArrayList<>(Arrays.asList("Buf, ayer me comi \nunas croquetas de muerte.", 
 				"Una vez cree un deporte \njunto a Gerard Pique \ny lo peto. \nQue bonitos eran \nlos torneos de globos.", 
 				"Cuando todavia ni \nexistia TikTok yo narraba \nlos torneos del LoL. \nBuenos tiempos aquellos.",
@@ -91,21 +100,29 @@ public class ShopScene extends ScreenAdapter{
 			seleccionMenu();
 		} else if (menuMode == menu.Comprar) {
 			shopFont.draw(batch, "Dinero: " + heroe.getDinero() + "G", 600, 50);
-			shopFont.draw(batch, "Precio: " + String.valueOf(pociones.get(selectedItem).getPrecio()) + "G", 600, 250);
-			shopFont.draw(batch, pociones.get(selectedItem).getNombre(), 25, 50);
-			shopFont.draw(batch, "Recupera " + String.valueOf(pociones.get(selectedItem).getPuntossalud()) + " PV", 250, 50);
+			shopFont.draw(batch, "Precio: " + String.valueOf(objetos.get(selectedItem).getPrecio()) + "G", 600, 250);
+			shopFont.draw(batch, objetos.get(selectedItem).getNombre(), 25, 50);
+			if (objetos.get(selectedItem).getClass() == Pociones.class) {
+			shopFont.draw(batch, "Recupera " + String.valueOf(((Pociones) objetos.get(selectedItem)).getPuntossalud()) + " PV", 250, 50);
+			} else if (objetos.get(selectedItem).getClass() == Equipacion.class) {
+				shopFont.draw(batch, "+" + String.valueOf(((Equipacion) objetos.get(selectedItem)).getPuntosdefensa()) + " Puntos Defensa", 200, 50);
+			}
 			escribirTexto(Gdx.graphics.getDeltaTime());
 			if (Gdx.input.isKeyJustPressed(Keys.X)) {
 				index = 0;
 				menuMode = menu.Principal;
-			} else if ((Gdx.input.isKeyJustPressed(Keys.D)) && (selectedItem < (pociones.size()-1))) {
+			} else if ((Gdx.input.isKeyJustPressed(Keys.D)) && (selectedItem < (objetos.size()-1))) {
 				selectedItem += 1;
 			} else if ((Gdx.input.isKeyJustPressed(Keys.A)) && (selectedItem > 0)) {
 				selectedItem -= 1;
-			} else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getDinero() >= pociones.get(selectedItem).getPrecio())) {	
-				heroe.getPociones().add(pociones.get(selectedItem));
-				heroe.setDinero(heroe.getDinero() - pociones.get(selectedItem).getPrecio());
-				System.out.println(heroe.getDinero());
+			} else if ((Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getDinero() >= objetos.get(selectedItem).getPrecio())) {
+				if (objetos.get(selectedItem).getClass() == Pociones.class) {
+				heroe.getPociones().add((Pociones) objetos.get(selectedItem));
+				heroe.setDinero(heroe.getDinero() - objetos.get(selectedItem).getPrecio());
+				} else if (objetos.get(selectedItem).getClass() == Equipacion.class) {
+					heroe.getEquipacion().add((Equipacion) objetos.get(selectedItem));
+					heroe.setDinero(heroe.getDinero() - objetos.get(selectedItem).getPrecio());
+					}
 			}
 			
 		} else if (menuMode == menu.Hablar) {
@@ -194,7 +211,6 @@ public class ShopScene extends ScreenAdapter{
 				  initialText = objectiveText.substring(0, index);
 				  index++;
 				  elapsedTime -= letterDelay;    
-				  System.out.println(objectiveText == initialText);
 			  }
 			    text = initialText;
 			}

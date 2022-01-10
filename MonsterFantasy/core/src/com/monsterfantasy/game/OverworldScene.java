@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,10 +26,13 @@ public class OverworldScene extends ScreenAdapter {
 	private SpriteBatch batch;
 	private Monsterfantasy game;
 	private TextureRegion region;
+	private Texture gameMenu;
 	private Heroe heroe;
 	private Overworld map = new Overworld();
 	private Avatar player = new Avatar(getMap().getSpawnpointX(), getMap().getSpawnpointY(), getHeroe());
 	private Partida partida;
+	private boolean isMenuOpened = false;
+	private BitmapFont menuFont;
 	
 	public OverworldScene(Monsterfantasy game) {
 		super();
@@ -38,10 +42,12 @@ public class OverworldScene extends ScreenAdapter {
 		map.setTileSet(new Texture("Overworld tileset.png"));
 		map.setSuelo(new TextureRegion(getMap().getTileSet(), 0, 0, 64, 64));
 		map.setArbol(new TextureRegion(getMap().getTileSet(), 704, 0, 64, 64));
+		gameMenu =  new Texture(Gdx.files.internal("GameMenu.png"));
 		Controller.SetTexture(getPlayer());
 		batch = game.getBatch();
 		partida = game.getPartida();
 		heroe = game.getHeroe();
+		menuFont = new BitmapFont(Gdx.files.internal("pokemon-dp-pro.fnt"), Gdx.files.internal("pokemon-dp-pro.png"), false);
 	}
 	
 	@Override
@@ -52,12 +58,37 @@ public class OverworldScene extends ScreenAdapter {
 		batch.begin();
 		Controller.player = getPlayer();
 		game.getCam().update();
-		Controller.Control();
 		getMap().setTileSet(new Texture("Overworld tileset.png"));
 		getMap().setSuelo(new TextureRegion(getMap().getTileSet(), 16, 0, 16, 16));
 		map.draw(batch, 0);
 		batch.draw(getPlayer().getP_texture_region(), getPlayer().getX(), getPlayer().getY());
+		
+		
+		if (isMenuOpened) {
+			batch.draw(gameMenu, getPlayer().getX() + 80, getPlayer().getY() - 100, 320, 400);
+			menuFont.draw(batch, "Dinero: " + heroe.getDinero() + "G", getPlayer().getX() + 100, getPlayer().getY() - 60);
+			
+		} else Controller.Control();
+		
+		if ((Gdx.input.isKeyJustPressed(Keys.C)) && (!isMenuOpened)) {
+			isMenuOpened = true;
+		}
+		
+		if (isMenuOpened) {
+			if (Gdx.input.isKeyJustPressed(Keys.X)) {
+				isMenuOpened = false;
+			}
+		}
+		
+		
+		
 		batch.end();
+	}
+	
+	public enum menuSelection {
+		Cerrar,
+		Equipamiento,
+		Salir
 	}
 
 	@Override
@@ -65,6 +96,7 @@ public class OverworldScene extends ScreenAdapter {
 		partida.guardarpartida();
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 		map.dispose();
+		gameMenu.dispose();
 		super.dispose();
 	}
 

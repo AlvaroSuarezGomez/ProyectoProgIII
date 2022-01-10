@@ -432,6 +432,7 @@ public class BattleScene extends ScreenAdapter {
 					enemigo.ataque(heroe); 
 					bajarVidaJugador();
 					Thread.sleep(1000);
+					heroe.setPosicionguardia(false);
 					UI = interfaz.SeleccionComando;
 				}
 		    	catch (InterruptedException e) {
