@@ -75,7 +75,11 @@ public class ShopScene extends ScreenAdapter{
 		phrases = new ArrayList<>(Arrays.asList("Buf, ayer me comi \nunas croquetas de muerte.", 
 				"Una vez cree un deporte \njunto a Gerard Pique \ny lo peto. \nQue bonitos eran \nlos torneos de globos.", 
 				"Cuando todavia ni \nexistia TikTok yo narraba \nlos torneos del LoL. \nBuenos tiempos aquellos.",
-				"Si ves por ahi \na Messi o al Kun saludalos \nde mi parte."));
+				"Si ves por ahi \na Messi o al Kun saludalos \nde mi parte.",
+				"Ramon Garcia es super \nbuena gente, ya he \ndado las campanadas \ncon el un par de \nNocheviejas.",
+				"Lo reconozco, soy Ampeter.",
+				"Despidete bien no?",
+				"Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit, \nsed eiusmod tempor \nincidunt ut labore et dolore \nmagna aliqua. \nUt enim ad minim veniam, \nquis nostrud exercitation \nullamco laboris nisi ut aliquid \nex ea commodi consequat."));
 		
 	}
 	
@@ -88,11 +92,11 @@ public class ShopScene extends ScreenAdapter{
 		game.getCam().position.set(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
 		game.getCam().update();
 		batch.draw(background, 0, 0, 800, 600);
-		shopFont.draw(batch, text, 50, 250);
+		shopFont.draw(batch, text, 15, 280);
 	
 		
 		if (menuMode == menu.Principal) {
-			objectiveText = "Bienvenido a la tienda del \nGigante Noble";
+			objectiveText = "Bienvenido a la tienda del \nGigante Noble.";
 			escribirTexto(Gdx.graphics.getDeltaTime());
 			shopFont.draw(batch, "COMPRAR", 600, 250);
 			shopFont.draw(batch, "HABLAR", 600, 150);
