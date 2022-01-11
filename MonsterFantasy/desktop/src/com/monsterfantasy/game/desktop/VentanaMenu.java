@@ -30,6 +30,7 @@ public class VentanaMenu extends JFrame {
 	private JPanel botonera = new JPanel();
 	private JButton nuevapartida = new JButton("Nueva Partida");
 	private JButton cargarpartida = new JButton("Cargar Partida");
+	private JButton controles = new JButton("Controles del juego");
 	private JLabel label = new JLabel();
 	private static VentanaMenu ventana;
 	
@@ -51,6 +52,7 @@ public class VentanaMenu extends JFrame {
 		panellabel.add(label,BorderLayout.CENTER);
 		botonera.add(nuevapartida);
 		botonera.add(cargarpartida);
+		botonera.add(controles);
 		
 		this.add(panellabel, BorderLayout.CENTER);
 		this.add(botonera, BorderLayout.SOUTH);
