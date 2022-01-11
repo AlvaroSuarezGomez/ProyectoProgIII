@@ -62,6 +62,15 @@ public class VentanaMenu extends JFrame {
 		
 		Partidas.setMapapartidas(Partidas.cargafichero("guardado")); 
 		
+		controles.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaControles v = new VentanaControles();
+				
+			}
+		});
+		
 		
 		nuevapartida.addActionListener(new ActionListener() {
 			
