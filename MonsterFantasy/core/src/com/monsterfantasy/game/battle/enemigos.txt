@@ -4,4 +4,4 @@
 100	100	100	30	false	100	WarGreymon	4
 1000	1000	200	100	false	50	RickRoll	3
 100	100	100	30	false	5	Marcelo	5
-1000	1000	100	50	false	30	Messi	6
+1000	1000	150	50	false	30	Messi	6
