@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -28,7 +29,7 @@ public class VentanaControles extends JFrame{
 	
 	public VentanaControles() {
 		
-		this.setSize(300,160);
+		this.setSize(300,190);
 		setTitle( "Controles del juego" );
 		
 		Vector<String> cabeceras = new Vector<String>( Arrays.asList( "Boton", "Funcion") );
@@ -38,7 +39,7 @@ public class VentanaControles extends JFrame{
 		);
 		
 		
-	
+		modelo.addRow( new String[] { "BOTON" , "FUNCION"} );
 		modelo.addRow( new String[] { "W" , "Desplazar hacia arriba"} );
 		modelo.addRow( new String[] { "A" , "Desplazar hacia la izquierda"} );
 		modelo.addRow( new String[] { "S" , "Desplazar hacia abajo"} );
@@ -54,8 +55,11 @@ public class VentanaControles extends JFrame{
 		tabla.getColumnModel().getColumn(1).setMaxWidth(200);	
 		
 		
+	
+		
 		panel = new JPanel();
 		panel.add(tabla);
+		
 		add(panel);
 		
 		
