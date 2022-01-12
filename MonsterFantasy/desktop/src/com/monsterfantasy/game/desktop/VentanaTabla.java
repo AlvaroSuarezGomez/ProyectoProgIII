@@ -74,7 +74,7 @@ public class VentanaTabla extends JFrame {
 		
 		
 		
-		
+		this.setLocation(400, 200);
 		
 		
 		verPartidas();

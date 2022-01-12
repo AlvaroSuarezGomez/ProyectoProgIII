@@ -38,6 +38,8 @@ public class VentanaControles extends JFrame{
 		this.setSize(300,210);
 		setTitle( "Controles del juego" );
 		
+		this.setLocation(400, 200);
+		
 		Vector<String> cabeceras = new Vector<String>( Arrays.asList( "Boton", "Funcion") );
 		modelo = new DefaultTableModel(  // Inicializa el modelo
 			new Vector<Vector<String>>(),  
