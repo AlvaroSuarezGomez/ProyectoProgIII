@@ -67,7 +67,7 @@ public class VentanaMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaControles v = new VentanaControles();
-				
+				dispose();
 			}
 		});
 		
