@@ -18,7 +18,6 @@ public class Overworld extends Actor implements Serializable {
 	 */
 	private static final long serialVersionUID = 261615780511554392L;
 	
-	private Monsterfantasy game;
 	private final int tamano_celda = 64;
 	private final int ancho_mapa = 100 * 64;
 	private final int alto_mapa = 100 * 64;
@@ -140,14 +139,6 @@ public class Overworld extends Actor implements Serializable {
 	
 	public int getColumnas() {
 		return getCeldas()[0].length;
-	}
-
-	public Monsterfantasy getGame() {
-		return game;
-	}
-
-	public void setGame(Monsterfantasy game) {
-		this.game = game;
 	}
 
 	public TextureRegion getHierba() {

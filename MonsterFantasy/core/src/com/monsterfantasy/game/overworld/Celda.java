@@ -1,6 +1,12 @@
 package com.monsterfantasy.game.overworld;
 
-public class Celda {
+import java.io.Serializable;
+
+public class Celda implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8273076385010485951L;
 	private int x;
 	private int y;
 	private int fila;

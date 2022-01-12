@@ -1,5 +1,7 @@
 package com.monsterfantasy.game;
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
@@ -19,16 +21,21 @@ import com.monsterfantasy.game.gestionpartidas.Partidas;
 import com.monsterfantasy.game.overworld.Avatar;
 import com.monsterfantasy.game.overworld.Celda;
 import com.monsterfantasy.game.overworld.Controller;
+import com.monsterfantasy.game.overworld.GestionMapa;
 import com.monsterfantasy.game.overworld.Overworld;
 import com.monsterfantasy.game.overworld.TipoCelda;
 
-public class OverworldScene extends ScreenAdapter {
+public class OverworldScene extends ScreenAdapter implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4139408601941798510L;
 	private SpriteBatch batch;
 	private Monsterfantasy game;
 	private TextureRegion region;
 	private Texture gameMenu;
 	private Heroe heroe;
-	private Overworld map = new Overworld();
+	private Overworld map = GestionMapa.cargafichero("mapa");
 	private Avatar player = new Avatar(getMap().getSpawnpointX(), getMap().getSpawnpointY(), getHeroe());
 	private Partida partida;
 	private boolean isMenuOpened = false;
@@ -40,7 +47,6 @@ public class OverworldScene extends ScreenAdapter {
 		super();
 		this.game = game;
 		game.setCam(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-		map.setGame(game);
 		map.setTileSet(new Texture("Overworld tileset.png"));
 		map.setSuelo(new TextureRegion(getMap().getTileSet(), 16, 0, 16, 16));
 		map.setArbol(new TextureRegion(getMap().getTileSet(), 160, 0, 16, 16));
@@ -99,6 +105,7 @@ public class OverworldScene extends ScreenAdapter {
 			game.empezarBatalla();
 		}
 		
+		GestionMapa.guardarfichero(map, "mapa");
 		
 		batch.end();
 	}
@@ -118,6 +125,8 @@ public class OverworldScene extends ScreenAdapter {
 
 	@Override
 	public void dispose() {
+
+
 		partida.guardarpartida();
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 		map.dispose();

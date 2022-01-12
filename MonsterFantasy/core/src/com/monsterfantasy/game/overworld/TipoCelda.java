@@ -1,6 +1,8 @@
 package com.monsterfantasy.game.overworld;
 
-public enum TipoCelda {
+import java.io.Serializable;
+
+public enum TipoCelda implements Serializable {
 	Suelo,
 	Arbol,
 	Hierba

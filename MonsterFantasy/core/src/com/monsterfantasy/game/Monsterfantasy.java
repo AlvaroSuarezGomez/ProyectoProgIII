@@ -1,6 +1,8 @@
 package com.monsterfantasy.game;
 
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -25,13 +27,16 @@ import com.monsterfantasy.game.overworld.Celda;
 import com.monsterfantasy.game.overworld.Controller;
 import com.monsterfantasy.game.overworld.Overworld;
 
-public class Monsterfantasy extends Game {
+public class Monsterfantasy extends Game implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3694193471772229112L;
 	private SpriteBatch batch;
 	private Heroe heroe;
 	private Camera cam;
 	private Partida partida;
 	private OverworldScene overworld;
-	private BattleScene battleScene;
 	private Screen currentScreen;
 	
 	public Monsterfantasy() {
@@ -45,7 +50,6 @@ public class Monsterfantasy extends Game {
 		batch = new SpriteBatch();
 		
 		overworld = new OverworldScene(this);
-		battleScene = new BattleScene(this);
 		this.screen = overworld;
 		
 		heroe.setAtaques(BaseDeDatos.getAtaques());
@@ -120,16 +124,6 @@ public class Monsterfantasy extends Game {
 
 	public void setOverworld(OverworldScene overworld) {
 		this.overworld = overworld;
-	}
-
-
-	public BattleScene getBattleScene() {
-		return battleScene;
-	}
-
-
-	public void setBattleScene(BattleScene battleScene) {
-		this.battleScene = battleScene;
 	}
 
 

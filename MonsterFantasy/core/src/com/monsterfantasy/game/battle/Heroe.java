@@ -1,13 +1,19 @@
 package com.monsterfantasy.game.battle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 
-public class Heroe extends Personaje {
+public class Heroe extends Personaje implements Serializable {
 
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -201102584414995892L;
+
 	protected ArrayList<AtaqueEspecial> ataques;
 	
 	protected ArrayList<Pociones> pociones;
