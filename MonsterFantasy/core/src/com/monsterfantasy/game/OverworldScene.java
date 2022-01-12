@@ -105,8 +105,6 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 			game.empezarBatalla();
 		}
 		
-		GestionMapa.guardarfichero(map, "mapa");
-		
 		batch.end();
 	}
 	
@@ -125,10 +123,8 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 
 	@Override
 	public void dispose() {
-
-
+		GestionMapa.guardarfichero(map, "mapa");
 		partida.guardarpartida();
-		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 		map.dispose();
 		gameMenu.dispose();
 		super.dispose();

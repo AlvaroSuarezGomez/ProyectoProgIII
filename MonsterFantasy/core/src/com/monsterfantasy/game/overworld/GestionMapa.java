@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.monsterfantasy.game.gestionpartidas.Partida;
 import com.monsterfantasy.game.gestionpartidas.Partidas;
 

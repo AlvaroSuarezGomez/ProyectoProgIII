@@ -120,7 +120,7 @@ public class Overworld extends Actor implements Serializable {
 	
 	public void dispose() {
 		suelo.getTexture().dispose();
-		//hierba.getTexture().dispose();
+		hierba.getTexture().dispose();
 		arbol.getTexture().dispose();
 		tileSet.dispose();
 	}
