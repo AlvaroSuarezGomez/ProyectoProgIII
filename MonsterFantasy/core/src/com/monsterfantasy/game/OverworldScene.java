@@ -33,6 +33,8 @@ public class OverworldScene extends ScreenAdapter {
 	private Partida partida;
 	private boolean isMenuOpened = false;
 	private BitmapFont menuFont;
+	private boolean debugMode = true;
+	private boolean startBattle = false;
 	
 	public OverworldScene(Monsterfantasy game) {
 		super();
@@ -40,14 +42,17 @@ public class OverworldScene extends ScreenAdapter {
 		game.setCam(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		map.setGame(game);
 		map.setTileSet(new Texture("Overworld tileset.png"));
-		map.setSuelo(new TextureRegion(getMap().getTileSet(), 0, 0, 64, 64));
-		map.setArbol(new TextureRegion(getMap().getTileSet(), 704, 0, 64, 64));
+		map.setSuelo(new TextureRegion(getMap().getTileSet(), 16, 0, 16, 16));
+		map.setArbol(new TextureRegion(getMap().getTileSet(), 160, 0, 16, 16));
+		map.setHierba(new TextureRegion(getMap().getTileSet(), 80, 16, 16, 16));
 		gameMenu =  new Texture(Gdx.files.internal("GameMenu.png"));
-		Controller.SetTexture(getPlayer());
+		Controller.overworld = map;
+		Controller.setTexture(getPlayer());
 		batch = game.getBatch();
 		partida = game.getPartida();
 		heroe = game.getHeroe();
 		menuFont = new BitmapFont(Gdx.files.internal("pokemon-dp-pro.fnt"), Gdx.files.internal("pokemon-dp-pro.png"), false);
+		map.crearCeldas();
 	}
 	
 	@Override
@@ -56,30 +61,43 @@ public class OverworldScene extends ScreenAdapter {
 		game.getCam().position.set(getPlayer().getX(), getPlayer().getY(), 0);
 		batch.setProjectionMatrix(game.getCam().combined);
 		batch.begin();
+		Controller.setOverworldScene(this);
 		Controller.player = getPlayer();
 		game.getCam().update();
 		getMap().setTileSet(new Texture("Overworld tileset.png"));
-		getMap().setSuelo(new TextureRegion(getMap().getTileSet(), 16, 0, 16, 16));
 		map.draw(batch, 0);
 		batch.draw(getPlayer().getP_texture_region(), getPlayer().getX(), getPlayer().getY());
+		
+		if (debugMode) {
+			if (Gdx.input.isKeyJustPressed(Keys.Q)) {
+			map.getCeldas()[(int) (player.getX()/64)][(int) (player.getY()/64)].setTipo(TipoCelda.Arbol);
+			} else if (Gdx.input.isKeyJustPressed(Keys.P)) {
+				map.getCeldas()[(int) (player.getX()/64)][(int) (player.getY()/64)].setTipo(TipoCelda.Hierba);
+			}
+		}
 		
 		
 		if (isMenuOpened) {
 			batch.draw(gameMenu, getPlayer().getX() + 80, getPlayer().getY() - 100, 320, 400);
 			menuFont.draw(batch, "Dinero: " + heroe.getDinero() + "G", getPlayer().getX() + 100, getPlayer().getY() - 60);
 			
-		} else Controller.Control();
+			
+			if (Gdx.input.isKeyJustPressed(Keys.X)) {
+				isMenuOpened = false;
+			}
+			
+		} else {
+			Controller.controlSinThread();
+			Controller.control();
+		}
 		
 		if ((Gdx.input.isKeyJustPressed(Keys.C)) && (!isMenuOpened)) {
 			isMenuOpened = true;
 		}
 		
-		if (isMenuOpened) {
-			if (Gdx.input.isKeyJustPressed(Keys.X)) {
-				isMenuOpened = false;
-			}
+		if (startBattle) {
+			game.empezarBatalla();
 		}
-		
 		
 		
 		batch.end();
@@ -89,6 +107,13 @@ public class OverworldScene extends ScreenAdapter {
 		Cerrar,
 		Equipamiento,
 		Salir
+	}
+	
+	public void battleRandomizer() {
+		int chance = (int) ((Math.random() * (10 - 0)) + 0);
+		if (chance > 7) {
+			game.empezarBatalla();
+		}
 	}
 
 	@Override

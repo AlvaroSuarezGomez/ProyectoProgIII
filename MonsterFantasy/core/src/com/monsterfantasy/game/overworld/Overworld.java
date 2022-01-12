@@ -79,11 +79,18 @@ public class Overworld extends Actor implements Serializable {
 		this.tileSet = tileSet;
 	}
 	
+	public void crearCeldas() {
+		for (int row = 0; row < getFilas(); row++) {
+			for (int column = 0; column < getColumnas(); column++) {
+				celdas[row][column] = new Celda(row, column, TipoCelda.Suelo);
+			}
+		}
+	}
+	
 	@Override
     public void draw(Batch batch, float parentAlpha) {
 		for (int row = 0; row < getFilas(); row++) {
 			for (int column = 0; column < getColumnas(); column++) {
-				celdas[row][column] = new Celda(row, column, TipoCelda.Suelo);
 				float x = celdas[row][column].getX();
 				float y = celdas[row][column].getY();
 				batch.draw(suelo, 
@@ -141,5 +148,13 @@ public class Overworld extends Actor implements Serializable {
 
 	public void setGame(Monsterfantasy game) {
 		this.game = game;
+	}
+
+	public TextureRegion getHierba() {
+		return hierba;
+	}
+
+	public void setHierba(TextureRegion hierba) {
+		this.hierba = hierba;
 	}
 }

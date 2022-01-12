@@ -69,6 +69,11 @@ public class Monsterfantasy extends Game {
 		}
 	}
 	
+	public void empezarBatalla() {
+		this.screen.dispose();
+		this.setScreen(new BattleScene(this));
+	}
+	
 	@Override
 	public void dispose () {
 		partida.guardarpartida();
