@@ -40,6 +40,7 @@ public class VentanaTabla extends JFrame {
 	private JButton botonborrar;
 	private JPanel paneltabla;
 	private JPanel panelbotones;
+	private JButton atras;
 	
 	private static Logger logger = Logger.getLogger(BaseDeDatos.class.getName());
 	
@@ -52,12 +53,14 @@ public class VentanaTabla extends JFrame {
 		
 		botoncargar = new JButton("Cargar Partida");
 		botonborrar = new JButton("Eliminar Partida");
+		atras = new JButton("Volver al Menu");
 		
 		paneltabla = new JPanel();
 		panelbotones = new JPanel();
 		
 		panelbotones.add(botonborrar);
 		panelbotones.add(botoncargar);
+		panelbotones.add(atras);
 		
 		tDatos = new JTable();
 		paneltabla.add(new JScrollPane(tDatos));
@@ -124,6 +127,16 @@ public class VentanaTabla extends JFrame {
 				
 				Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 				verPartidas();
+				
+			}
+		});
+		
+		atras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaMenu v = new VentanaMenu();
+				dispose();
 				
 			}
 		});
