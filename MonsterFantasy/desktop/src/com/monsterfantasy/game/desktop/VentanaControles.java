@@ -1,8 +1,12 @@
 package com.monsterfantasy.game.desktop;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,12 +28,14 @@ public class VentanaControles extends JFrame{
 	private JTable tabla = new JTable();
 	private DefaultTableModel modelo;
 	private JPanel panel;
+	private JPanel botonera = new JPanel();
+	private JButton atras = new JButton("Volver al menu");
 	
 
 	
 	public VentanaControles() {
 		
-		this.setSize(300,190);
+		this.setSize(300,210);
 		setTitle( "Controles del juego" );
 		
 		Vector<String> cabeceras = new Vector<String>( Arrays.asList( "Boton", "Funcion") );
@@ -59,8 +65,12 @@ public class VentanaControles extends JFrame{
 		
 		panel = new JPanel();
 		panel.add(tabla);
-		
 		add(panel);
+		
+		botonera.add(atras);
+		add(botonera, BorderLayout.SOUTH);
+		
+		
 		
 		
 		
@@ -69,6 +79,16 @@ public class VentanaControles extends JFrame{
 		tabla.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 		tabla.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 		
+		
+			atras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaMenu v = new VentanaMenu();
+				dispose();
+				
+			}
+		});
 		
 		
 		
