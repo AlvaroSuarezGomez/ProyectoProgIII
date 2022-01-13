@@ -121,7 +121,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 	
 	public void battleRandomizer() {
 		int chance = (int) ((Math.random() * (10 - 0)) + 0);
-		if (chance > 7) {
+		if (chance > 5) {
 			game.empezarBatalla();
 		}
 	}
