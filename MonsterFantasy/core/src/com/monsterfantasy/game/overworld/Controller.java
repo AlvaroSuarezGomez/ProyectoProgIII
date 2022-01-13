@@ -95,28 +95,28 @@ public class Controller {
 	}
 	
 	public static void controlSinThread() {
-		if (Gdx.input.isKeyPressed(Keys.D))  {
+		if (Gdx.input.isKeyJustPressed(Keys.D))  {
 			if ((overworld.getCeldas()[(int) ((player.getX()/64)+1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Hierba) && (!isLockedMovement())) {
 				overworldScene.setTriggerBattleRandomizer(true);
 			} else if ((overworld.getCeldas()[(int) ((player.getX()/64)+1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Tienda) && (!isLockedMovement())) {
 				overworldScene.setTriggerShop(true);
 			}
 		}
-		if (Gdx.input.isKeyPressed(Keys.A)) {
+		if (Gdx.input.isKeyJustPressed(Keys.A)) {
 			if ((overworld.getCeldas()[(int) ((player.getX()/64)-1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Hierba) && (!isLockedMovement())) {
 				overworldScene.setTriggerBattleRandomizer(true);
 			} else if ((overworld.getCeldas()[(int) ((player.getX()/64)-1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Tienda) && (!isLockedMovement())) {
 				overworldScene.setTriggerShop(true);
 			}
 		}
-		if (Gdx.input.isKeyPressed(Keys.S)) {
+		if (Gdx.input.isKeyJustPressed(Keys.S)) {
 			if ((overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)-1)].getTipo() == TipoCelda.Hierba) && (!isLockedMovement())) {
 				overworldScene.setTriggerBattleRandomizer(true);
 		}	else if ((overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)-1)].getTipo() == TipoCelda.Tienda) && (!isLockedMovement())) {
 			overworldScene.setTriggerShop(true);
 		}
 		}
-		if (Gdx.input.isKeyPressed(Keys.W)) {
+		if (Gdx.input.isKeyJustPressed(Keys.W)) {
 			if ((overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)+1)].getTipo() == TipoCelda.Hierba) && (!isLockedMovement())) {
 				overworldScene.setTriggerBattleRandomizer(true);
 		}	else if ((overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)+1)].getTipo() == TipoCelda.Tienda) && (!isLockedMovement())) {
@@ -130,10 +130,10 @@ public class Controller {
 			@Override
 			public void run() {
 				if (!isLockedMovement()) {
-				if (overworldScene.getDirection() == LookDirection.Right) {	animacionPersonaje(LookDirection.Right, true); x_offset = 1; y_offset = 0; }
-				if (overworldScene.getDirection() == LookDirection.Left) {	animacionPersonaje(LookDirection.Left, true); x_offset = -1; y_offset = 0;}
-				if (overworldScene.getDirection() == LookDirection.Down) {	animacionPersonaje(LookDirection.Down, true); x_offset = 0; y_offset = -1;}
-				if (overworldScene.getDirection() == LookDirection.Up) {	animacionPersonaje(LookDirection.Up, true); x_offset = 0; y_offset = 1;}
+				if (overworldScene.getDirection() == LookDirection.Right) {	 x_offset = 1; y_offset = 0; }
+				if (overworldScene.getDirection() == LookDirection.Left) {	x_offset = -1; y_offset = 0;}
+				if (overworldScene.getDirection() == LookDirection.Down) {	x_offset = 0; y_offset = -1;}
+				if (overworldScene.getDirection() == LookDirection.Up) { x_offset = 0; y_offset = 1;}
 				} 
 					if ((move) && (overworld.getCeldas()[(int) ((player.getX()/64)+x_offset)][(int) (player.getY()/64)+y_offset].getTipo() != TipoCelda.Arbol)) {		
 						setLockedMovement(true);
@@ -149,7 +149,6 @@ public class Controller {
 						}
 						cont++; 
 						animacionPersonaje(overworldScene.getDirection(), false);
-						
 					} 
 					if (cont >= contlength) {
 					cont = 0;

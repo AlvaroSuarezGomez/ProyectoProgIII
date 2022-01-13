@@ -14,7 +14,7 @@ public class Enemigo extends Personaje implements Serializable {
 	 */
 	protected int espiritu; 
 	
-	protected ArrayList<AtaqueEspecial> ataques;
+	private ArrayList<AtaqueEspecial> ataques;
 	
 	
 
@@ -74,7 +74,7 @@ public class Enemigo extends Personaje implements Serializable {
 		this.exprecompensa = exprecompensa;
 		this.nombre = nombre;
 		
-		this.ataques = new ArrayList<AtaqueEspecial>();
+		this.setAtaques(new ArrayList<AtaqueEspecial>());
 
 
 	}
@@ -152,13 +152,21 @@ public class Enemigo extends Personaje implements Serializable {
 	}
 	
 	public ArrayList<AtaqueEspecial> getAtaquesEnemigos(Enemigo enemigo,int contador,ArrayList<AtaqueEspecial> ataques){
-	    if(contador<7){
-	        int ataque= (int) Math.round(Math.random()*enemigo.ataques.size());
-	        ataques.add(enemigo.ataques.get(ataque));
+	    if(contador<enemigo.getAtaques().size()){
+	        int ataque = (int) Math.round(Math.random()*enemigo.getAtaques().size());
+	        ataques.add(enemigo.getAtaques().get(ataque));
 	        return getAtaquesEnemigos(enemigo,contador+1,ataques);
 	    }else{
 	        return ataques;
 	    }
+	}
+
+	public ArrayList<AtaqueEspecial> getAtaques() {
+		return ataques;
+	}
+
+	public void setAtaques(ArrayList<AtaqueEspecial> ataques) {
+		this.ataques = ataques;
 	}
 
 	

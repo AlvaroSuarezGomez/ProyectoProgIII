@@ -79,6 +79,7 @@ public class BattleScene extends ScreenAdapter {
 	float elapsed;
 	boolean explosionTrigger = false;
 	float elapsedExplosion;
+	ArrayList<AtaqueEspecial> ataquesEnemigo = new ArrayList<>();
 	
 	public BattleScene(Monsterfantasy game) {
 		super();
@@ -111,6 +112,7 @@ public class BattleScene extends ScreenAdapter {
 		UI = interfaz.SeleccionComando;
 		selectedCommand = comandos.Ataque;
 		
+		
 		song = Gdx.audio.newMusic(Gdx.files.internal("Provisional Battle Music.mp3"));
 		song.setLooping(true);
 		
@@ -136,6 +138,9 @@ public class BattleScene extends ScreenAdapter {
 		//Ajustar barra de vida de enemigo
 		enemyHP = enemigo.getPv();
 		
+		
+		enemigo.setAtaques(BaseDeDatos.getAtaques());
+		ataquesEnemigo = enemigo.getAtaquesEnemigos(enemigo, 0, enemigo.getAtaques());
 	}
 	
 	@Override
@@ -407,7 +412,8 @@ public class BattleScene extends ScreenAdapter {
 					bajarVidaEnemigo();
 					Thread.sleep(1000);
 					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
-					enemigo.ataque(heroe); 
+					int ataque_id = (int) ((Math.random() * (ataquesEnemigo.size() - 0)) + 0);
+					enemigo.ataqueespecial(heroe, ataquesEnemigo.get(ataque_id));
 					bajarVidaJugador();
 					Thread.sleep(1000);
 					UI = interfaz.SeleccionComando;

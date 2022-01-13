@@ -185,9 +185,8 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 			}
 		}
 			} else {
-			Controller.controlSinThread();
-			Controller.control(isMove());
-			
+					Controller.controlSinThread();
+					Controller.control(isMove());
 		}
 		
 		if ((Gdx.input.isKeyJustPressed(Keys.C)) && (!isMenuOpened)) {
@@ -205,7 +204,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		} else if ((Gdx.input.isKeyJustPressed(Keys.S)) && (!isMenuOpened) && !Controller.isLockedMovement()) {
 			setDirection(LookDirection.Down);
 			setMove(true);
-		} else {
+		} else if ((!Gdx.input.isKeyPressed(Keys.S)) || (!Gdx.input.isKeyPressed(Keys.W)) || (!Gdx.input.isKeyPressed(Keys.D)) || (!Gdx.input.isKeyJustPressed(Keys.A))) {
 			setMove(false);
 		}
 		
