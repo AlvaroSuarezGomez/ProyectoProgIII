@@ -25,6 +25,7 @@ import com.monsterfantasy.game.gestionpartidas.Partidas;
 import com.monsterfantasy.game.overworld.Avatar;
 import com.monsterfantasy.game.overworld.Celda;
 import com.monsterfantasy.game.overworld.Controller;
+import com.monsterfantasy.game.overworld.GestionMapa;
 import com.monsterfantasy.game.overworld.Overworld;
 
 public class Monsterfantasy extends Game implements Serializable {
@@ -38,6 +39,7 @@ public class Monsterfantasy extends Game implements Serializable {
 	private Partida partida;
 	private OverworldScene overworld;
 	private Screen currentScreen;
+	private float x = 3200, y = 3200;
 	
 	public Monsterfantasy() {
 		
@@ -82,6 +84,7 @@ public class Monsterfantasy extends Game implements Serializable {
 	public void dispose () {
 		partida.guardarpartida();
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
+		GestionMapa.guardarfichero(overworld.getMap().getCeldas(), "mapa");
 		Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
 		super.dispose();
 		this.batch = batch;
@@ -142,6 +145,22 @@ public class Monsterfantasy extends Game implements Serializable {
 
 	public void setCam(Camera cam) {
 		this.cam = cam;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
 	}
 
 }

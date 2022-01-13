@@ -24,17 +24,33 @@ public class Controller {
 	private static OverworldScene overworldScene;
 	
 	public static void controlSinThread() {
-		if ((Gdx.input.isKeyJustPressed(Keys.D)) && (overworld.getCeldas()[(int) ((player.getX()/64)+1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Hierba) && (!lockedMovement)) {
+		if (Gdx.input.isKeyJustPressed(Keys.D))  {
+			if ((overworld.getCeldas()[(int) ((player.getX()/64)+1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Hierba) && (!lockedMovement)) {
 			overworldScene.battleRandomizer();
+			} else if ((overworld.getCeldas()[(int) ((player.getX()/64)+1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Tienda) && (!lockedMovement)) {
+				overworldScene.cargarTienda();
+			}
 		}
-		if ((Gdx.input.isKeyJustPressed(Keys.A)) && (overworld.getCeldas()[(int) ((player.getX()/64)-1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Hierba) && (!lockedMovement)) {
+		if (Gdx.input.isKeyJustPressed(Keys.A)) {
+			if ((overworld.getCeldas()[(int) ((player.getX()/64)-1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Hierba) && (!lockedMovement)) {
 			overworldScene.battleRandomizer();
+			} else if ((overworld.getCeldas()[(int) ((player.getX()/64)-1)][(int) (player.getY()/64)].getTipo() == TipoCelda.Tienda) && (!lockedMovement)) {
+				overworldScene.cargarTienda();
+			}
 		}
-		if ((Gdx.input.isKeyJustPressed(Keys.S)) && (overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)+1)].getTipo() == TipoCelda.Hierba) && (!lockedMovement)) {
+		if (Gdx.input.isKeyJustPressed(Keys.S)) {
+			if ((overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)-1)].getTipo() == TipoCelda.Hierba) && (!lockedMovement)) {
 			overworldScene.battleRandomizer();
+		}	else if ((overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)-1)].getTipo() == TipoCelda.Tienda) && (!lockedMovement)) {
+			overworldScene.cargarTienda();
 		}
-		if ((Gdx.input.isKeyJustPressed(Keys.W)) && (overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)-1)].getTipo() == TipoCelda.Hierba) && (!lockedMovement)) {
-			overworldScene.battleRandomizer();
+		}
+		if (Gdx.input.isKeyJustPressed(Keys.W)) {
+			if ((overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)+1)].getTipo() == TipoCelda.Hierba) && (!lockedMovement)) {
+				overworldScene.battleRandomizer();
+		}	else if ((overworld.getCeldas()[(int) ((player.getX()/64))][(int) ((player.getY()/64)+1)].getTipo() == TipoCelda.Tienda) && (!lockedMovement)) {
+			overworldScene.cargarTienda();
+		}
 		}
 	}
 	

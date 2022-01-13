@@ -5,5 +5,6 @@ import java.io.Serializable;
 public enum TipoCelda implements Serializable {
 	Suelo,
 	Arbol,
-	Hierba
+	Hierba,
+	Tienda
 }

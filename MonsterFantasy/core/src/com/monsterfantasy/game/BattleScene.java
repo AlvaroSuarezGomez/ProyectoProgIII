@@ -253,6 +253,8 @@ public class BattleScene extends ScreenAdapter {
 		if (playerHP <= 0) {
 			playerHP = 0;
 			heroe.setPv(heroe.getPvmax());
+			game.setX(3200);
+			game.setY(3200);
 			game.getScreen().dispose();
 			game.setScreen(new OverworldScene(game));
 		}
@@ -509,7 +511,13 @@ public class BattleScene extends ScreenAdapter {
 		enemy_bar.dispose();
 		name.dispose();
 		hp.dispose();
-		life.dispose();	
+		life.dispose();
+		attackButton.dispose();
+		specialAttackButton.dispose();
+		guardButton.dispose();
+		objectButton.dispose();
+		selectorButton.dispose();
+		combatText.dispose();
 		super.dispose();
 	}
 

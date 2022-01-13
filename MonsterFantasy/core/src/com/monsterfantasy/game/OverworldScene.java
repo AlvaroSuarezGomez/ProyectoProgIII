@@ -35,8 +35,8 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 	private TextureRegion region;
 	private Texture gameMenu;
 	private Heroe heroe;
-	private Overworld map = GestionMapa.cargafichero("mapa");
-	private Avatar player = new Avatar(getMap().getSpawnpointX(), getMap().getSpawnpointY(), getHeroe());
+	private Overworld map = new Overworld();
+	private Avatar player = new Avatar(0, 0, heroe);
 	private Partida partida;
 	private boolean isMenuOpened = false;
 	private BitmapFont menuFont;
@@ -47,10 +47,13 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		super();
 		this.game = game;
 		game.setCam(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		map.setCeldas(GestionMapa.cargafichero("mapa"));
 		map.setTileSet(new Texture("Overworld tileset.png"));
 		map.setSuelo(new TextureRegion(getMap().getTileSet(), 16, 0, 16, 16));
 		map.setArbol(new TextureRegion(getMap().getTileSet(), 160, 0, 16, 16));
 		map.setHierba(new TextureRegion(getMap().getTileSet(), 80, 16, 16, 16));
+		map.setShop(new Texture("shop_sprite.png"));
+		map.setTienda(new TextureRegion(map.getShop(), 0, 0, 16, 16));
 		gameMenu =  new Texture(Gdx.files.internal("GameMenu.png"));
 		Controller.overworld = map;
 		Controller.setTexture(getPlayer());
@@ -58,7 +61,9 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		partida = game.getPartida();
 		heroe = game.getHeroe();
 		menuFont = new BitmapFont(Gdx.files.internal("pokemon-dp-pro.fnt"), Gdx.files.internal("pokemon-dp-pro.png"), false);
-		map.crearCeldas();
+		Controller.setOverworldScene(this);
+		player.setX(game.getX());
+		player.setY(game.getY());
 	}
 	
 	@Override
@@ -67,18 +72,18 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		game.getCam().position.set(getPlayer().getX(), getPlayer().getY(), 0);
 		batch.setProjectionMatrix(game.getCam().combined);
 		batch.begin();
-		Controller.setOverworldScene(this);
 		Controller.player = getPlayer();
 		game.getCam().update();
-		getMap().setTileSet(new Texture("Overworld tileset.png"));
 		map.draw(batch, 0);
 		batch.draw(getPlayer().getP_texture_region(), getPlayer().getX(), getPlayer().getY());
 		
 		if (debugMode) {
 			if (Gdx.input.isKeyJustPressed(Keys.Q)) {
 			map.getCeldas()[(int) (player.getX()/64)][(int) (player.getY()/64)].setTipo(TipoCelda.Arbol);
-			} else if (Gdx.input.isKeyJustPressed(Keys.P)) {
+			}	else if (Gdx.input.isKeyJustPressed(Keys.P)) {
 				map.getCeldas()[(int) (player.getX()/64)][(int) (player.getY()/64)].setTipo(TipoCelda.Hierba);
+			}	else if (Gdx.input.isKeyJustPressed(Keys.L)) {
+				map.getCeldas()[(int) (player.getX()/64)][(int) (player.getY()/64)].setTipo(TipoCelda.Tienda);
 			}
 		}
 		
@@ -120,13 +125,23 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 			game.empezarBatalla();
 		}
 	}
+	
+	public void cargarTienda() {
+		game.getScreen().dispose();
+		game.setScreen(new ShopScene(game));
+	}
 
 	@Override
 	public void dispose() {
-		GestionMapa.guardarfichero(map, "mapa");
+		game.setX(player.getX());
+		game.setY(player.getY());
+		GestionMapa.guardarfichero(map.getCeldas(), "mapa");
 		partida.guardarpartida();
 		map.dispose();
 		gameMenu.dispose();
+		menuFont.dispose();
+		map.getTileSet().dispose();
+		map.getShop().dispose();
 		super.dispose();
 	}
 

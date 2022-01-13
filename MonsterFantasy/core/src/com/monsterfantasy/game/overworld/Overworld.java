@@ -32,6 +32,8 @@ public class Overworld extends Actor implements Serializable {
 	private TextureRegion suelo;
 	private TextureRegion arbol;
 	private TextureRegion hierba;
+	private Texture shop;
+	private TextureRegion tienda;
 	
 	public Overworld() {	
 		setWidth(getAnchoMapa());
@@ -107,6 +109,9 @@ public class Overworld extends Actor implements Serializable {
 
 					case Hierba:		content = hierba;
 									break;
+									
+					case Tienda:			content = tienda;
+									break;
 
 					default: 		break;
 				}
@@ -147,5 +152,21 @@ public class Overworld extends Actor implements Serializable {
 
 	public void setHierba(TextureRegion hierba) {
 		this.hierba = hierba;
+	}
+
+	public TextureRegion getTienda() {
+		return tienda;
+	}
+
+	public void setTienda(TextureRegion tienda) {
+		this.tienda = tienda;
+	}
+
+	public Texture getShop() {
+		return shop;
+	}
+
+	public void setShop(Texture shop) {
+		this.shop = shop;
 	}
 }

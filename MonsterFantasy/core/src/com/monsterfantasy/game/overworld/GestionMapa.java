@@ -23,40 +23,43 @@ public class GestionMapa implements Serializable {
 	
 	private static Logger logger = Logger.getLogger(GestionMapa.class.getName());
 	
-	private static Overworld overworld;
-
-	public static Overworld getOverworld() {
-		return overworld;
-	}
-
-	public static void setOverworld(Overworld overworld) {
-		GestionMapa.overworld = overworld;
-	}
+	private static Celda[][] celdasSave;
 	
-	public static void guardarfichero(Overworld mapa, String nombrefic) {
+	public static void guardarfichero(Celda[][] celdas, String nombrefic) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombrefic));
-			oos.writeObject(mapa);
+			oos.writeObject(celdas);
 			oos.close();
 			logger.info("Se ha guardado el fichero del Overworld");
 		} catch (IOException e) {
 			logger.severe("Error de guardado del Overworld");
+			System.out.println(e);
 		}
 	}
 	
-	public static Overworld cargafichero(String nombrefic) {
+	public static Celda[][] cargafichero(String nombrefic) {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nombrefic));
-			Overworld overworld = (Overworld) ois.readObject();
+			Celda[][] celdas = (Celda[][]) ois.readObject();
 			ois.close();
 			logger.info("Fichero cargado");
-			return overworld;
+			return celdas;
 		} catch (IOException | ClassNotFoundException e) {
 			logger.severe("Error de cargado, se crea un nuevo Overworld");
 
 			// si no hay fichero, se crea un mapa vacios
 			Overworld overworld = new Overworld();
-			return overworld;
+			overworld.crearCeldas();
+			return overworld.getCeldas();
 		}
 	}
+
+	public static Celda[][] getCeldasSave() {
+		return celdasSave;
+	}
+
+	public static void setCeldasSave(Celda[][] celdasSave) {
+		GestionMapa.celdasSave = celdasSave;
+	}
+
 }
