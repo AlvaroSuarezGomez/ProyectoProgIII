@@ -40,7 +40,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 	private Partida partida;
 	private boolean isMenuOpened = false;
 	private BitmapFont menuFont;
-	private boolean debugMode = true;
+	private boolean debugMode = false;
 	private boolean startBattle = false;
 	
 	public OverworldScene(Monsterfantasy game) {
@@ -64,6 +64,8 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		Controller.setOverworldScene(this);
 		player.setX(game.getX());
 		player.setY(game.getY());
+		player.setP_texture_region(new TextureRegion(player.getP_texture(), 0, 0, 64, 64));
+		
 	}
 	
 	@Override
@@ -75,7 +77,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		Controller.player = getPlayer();
 		game.getCam().update();
 		map.draw(batch, 0);
-		batch.draw(getPlayer().getP_texture_region(), getPlayer().getX(), getPlayer().getY());
+		batch.draw(player.getP_texture_region(), player.getX(), player.getY(), 64, 64);
 		
 		if (debugMode) {
 			if (Gdx.input.isKeyJustPressed(Keys.Q)) {
@@ -91,7 +93,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		if (isMenuOpened) {
 			batch.draw(gameMenu, getPlayer().getX() + 80, getPlayer().getY() - 100, 320, 400);
 			menuFont.draw(batch, "Dinero: " + heroe.getDinero() + "G", getPlayer().getX() + 100, getPlayer().getY() - 60);
-			
+			menuFont.draw(batch, "Nivel: " + heroe.getNv(), getPlayer().getX() + 100, getPlayer().getY() - 30);
 			
 			if (Gdx.input.isKeyJustPressed(Keys.X)) {
 				isMenuOpened = false;
