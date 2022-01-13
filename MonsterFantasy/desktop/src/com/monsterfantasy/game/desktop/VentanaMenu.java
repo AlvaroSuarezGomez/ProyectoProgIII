@@ -31,6 +31,7 @@ public class VentanaMenu extends JFrame {
 	private JButton nuevapartida = new JButton("Nueva Partida");
 	private JButton cargarpartida = new JButton("Cargar Partida");
 	private JButton controles = new JButton("Controles del juego");
+	private JButton salir = new JButton("Salir del juego");
 	private JLabel label = new JLabel();
 	private static VentanaMenu ventana;
 	
@@ -53,6 +54,7 @@ public class VentanaMenu extends JFrame {
 		botonera.add(nuevapartida);
 		botonera.add(cargarpartida);
 		botonera.add(controles);
+		botonera.add(salir);
 		
 		this.add(panellabel, BorderLayout.CENTER);
 		this.add(botonera, BorderLayout.SOUTH);
@@ -113,6 +115,15 @@ public class VentanaMenu extends JFrame {
 			}
 		});
 		
+		
+		salir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+		});
 		
 		this.setVisible(true);
 		
