@@ -150,6 +150,16 @@ public class Enemigo extends Personaje implements Serializable {
 		this.espiritu = this.espiritu + 2;
 
 	}
+	
+	public ArrayList<AtaqueEspecial> getAtaquesEnemigos(Enemigo enemigo,int contador,ArrayList<AtaqueEspecial> ataques){
+	    if(contador<7){
+	        int ataque= (int) Math.round(Math.random()*enemigo.ataques.size());
+	        ataques.add(enemigo.ataques.get(ataque));
+	        return getAtaquesEnemigos(enemigo,contador+1,ataques);
+	    }else{
+	        return ataques;
+	    }
+	}
 
 	
 
