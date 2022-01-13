@@ -33,7 +33,6 @@ public class Equipacion extends Objeto implements Equipable , Serializable{
 		// TODO Auto-generated method stub
 		h.setDefensa(h.getDefensa() - this.getPuntosdefensa());
 		h.getEquipacion().remove(this);
-		
 	}
 
 	public int getPuntosdefensa() {

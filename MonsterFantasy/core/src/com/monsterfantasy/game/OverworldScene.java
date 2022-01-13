@@ -22,6 +22,7 @@ import com.monsterfantasy.game.overworld.Avatar;
 import com.monsterfantasy.game.overworld.Celda;
 import com.monsterfantasy.game.overworld.Controller;
 import com.monsterfantasy.game.overworld.GestionMapa;
+import com.monsterfantasy.game.overworld.LookDirection;
 import com.monsterfantasy.game.overworld.Overworld;
 import com.monsterfantasy.game.overworld.TipoCelda;
 
@@ -40,8 +41,16 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 	private Partida partida;
 	private boolean isMenuOpened = false;
 	private BitmapFont menuFont;
+	private int menuIndex = 0;
 	private boolean debugMode = false;
 	private boolean startBattle = false;
+	private Texture menuPointer;
+	private MenuOption menu;
+	private int equipationIndex = 0;
+	private boolean triggerBattleRandomizer = false;
+	private boolean triggerShop = false;
+	private LookDirection direction = LookDirection.None;
+	private boolean move = false;
 	
 	public OverworldScene(Monsterfantasy game) {
 		super();
@@ -60,6 +69,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		batch = game.getBatch();
 		partida = game.getPartida();
 		heroe = game.getHeroe();
+		menuPointer = new Texture(Gdx.files.internal("BlackPointer.png"));
 		menuFont = new BitmapFont(Gdx.files.internal("pokemon-dp-pro.fnt"), Gdx.files.internal("pokemon-dp-pro.png"), false);
 		Controller.setOverworldScene(this);
 		player.setX(game.getX());
@@ -88,24 +98,115 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 				map.getCeldas()[(int) (player.getX()/64)][(int) (player.getY()/64)].setTipo(TipoCelda.Tienda);
 			}
 		}
+		if (isTriggerBattleRandomizer()) {
+			battleRandomizer();
+			triggerBattleRandomizer = false;
+		}
+		
+		if (isTriggerShop()) {
+			cargarTienda();
+		}
 		
 		
 		if (isMenuOpened) {
 			batch.draw(gameMenu, getPlayer().getX() + 80, getPlayer().getY() - 100, 320, 400);
+			
+			if (menu == MenuOption.Main) {
 			menuFont.draw(batch, "Dinero: " + heroe.getDinero() + "G", getPlayer().getX() + 100, getPlayer().getY() - 60);
 			menuFont.draw(batch, "Nivel: " + heroe.getNv(), getPlayer().getX() + 100, getPlayer().getY() - 30);
 			
+			menuFont.draw(batch, "Cerrar Menú", getPlayer().getX() + 150, getPlayer().getY() + 250);
+			menuFont.draw(batch, "Equipamiento", getPlayer().getX() + 150, getPlayer().getY() + 200);
+			menuFont.draw(batch, "Salir del juego", getPlayer().getX() + 150, getPlayer().getY() + 150);
+			
+			if (menuIndex == 0) {
+				batch.draw(menuPointer, getPlayer().getX() + 100, getPlayer().getY() + 230, 16, 16);
+				
+				if (Gdx.input.isKeyJustPressed(Keys.Z)) {
+					isMenuOpened = false;
+					menuIndex = 0;
+				} else if (Gdx.input.isKeyJustPressed(Keys.S)) {
+					menuIndex = 1;
+				}
+				
+			} else if (menuIndex == 1) {
+				batch.draw(menuPointer, getPlayer().getX() + 100, getPlayer().getY() + 190, 16, 16);
+				
+				if ((Gdx.input.isKeyJustPressed(Keys.Z)) && (heroe.getEquipacion().size() > 0)) {
+					menu = MenuOption.Equipacion;
+					equipationIndex = 0;
+					
+				} else if (Gdx.input.isKeyJustPressed(Keys.S)) {
+					menuIndex = 2;
+				} else if (Gdx.input.isKeyJustPressed(Keys.W)) {
+					menuIndex = 0;
+				}
+				
+			} else if (menuIndex == 2) {
+				batch.draw(menuPointer, getPlayer().getX() + 100, getPlayer().getY() + 130, 16, 16);
+				
+				if (Gdx.input.isKeyJustPressed(Keys.Z)) {
+					game.dispose();
+				} else if (Gdx.input.isKeyJustPressed(Keys.W)) {
+					menuIndex = 1;
+				}
+			}	
+			
+			
 			if (Gdx.input.isKeyJustPressed(Keys.X)) {
 				isMenuOpened = false;
+				menuIndex = 0;
 			}
 			
-		} else {
+		}	else if (menu == MenuOption.Equipacion) {
+			
+			menuFont.draw(batch, "Selecciona equipación \npara desequipar: \n" + heroe.getEquipacion().get(equipationIndex).getNombre() + "\n" + heroe.getEquipacion().get(equipationIndex).getPuntosdefensa() + " Puntos de defensa", getPlayer().getX() + 100, getPlayer().getY() + 250);
+			
+			if ((Gdx.input.isKeyJustPressed(Keys.D)) && (equipationIndex < heroe.getEquipacion().size()-1)) {
+				equipationIndex += 1;
+			}
+			
+			else if ((Gdx.input.isKeyJustPressed(Keys.A)) && (equipationIndex > 0)) {
+				equipationIndex -= 1;
+			}
+			
+			else if (Gdx.input.isKeyJustPressed(Keys.Z)) {
+				if (heroe.getEquipacion().size() > 1) {
+				heroe.getEquipacion().get(equipationIndex).desequipar(heroe);
+				equipationIndex = 0;
+				} else {
+					menu = MenuOption.Main;
+					heroe.getEquipacion().get(equipationIndex).desequipar(heroe);
+				}
+			}
+			
+			else if (Gdx.input.isKeyJustPressed(Keys.X)) {
+				menu = MenuOption.Main;
+			}
+		}
+			} else {
 			Controller.controlSinThread();
-			Controller.control();
+			Controller.control(isMove());
+			
 		}
 		
 		if ((Gdx.input.isKeyJustPressed(Keys.C)) && (!isMenuOpened)) {
 			isMenuOpened = true;
+			menu = MenuOption.Main;
+		} else if ((Gdx.input.isKeyJustPressed(Keys.D)) && (!isMenuOpened) && !Controller.isLockedMovement()) {
+			setDirection(LookDirection.Right);
+			setMove(true);
+		} else if ((Gdx.input.isKeyJustPressed(Keys.A)) && (!isMenuOpened) && !Controller.isLockedMovement()) {
+			setDirection(LookDirection.Left);
+			setMove(true);
+		} else if ((Gdx.input.isKeyJustPressed(Keys.W)) && (!isMenuOpened) && !Controller.isLockedMovement()) {
+			setDirection(LookDirection.Up);
+			setMove(true);
+		} else if ((Gdx.input.isKeyJustPressed(Keys.S)) && (!isMenuOpened) && !Controller.isLockedMovement()) {
+			setDirection(LookDirection.Down);
+			setMove(true);
+		} else {
+			setMove(false);
 		}
 		
 		if (startBattle) {
@@ -115,10 +216,9 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		batch.end();
 	}
 	
-	public enum menuSelection {
-		Cerrar,
-		Equipamiento,
-		Salir
+	public enum MenuOption {
+		Main,
+		Equipacion
 	}
 	
 	public void battleRandomizer() {
@@ -144,6 +244,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		menuFont.dispose();
 		map.getTileSet().dispose();
 		map.getShop().dispose();
+		menuPointer.dispose();
 		super.dispose();
 	}
 
@@ -185,5 +286,37 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 
 	public void setGame(Monsterfantasy game) {
 		this.game = game;
+	}
+
+	public boolean isTriggerBattleRandomizer() {
+		return triggerBattleRandomizer;
+	}
+
+	public void setTriggerBattleRandomizer(boolean triggerBattleRandomizer) {
+		this.triggerBattleRandomizer = triggerBattleRandomizer;
+	}
+
+	public boolean isTriggerShop() {
+		return triggerShop;
+	}
+
+	public void setTriggerShop(boolean triggerShop) {
+		this.triggerShop = triggerShop;
+	}
+
+	public LookDirection getDirection() {
+		return direction;
+	}
+
+	public void setDirection(LookDirection direction) {
+		this.direction = direction;
+	}
+
+	public boolean isMove() {
+		return move;
+	}
+
+	public void setMove(boolean move) {
+		this.move = move;
 	}
 }

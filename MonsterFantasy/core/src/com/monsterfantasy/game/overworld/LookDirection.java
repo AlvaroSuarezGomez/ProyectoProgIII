@@ -4,5 +4,6 @@ public enum LookDirection {
 	Up,
 	Down,
 	Right,
-	Left
+	Left,
+	None
 }

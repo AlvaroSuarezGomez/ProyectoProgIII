@@ -124,7 +124,7 @@ public class ShopScene extends ScreenAdapter{
 				heroe.getPociones().add((Pociones) objetos.get(selectedItem));
 				heroe.setDinero(heroe.getDinero() - objetos.get(selectedItem).getPrecio());
 				} else if (objetos.get(selectedItem).getClass() == Equipacion.class) {
-					heroe.getEquipacion().add((Equipacion) objetos.get(selectedItem));
+					((Equipacion) objetos.get(selectedItem)).equipar(heroe);
 					heroe.setDinero(heroe.getDinero() - objetos.get(selectedItem).getPrecio());
 					}
 			}
