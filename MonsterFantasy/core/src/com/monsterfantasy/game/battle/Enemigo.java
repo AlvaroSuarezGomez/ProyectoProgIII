@@ -5,6 +5,8 @@ package com.monsterfantasy.game.battle;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.monsterfantasy.game.Monsterfantasy;
+
 public class Enemigo extends Personaje implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -152,14 +154,18 @@ public class Enemigo extends Personaje implements Serializable {
 	}
 	
 	public ArrayList<AtaqueEspecial> getAtaquesEnemigos(Enemigo enemigo,int contador,ArrayList<AtaqueEspecial> ataques){
-	    if(contador<enemigo.getAtaques().size()){
-	        int ataque = (int) Math.round(Math.random()*enemigo.getAtaques().size());
+	    if(contador<(BaseDeDatos.getAtaques().size())){
+	        int ataque = (int) Math.random()*enemigo.getAtaques().size();
 	        ataques.add(enemigo.getAtaques().get(ataque));
 	        return getAtaquesEnemigos(enemigo,contador+1,ataques);
 	    }else{
 	        return ataques;
 	    }
 	}
+	
+	
+	
+	
 
 	public ArrayList<AtaqueEspecial> getAtaques() {
 		return ataques;

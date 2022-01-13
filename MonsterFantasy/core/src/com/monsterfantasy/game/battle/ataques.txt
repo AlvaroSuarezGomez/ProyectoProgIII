@@ -1,3 +1,4 @@
 Golpeo	10	3
 Zarpazo	5	2
 Cabezazo	4	1	
+ZetaFlare	100	10

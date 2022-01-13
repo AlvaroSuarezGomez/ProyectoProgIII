@@ -407,15 +407,13 @@ public class BattleScene extends ScreenAdapter {
 		    	try {
 		    		canAttack = false;
 		    		heroe.setEspiritu(heroe.getEspiritu() + 1);
-		    		text = game.getPartida().getNombre() + " ha atacado " + enemigo.getNombre();
+		    		text = game.getPartida().getNombre() + " ha atacado a " + enemigo.getNombre();
 					heroe.ataque(enemigo);
 					bajarVidaEnemigo();
 					Thread.sleep(1000);
-					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
-					int ataque_id = (int) ((Math.random() * (ataquesEnemigo.size() - 0)) + 0);
-					enemigo.ataqueespecial(heroe, ataquesEnemigo.get(ataque_id));
+					
 					bajarVidaJugador();
-					Thread.sleep(1000);
+					Thread.sleep(10000);
 					UI = interfaz.SeleccionComando;
 				}
 		    	catch (InterruptedException e) {
@@ -436,8 +434,7 @@ public class BattleScene extends ScreenAdapter {
 		    		text = game.getPartida().getNombre() + " ha usado la guardia";
 		    		heroe.guardia();
 					Thread.sleep(1000);
-					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
-					enemigo.ataque(heroe); 
+					
 					bajarVidaJugador();
 					Thread.sleep(1000);
 					heroe.setPosicionguardia(false);
@@ -462,8 +459,7 @@ public class BattleScene extends ScreenAdapter {
 					heroe.getPociones().get(selectedItem).consumir(heroe);
 					subirVidaJugador();
 					Thread.sleep(1000);
-					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
-					enemigo.ataque(heroe); 
+					
 					bajarVidaJugador();
 					Thread.sleep(1000);
 					UI = interfaz.SeleccionComando;
@@ -488,8 +484,7 @@ public class BattleScene extends ScreenAdapter {
 		    		heroe.ataqueespecial(enemigo, heroe.getAtaques().get(selectedSpecialAttack));
 		    		bajarVidaEnemigo();
 					Thread.sleep(1000);
-					text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
-					enemigo.ataque(heroe); 
+					
 					bajarVidaJugador();
 					Thread.sleep(1000);
 					explosionTrigger = false;
