@@ -2,12 +2,16 @@ package com.monsterfantasy.game.desktop;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -49,11 +53,11 @@ public class VentanaTabla extends JFrame {
 		Partidas.setMapapartidas(Partidas.cargafichero("guardado"));
 		
 		setTitle( "Partidas del juego" );
-		this.setSize(600,400);
+		this.setSize(600,530);
 		
 		botoncargar = new JButton("Cargar Partida");
 		botonborrar = new JButton("Eliminar Partida");
-		atras = new JButton("Volver al Menu");
+		atras = new JButton();
 		
 		paneltabla = new JPanel();
 		panelbotones = new JPanel();
@@ -75,6 +79,15 @@ public class VentanaTabla extends JFrame {
 		
 		
 		this.setLocation(400, 200);
+		
+		Image img;
+        try {
+            img = ImageIO.read(getClass().getResource("flecha.png"));
+            atras.setIcon(new ImageIcon(img));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 		
 		verPartidas();

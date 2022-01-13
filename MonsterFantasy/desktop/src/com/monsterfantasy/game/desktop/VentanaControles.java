@@ -1,11 +1,15 @@
 package com.monsterfantasy.game.desktop;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,16 +33,27 @@ public class VentanaControles extends JFrame{
 	private DefaultTableModel modelo;
 	private JPanel panel;
 	private JPanel botonera = new JPanel();
-	private JButton atras = new JButton("Volver al menu");
+	private JButton atras = new JButton();
 	
 
 	
 	public VentanaControles() {
 		
-		this.setSize(300,210);
+		this.setSize(300,240);
 		setTitle( "Controles del juego" );
 		
 		this.setLocation(400, 200);
+		
+		Image img;
+        try {
+            img = ImageIO.read(getClass().getResource("flecha.png"));
+            atras.setIcon(new ImageIcon(img));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        atras.setSize(5,5);
 		
 		Vector<String> cabeceras = new Vector<String>( Arrays.asList( "Boton", "Funcion") );
 		modelo = new DefaultTableModel(  // Inicializa el modelo
