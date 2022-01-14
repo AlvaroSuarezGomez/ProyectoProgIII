@@ -1,5 +1,4 @@
 package com.monsterfantasy.game.desktop;
-import com.monsterfantasy.*;
 
 public class Main {
 
