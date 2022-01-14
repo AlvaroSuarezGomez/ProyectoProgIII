@@ -115,7 +115,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 			menuFont.draw(batch, "Dinero: " + heroe.getDinero() + "G", getPlayer().getX() + 100, getPlayer().getY() - 60);
 			menuFont.draw(batch, "Nivel: " + heroe.getNv(), getPlayer().getX() + 100, getPlayer().getY() - 30);
 			
-			menuFont.draw(batch, "Cerrar Menú", getPlayer().getX() + 150, getPlayer().getY() + 250);
+			menuFont.draw(batch, "Cerrar MenÃº", getPlayer().getX() + 150, getPlayer().getY() + 250);
 			menuFont.draw(batch, "Equipamiento", getPlayer().getX() + 150, getPlayer().getY() + 200);
 			menuFont.draw(batch, "Salir del juego", getPlayer().getX() + 150, getPlayer().getY() + 150);
 			
@@ -160,7 +160,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 			
 		}	else if (menu == MenuOption.Equipacion) {
 			
-			menuFont.draw(batch, "Selecciona equipación \npara desequipar: \n" + heroe.getEquipacion().get(equipationIndex).getNombre() + "\n" + heroe.getEquipacion().get(equipationIndex).getPuntosdefensa() + " Puntos de defensa", getPlayer().getX() + 100, getPlayer().getY() + 250);
+			menuFont.draw(batch, "Selecciona equipaciÃ³n \npara desequipar: \n" + heroe.getEquipacion().get(equipationIndex).getNombre() + "\n" + heroe.getEquipacion().get(equipationIndex).getPuntosdefensa() + " Puntos de defensa", getPlayer().getX() + 100, getPlayer().getY() + 250);
 			
 			if ((Gdx.input.isKeyJustPressed(Keys.D)) && (equipationIndex < heroe.getEquipacion().size()-1)) {
 				equipationIndex += 1;
