@@ -268,7 +268,7 @@ public class BattleScene extends ScreenAdapter {
 	}
 	
 	/**
-	 * M�todo para mover la barra de vida del jugador cuando este reciba da�os
+	 * Método para mover la barra de vida del jugador cuando este reciba daños
 	 */
 	public void bajarVidaJugador() {
 			Thread barra = new Thread() {
@@ -291,7 +291,7 @@ public class BattleScene extends ScreenAdapter {
 	}
 	
 	/**
-	 * M�todo para mover la barra de vida del jugador cuando este jugador recupere PV
+	 * Método para mover la barra de vida del jugador cuando este jugador recupere PV
 	 */
 	public void subirVidaJugador() {
 		Thread barra = new Thread() {
@@ -313,7 +313,7 @@ public class BattleScene extends ScreenAdapter {
 		barra.start();		
 }
 	/**
-	 * M�todo para mover la barra de vida del enemigo cuando este reciba da�os
+	 * Método para mover la barra de vida del enemigo cuando este reciba da�os
 	 */
 	public void bajarVidaEnemigo() {
 		Thread barra = new Thread() {
@@ -352,7 +352,7 @@ public class BattleScene extends ScreenAdapter {
 	}
 	
 	/**
-	 * M�todo para seleccionar comando en el men� principal del combate
+	 * Método para seleccionar comando en el menú principal del combate
 	 */
 	public void seleccionarComando() {
 		if (selectedCommand == comandos.Ataque) {
