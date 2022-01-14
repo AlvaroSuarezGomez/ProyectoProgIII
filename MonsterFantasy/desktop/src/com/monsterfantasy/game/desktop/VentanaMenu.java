@@ -13,7 +13,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -25,12 +24,8 @@ import com.monsterfantasy.game.gestionpartidas.Partidas;
 
 
 
-public class VentanaMenu extends JFrame implements ApplicationListener {
+public class VentanaMenu extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2137172212414653446L;
 	private JPanel panellabel = new JPanel();
 	private JPanel botonera = new JPanel();
 	private JButton nuevapartida = new JButton("Nueva Partida");
@@ -138,30 +133,6 @@ public class VentanaMenu extends JFrame implements ApplicationListener {
 		VentanaMenu menu = new VentanaMenu();
 	
 		
-		
-	}
-
-	@Override
-	public void create() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void render() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
 }

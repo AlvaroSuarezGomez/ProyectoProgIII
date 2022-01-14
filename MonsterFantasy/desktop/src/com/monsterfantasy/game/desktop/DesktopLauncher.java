@@ -18,6 +18,6 @@ public class DesktopLauncher {
 		config.x = 480;
 		config.y = 150;
 		
-		new LwjglApplication(new VentanaMenu(), config);
+		new LwjglApplication(new Monsterfantasy(), config);
 	}
 }
