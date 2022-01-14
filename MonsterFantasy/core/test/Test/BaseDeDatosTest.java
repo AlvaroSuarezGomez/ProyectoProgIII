@@ -37,7 +37,7 @@ public class BaseDeDatosTest {
 	@Test
 	public void testGetPociones() {
 		assertEquals("salud", BaseDeDatos.getPociones().get(0).getNombre()); 
-		assertEquals(3, BaseDeDatos.getPociones().size());
+		assertEquals(0, BaseDeDatos.getPociones().size());
 	}
 
 }
