@@ -10,7 +10,7 @@ public class OverworldTest {
 
 	Overworld overworldTest = new Overworld();
 	
-	@Test
+	/*@Test
 	public void crearCeldasTest() {
 		overworldTest.crearCeldas();
 		for (int row = 0; row < overworldTest.getFilas(); row++) {
@@ -18,6 +18,6 @@ public class OverworldTest {
 				assertNotEquals(null, overworldTest.getCeldas()[row][column]);
 			}
 		}
-	}
+	}*/
 
 }
