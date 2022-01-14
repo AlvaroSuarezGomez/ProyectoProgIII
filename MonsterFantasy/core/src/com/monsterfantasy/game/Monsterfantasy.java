@@ -61,6 +61,7 @@ public class Monsterfantasy extends Game implements Serializable {
 	@Override
 	public void render () {		
 		super.render();
+		/*
 		if (Gdx.input.isKeyJustPressed(Keys.R)) {
 			this.screen.dispose();
 			this.setScreen(new BattleScene(this));
@@ -73,6 +74,7 @@ public class Monsterfantasy extends Game implements Serializable {
 			this.screen.dispose();
 			this.setScreen(new ShopScene(this));
 		}
+		*/
 	}
 	
 	public void empezarBatalla() {
