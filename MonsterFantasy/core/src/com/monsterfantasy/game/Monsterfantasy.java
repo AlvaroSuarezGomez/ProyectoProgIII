@@ -85,7 +85,7 @@ public class Monsterfantasy extends Game implements Serializable {
 		partida.guardarpartida();
 		Partidas.guardarfichero(Partidas.getMapapartidas(), "guardado");
 		GestionMapa.guardarfichero(overworld.getMap().getCeldas(), "mapa");
-		Gdx.app.log("MonsterFantasy", "Deteniendo aplicación");
+		Gdx.app.log("MonsterFantasy", "Deteniendo aplicaciÃ³n");
 		super.dispose();
 		Gdx.app.exit();
 		this.batch = batch;
