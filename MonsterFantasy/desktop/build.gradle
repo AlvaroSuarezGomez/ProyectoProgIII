@@ -1,8 +1,9 @@
 sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../core/assets"]
+sourceSets.test.java.srcDirs = ["test/"]
 
-project.ext.mainClassName = "com.monsterfantasy.game.desktop.DesktopLauncher"
+project.ext.mainClassName = "com.monsterfantasy.game.desktop.Main"
 project.ext.assetsDir = new File("../core/assets")
 
 task run(dependsOn: classes, type: JavaExec) {

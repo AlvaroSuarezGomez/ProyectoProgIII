@@ -1,6 +1,6 @@
 package com.monsterfantasy.game;
 
-import java.io.File;
+import java.io.File; 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.FileHandler;
@@ -36,8 +36,6 @@ import com.monsterfantasy.game.overworld.Avatar;
 import com.monsterfantasy.game.overworld.Controller;
 import com.monsterfantasy.game.overworld.Overworld;
 import com.monsterfantasy.game.utilities.GifDecoder;
-
-import Test.BaseDeDatosTest;
 
 public class BattleScene extends ScreenAdapter {
 	private int selectedSpecialAttack = 0;
