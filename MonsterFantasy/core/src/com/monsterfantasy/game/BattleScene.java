@@ -175,7 +175,7 @@ public class BattleScene extends ScreenAdapter {
 		hp_container.draw(batch, 490, 184, playerHP_width, 10);
 		hp_container.draw(batch, 185, 456, enemyHP_width, 10);
 		
-		//Menú de combate
+		//MenÃº de combate
 		if (UI == interfaz.SeleccionComando) { 
 		batch.draw(attackButton, 450, 65, 156, 44);
 		batch.draw(guardButton, 610, 65, 156, 44);
@@ -268,7 +268,7 @@ public class BattleScene extends ScreenAdapter {
 	}
 	
 	/**
-	 * Método para mover la barra de vida del jugador cuando este reciba daños
+	 * Mï¿½todo para mover la barra de vida del jugador cuando este reciba daï¿½os
 	 */
 	public void bajarVidaJugador() {
 			Thread barra = new Thread() {
@@ -291,7 +291,7 @@ public class BattleScene extends ScreenAdapter {
 	}
 	
 	/**
-	 * Método para mover la barra de vida del jugador cuando este jugador recupere PV
+	 * Mï¿½todo para mover la barra de vida del jugador cuando este jugador recupere PV
 	 */
 	public void subirVidaJugador() {
 		Thread barra = new Thread() {
@@ -313,7 +313,7 @@ public class BattleScene extends ScreenAdapter {
 		barra.start();		
 }
 	/**
-	 * Método para mover la barra de vida del enemigo cuando este reciba daños
+	 * Mï¿½todo para mover la barra de vida del enemigo cuando este reciba daï¿½os
 	 */
 	public void bajarVidaEnemigo() {
 		Thread barra = new Thread() {
@@ -352,7 +352,7 @@ public class BattleScene extends ScreenAdapter {
 	}
 	
 	/**
-	 * Método para seleccionar comando en el menú principal del combate
+	 * Mï¿½todo para seleccionar comando en el menï¿½ principal del combate
 	 */
 	public void seleccionarComando() {
 		if (selectedCommand == comandos.Ataque) {
