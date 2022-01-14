@@ -163,42 +163,47 @@ public class Enemigo extends Personaje implements Serializable {
 	    }
 	}
 	
-	public void elegirAccion(Enemigo enemigo, Personaje personaje, int actionIndex, ArrayList<AtaqueEspecial> ataques, String text, Monsterfantasy game) {
+	public void elegirAccion(Enemigo enemigo, Personaje personaje, int actionIndex, ArrayList<AtaqueEspecial> ataques, Monsterfantasy game) {
         Personaje personajePrueba = personaje;
         Enemigo enemigoPrueba = enemigo;
-        accion(enemigoPrueba, personajePrueba, actionIndex, ataques, text, game);
+        accion(enemigoPrueba, personajePrueba, actionIndex, ataques, game);
+        
+        String text = "";
 
         if (personajePrueba.getPv() <= 0) {
-            accion(enemigo, personaje, actionIndex, ataques, text, game);
+           accion(enemigo, personaje, actionIndex, ataques, game);
         }
 
-        if (enemigoPrueba.getPv() <= 0) {
-            accion(enemigoPrueba, personajePrueba, actionIndex + 1, ataques, text, game);
+        else if (enemigoPrueba.getPv() <= 0) {
+           accion(enemigoPrueba, personajePrueba, actionIndex + 1, ataques, game);
         }
 
         else {
-            accion(enemigoPrueba, personajePrueba, actionIndex + 1, ataques, text, game);
+           accion(enemigoPrueba, personajePrueba, actionIndex + 1, ataques, game);
         }
 
     }
 
-    public void accion(Enemigo enemigo, Personaje personaje, int actionIndex, ArrayList<AtaqueEspecial> ataques, String text, Monsterfantasy game) {
-        if (actionIndex == 0) {
-            text = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
+    public void accion(Enemigo enemigo, Personaje personaje, int actionIndex, ArrayList<AtaqueEspecial> ataques, Monsterfantasy game) {
+        
+    	String texto = "";
+    	
+    	if (actionIndex == 0) {
+            texto = enemigo.getNombre() + " ha atacado a " + game.getPartida().getNombre();
             ataque(personaje);
             enemigo.setEspiritu(enemigo.getEspiritu()+1);
         }
 
         if (actionIndex == 1) {
             guardia();
-            text = enemigo.getNombre() + " ha usado la guardia ";
+            texto = enemigo.getNombre() + " ha usado la guardia ";
         }
 
         for (AtaqueEspecial atEsp : ataques) {
             if (atEsp.getEspiritu() <= enemigo.getEspiritu()) {
                 ataqueespecial(personaje, atEsp);
                 enemigo.setEspiritu(enemigo.getEspiritu()-atEsp.getEspiritu());
-                text = enemigo.getNombre() + " ha usado " + atEsp.getNombre();
+                texto = enemigo.getNombre() + " ha usado " + atEsp.getNombre();
         }
         }
     }	
