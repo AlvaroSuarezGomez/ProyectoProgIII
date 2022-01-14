@@ -21,8 +21,8 @@ public class Overworld extends Actor implements Serializable {
 	private final int tamano_celda = 64;
 	private final int ancho_mapa = 100 * 64;
 	private final int alto_mapa = 100 * 64;
-	private final int spawnPoint_x = ancho_mapa/2;
-	private final int spawnPoint_y = alto_mapa/2;
+	private final int spawnPoint_x = getAncho_mapa()/2;
+	private final int spawnPoint_y = getAlto_mapa()/2;
 	private Celda[][] celdas = new Celda[getAnchoMapa()/64][getAltoMapa()/64];
 	
 	private static final int tamano_textura = 64;
@@ -49,11 +49,11 @@ public class Overworld extends Actor implements Serializable {
 	}
 
 	public int getAnchoMapa() {
-		return ancho_mapa;
+		return getAncho_mapa();
 	}
 
 	public int getAltoMapa() {
-		return alto_mapa;
+		return getAlto_mapa();
 	}
 
 	public TextureRegion getSuelo() {
@@ -168,5 +168,13 @@ public class Overworld extends Actor implements Serializable {
 
 	public void setShop(Texture shop) {
 		this.shop = shop;
+	}
+
+	public int getAlto_mapa() {
+		return alto_mapa;
+	}
+
+	public int getAncho_mapa() {
+		return ancho_mapa;
 	}
 }
