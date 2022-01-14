@@ -413,7 +413,7 @@ public class BattleScene extends ScreenAdapter {
 					Thread.sleep(1000);
 					enemigo.elegirAccion(enemigo, heroe, 0, ataquesEnemigo, text, game);
 					bajarVidaJugador();
-					Thread.sleep(10000);
+					Thread.sleep(1000);
 					UI = interfaz.SeleccionComando;
 				}
 		    	catch (InterruptedException e) {
