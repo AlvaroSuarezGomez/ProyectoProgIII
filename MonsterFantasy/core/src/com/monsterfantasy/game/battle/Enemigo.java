@@ -162,6 +162,7 @@ public class Enemigo extends Personaje implements Serializable {
 	        return ataques;
 	    }
 	}
+	
 	public void elegirAccion(Enemigo enemigo, Personaje personaje, int actionIndex, ArrayList<AtaqueEspecial> ataques, String text, Monsterfantasy game) {
         Personaje personajePrueba = personaje;
         Enemigo enemigoPrueba = enemigo;
@@ -200,11 +201,7 @@ public class Enemigo extends Personaje implements Serializable {
                 text = enemigo.getNombre() + " ha usado " + atEsp.getNombre();
         }
         }
-    }
-
-	
-	
-	
+    }	
 
 	public ArrayList<AtaqueEspecial> getAtaques() {
 		return ataques;
