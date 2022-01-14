@@ -16,9 +16,9 @@ import com.monsterfantasy.game.battle.Pociones;
 public class EnemigoTest {
 	
 	private Heroe h;
-	private Enemigo e;
+	private static Enemigo e;
 	private AtaqueEspecial a;
-	private ArrayList<AtaqueEspecial> listaataques;
+	private static ArrayList<AtaqueEspecial> listaataques;
 
 	
 	@Before             
@@ -111,6 +111,17 @@ public class EnemigoTest {
 		e.ataqueespecial(h, a);
 		assertEquals(48, h.getPv());			
 	}
-
+	
+	@Test
+	public void getAtaquesEnemigosTest() {
+		ArrayList<AtaqueEspecial> lista = new ArrayList<AtaqueEspecial>();
+		
+		
+	}
+	
+	public static void main(String[] args) {
+		ArrayList<AtaqueEspecial> lista = new ArrayList<AtaqueEspecial>();
+		System.out.println(e.getAtaquesEnemigos(e,4,listaataques).size()); 
+	}
 
 }
