@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -51,6 +52,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 	private boolean triggerShop = false;
 	private LookDirection direction = LookDirection.None;
 	private boolean move = false;
+	private Music music;
 	
 	public OverworldScene(Monsterfantasy game) {
 		super();
@@ -75,6 +77,9 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		player.setX(game.getX());
 		player.setY(game.getY());
 		player.setP_texture_region(new TextureRegion(player.getP_texture(), 0, 0, 64, 64));
+		music = Gdx.audio.newMusic(Gdx.files.internal("OverworldMusic.mp3"));
+		music.setLooping(true);;
+		music.play();
 		
 	}
 	
@@ -222,7 +227,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 	
 	public void battleRandomizer() {
 		int chance = (int) ((Math.random() * (10 - 0)) + 0);
-		if (chance > 5) {
+		if (chance > 7) {
 			game.empezarBatalla();
 		}
 	}
@@ -244,6 +249,7 @@ public class OverworldScene extends ScreenAdapter implements Serializable {
 		map.getTileSet().dispose();
 		map.getShop().dispose();
 		menuPointer.dispose();
+		music.dispose();
 		super.dispose();
 	}
 
